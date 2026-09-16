@@ -3,7 +3,6 @@ import Link from "next/link";
 import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
 import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 import { ApiError } from "@/lib/api/client";
 import { getArchiveItem, type ArchiveKind } from "@/lib/api/content";
@@ -43,16 +42,22 @@ export function DetailScreen({
 
   return (
     <>
-      <div className="on-dark grad-dither bg-grad-royal">
-        <Container className="py-section-sm">
-          <Eyebrow rule>
-            <Link href={backHref} className="underline-offset-4 hover:underline">
-              {backLabel}
+      <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50/70 to-ink-0">
+        <Container className="pb-10 pt-10 lg:pt-14">
+          <nav aria-label="Breadcrumb">
+            <Link
+              href={backHref}
+              className="text-eyebrow uppercase text-primary-500 underline-offset-4 hover:underline"
+            >
+              ← {backLabel}
             </Link>
-          </Eyebrow>
-          <h1 className="text-display-lg mt-6 max-w-[24ch]">{item.title}</h1>
+          </nav>
+          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+          <h1 className="text-display-lg mt-5 max-w-[24ch] text-primary-900">
+            {item.title}
+          </h1>
 
-          <div className="mt-6 flex flex-wrap items-center gap-2">
+          <div className="mt-5 flex flex-wrap items-center gap-2">
             {item.category ? <Badge tone="published">{item.category.name}</Badge> : null}
             {item.is_fulfilled ? <Badge tone="fulfilled">Fulfilled</Badge> : null}
             {item.condition ? <Badge tone="neutral">{item.condition}</Badge> : null}
@@ -63,7 +68,7 @@ export function DetailScreen({
             ))}
           </div>
 
-          <p className="mt-5 text-meta text-ink-300">
+          <p className="mt-4 text-meta text-ink-500">
             {item.speaker ? <span>{item.speaker} · </span> : null}
             <span className="tabular-nums">
               {item.is_dated && item.prophecy_date

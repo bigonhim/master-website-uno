@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 
 export const metadata: Metadata = {
@@ -20,10 +19,11 @@ export default async function ThankYouPage({
 
   return (
     <>
-      <div className="on-dark grad-dither bg-grad-royal">
-        <Container className="py-section-sm">
-          <Eyebrow rule>Your response</Eyebrow>
-          <h1 className="text-display-lg mt-6 max-w-[18ch]">
+      <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50 to-ink-0">
+        <Container className="pb-12 pt-14">
+          <p className="text-eyebrow uppercase text-primary-500">Your response</p>
+          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+          <h1 className="text-display-lg mt-6 max-w-[18ch] text-primary-900">
             {hadIssue ? "We could not record that" : "Welcome home"}
           </h1>
         </Container>
@@ -58,7 +58,7 @@ export default async function ThankYouPage({
           )}
         </Prose>
 
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-8 flex flex-wrap gap-5">
           <Link
             href="/teachings"
             className="font-display text-body font-semibold text-primary-700 underline underline-offset-4"

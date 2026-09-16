@@ -3,48 +3,53 @@
 @tailwind utilities;
 
 /**
- * Tokens are space-separated RGB channels so Tailwind's <alpha-value> opacity
- * modifiers keep working, and so a future theme is one redefined block rather
- * than a refactor.
+ * Light theme. The page is white; the deep blue is ink, not wallpaper.
+ *
+ * Earlier this design put a full-bleed dark band on every page, which made the
+ * site read dark with white gaps. Now the only permanently dark surfaces are
+ * the slim radio bar and the footer — they bookend the page, and everything
+ * between them is light.
  */
 @layer base {
   :root {
-    /* Declaring this stops browsers auto-darkening form controls and
-       scrollbars for users on OS dark mode, which would silently wreck
-       input contrast on a deliberately light page. */
     color-scheme: light;
 
-    /* Primary ramp from #0F268C (HSL 229). Tints drift toward 214 so the
-       light-blue gradients read as sky; shades drift toward 234 so the
-       footer reads as ink rather than black. */
-    --c-primary-50: 240 246 255;
-    --c-primary-100: 220 235 254;
-    --c-primary-200: 182 211 252;
-    --c-primary-300: 130 175 247;
-    --c-primary-400: 81 130 236;
-    --c-primary-500: 36 82 219;
-    --c-primary-600: 24 58 180;
-    --c-primary-700: 15 38 140; /* BRAND — 12.52:1 on white, AAA at every size */
-    --c-primary-800: 12 27 106;
-    --c-primary-900: 10 18 72;
-    --c-primary-950: 8 11 43;
+    /* Primary ramp anchored on #0A1A5C — a deeper navy than before, so
+       headings carry weight without needing a dark background behind them.
+       primary-700 on white is ~15:1. */
+    --c-primary-50: 238 243 253;
+    --c-primary-100: 214 226 250;
+    --c-primary-200: 169 190 242;
+    --c-primary-300: 106 139 228;
+    --c-primary-400: 46 82 201;
+    --c-primary-500: 21 51 160;
+    --c-primary-600: 14 36 120;
+    --c-primary-700: 10 26 92; /* BRAND */
+    --c-primary-800: 8 19 72;
+    --c-primary-900: 6 14 51;
+    --c-primary-950: 4 8 31;
 
-    /* Neutrals cooled to ~222 so every surface sits in the brand's family.
-       Tailwind's pure grey fights a 229 blue. */
+    /* Neutrals cooled toward the brand hue so white surfaces sit in the same
+       family rather than reading as a different grey. */
     --c-ink-0: 255 255 255;
-    --c-ink-25: 251 252 254;
-    --c-ink-50: 244 247 251;
-    --c-ink-100: 233 238 246;
-    --c-ink-200: 214 222 235;
-    --c-ink-300: 183 195 214;
-    --c-ink-400: 141 155 180;
-    --c-ink-500: 107 122 148;
-    --c-ink-600: 79 92 115;
-    --c-ink-700: 58 69 88;
-    --c-ink-800: 38 46 61;
-    --c-ink-900: 21 27 38;
+    --c-ink-25: 250 251 253;
+    --c-ink-50: 244 246 250;
+    --c-ink-100: 233 237 245;
+    --c-ink-200: 214 221 233;
+    --c-ink-300: 182 192 211;
+    --c-ink-400: 138 150 173;
+    /* Deliberately kept under 4.5:1 on white. Darkening the neutrals alongside
+       the blues pushed this to 4.65, which would have quietly promoted it to a
+       legal body-text colour — the contrast test caught it. The token's role is
+       placeholder and large text only, so the colour moves, not the rule. */
+    --c-ink-500: 115 127 149;
+    --c-ink-600: 77 89 110;
+    --c-ink-700: 56 66 84;
+    --c-ink-800: 37 45 59;
+    --c-ink-900: 20 26 37;
 
-    /* Gold. See the contrast table — #E0A800 is a FILL, never text on white. */
+    /* Gold. On white only gold-800 is safe for text; the brighter steps are
+       fills, or type on the dark navy. */
     --c-gold-400: 245 197 66;
     --c-gold-500: 224 168 0;
     --c-gold-700: 184 134 11;
@@ -56,42 +61,38 @@
     --c-live-400: 255 77 79;
     --c-live-600: 200 16 46;
 
-    /* Semantic aliases. Components reference ONLY these, never a raw ramp
-       step — which is what makes a later theme a one-block change. */
+    /* Components reference only these, never a raw ramp step. */
     --surface: var(--c-ink-0);
     --surface-sunken: var(--c-ink-25);
     --text-primary: var(--c-ink-800);
     --text-secondary: var(--c-ink-600);
     --border: var(--c-ink-200);
-
-    /* Gold by ROLE, so a component cannot pick an illegal one:
-       on white, only gold-800 is safe for body text (4.65:1). */
     --text-gold-on-light: var(--c-gold-800);
     --text-gold-on-dark: var(--c-gold-400);
     --fill-gold: var(--c-gold-500);
-    --accent-sun: var(--c-sun); /* guarded — legal only inside .on-dark */
+    --accent-sun: var(--c-sun); /* legal only inside .on-dark */
 
-    /* Every sticky offset on the site derives from this. Hardcoding the
-       radio bar's height is how the old project ended up with top-[72px]
-       wrong in two files. */
-    --radio-h: 56px;
+    /* Every sticky offset on the site derives from these two. */
+    --radio-h: 44px;
+    --nav-h: 64px;
   }
 
   @media (min-width: 1024px) {
     :root {
-      --radio-h: 64px;
+      --radio-h: 40px;
+      --nav-h: 72px;
     }
   }
 
   body {
-    @apply bg-ink-25 font-display text-ink-800 antialiased;
+    @apply bg-ink-0 font-display text-ink-800 antialiased;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display font-bold tracking-tight;
+    @apply font-display font-bold tracking-tight text-primary-900;
     text-wrap: balance;
   }
 
@@ -99,7 +100,6 @@
     @apply outline-none ring-[3px] ring-primary-500 ring-offset-2 ring-offset-ink-0;
   }
 
-  /* On dark surfaces the blue focus ring disappears into the ground. */
   .on-dark :focus-visible {
     @apply ring-gold-400 ring-offset-primary-900;
   }
@@ -124,8 +124,8 @@
 }
 
 @layer utilities {
-  /* Large low-contrast blue gradients band badly on 8-bit panels and it reads
-     as cheap. A faint noise overlay kills it. */
+  /* A faint noise overlay: large low-contrast gradients band badly on 8-bit
+     panels and it reads as cheap. */
   .grad-dither {
     position: relative;
     isolation: isolate;

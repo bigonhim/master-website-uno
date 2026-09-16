@@ -96,7 +96,7 @@ export default function DesignSystemPage() {
                 key={label}
                 label={label}
                 className={className}
-                note={label === "primary-700" ? "brand · 12.5:1 on white" : undefined}
+                note={label === "primary-700" ? "brand · ~15:1 on white" : undefined}
               />
             ))}
           </div>

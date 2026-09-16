@@ -6,7 +6,7 @@ import {
   NoResultsState,
   NotYetPublishedState,
 } from "@/components/feedback/States";
-import { PageMasthead } from "@/components/layout/PageMasthead";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Container } from "@/components/ui/Container";
 import { ApiError } from "@/lib/api/client";
 import { getArchive, type ArchiveKind } from "@/lib/api/content";
@@ -61,7 +61,7 @@ export async function ArchiveScreen({
     // No fallback content, ever. A broken backend must look broken.
     return (
       <>
-        <PageMasthead eyebrow={eyebrow} title={title} />
+        <PageHeader eyebrow={eyebrow} title={title} />
         <Container className="py-section-sm">
           <ApiErrorState status={error instanceof ApiError ? error.status : undefined} />
         </Container>
@@ -75,7 +75,7 @@ export async function ArchiveScreen({
 
   return (
     <>
-      <PageMasthead
+      <PageHeader
         eyebrow={eyebrow}
         title={title}
         lede={lede}

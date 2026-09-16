@@ -5,8 +5,6 @@ import { ContentCard } from "@/components/content/ContentCard";
 import { PlayRadioButton } from "@/components/radio/PlayRadioButton";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Section } from "@/components/ui/Section";
 import { getArchive } from "@/lib/api/content";
 import type { ContentItem } from "@/lib/api/types";
 
@@ -15,11 +13,9 @@ export const metadata: Metadata = {
     "Repent, and prepare the way for the LORD. Teachings, prophecies and healing testimonies from the Ministry of Repentance and Holiness, Nakuru, Kenya.",
 };
 
-type Counts = { prophecies: number; teachings: number; healings: number };
-
 async function loadHome(): Promise<{
   latest: ContentItem[];
-  counts: Counts;
+  counts: { prophecies: number; teachings: number; healings: number };
   reachable: boolean;
 }> {
   try {
@@ -38,7 +34,7 @@ async function loadHome(): Promise<{
       reachable: true,
     };
   } catch {
-    // The page still renders its own words; it just does not claim to know
+    // The page still says what it has to say; it just does not claim to know
     // what is in the archive. No invented numbers, no placeholder cards.
     return {
       latest: [],
@@ -48,148 +44,155 @@ async function loadHome(): Promise<{
   }
 }
 
-function Stat({ value, label, href }: { value: number; label: string; href: string }) {
-  return (
-    <Link
-      href={href}
-      className="group flex flex-col gap-1 rounded-sm px-2 py-3 transition-colors hover:bg-ink-0/5"
-    >
-      <span className="text-display-lg font-light tabular-nums text-gold-400">
-        {value.toLocaleString()}
-      </span>
-      <span className="text-eyebrow uppercase text-ink-300 group-hover:text-ink-0">
-        {label}
-      </span>
-    </Link>
-  );
-}
+const SECTIONS = [
+  {
+    href: "/prophecies",
+    title: "Prophecies",
+    body: "Prophetic words given through the ministry, gathered from two decades of recordings.",
+  },
+  {
+    href: "/teachings",
+    title: "Teachings",
+    body: "Messages on repentance, holiness and preparing for the coming of the Messiah.",
+  },
+  {
+    href: "/healings",
+    title: "Healings",
+    body: "Testimonies of healing recorded at services and crusades across the nations.",
+  },
+];
 
 export default async function HomePage() {
   const { latest, counts, reachable } = await loadHome();
 
   return (
     <>
-      {/* The thesis: the verse the ministry is named for, set as the page's
-          largest graphic element. Text over a CSS gradient, so the largest
-          paint costs nothing to download. */}
-      <section className="on-dark grad-dither relative bg-grad-royal">
-        <Container className="py-section-lg">
-          <div className="grid gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-8">
-              <Eyebrow rule>Isaiah 40:3</Eyebrow>
-              <h1 className="text-display-2xl mt-7 max-w-[13ch]">
-                Prepare the way for the <span className="text-sun">LORD</span>
-              </h1>
-              <p className="mt-7 max-w-[52ch] font-prose text-prose-lg text-ink-200">
-                A voice of one calling: in the wilderness prepare the way for the
-                LORD; make straight in the desert a highway for our God.
-              </p>
-
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <ButtonLink href="/salvation-prayer" variant="gold" size="lg">
-                  The Salvation Prayer
-                </ButtonLink>
-                <ButtonLink href="/prophecies" variant="secondary" size="lg">
-                  Browse the archive
-                </ButtonLink>
-                <PlayRadioButton />
-              </div>
-            </div>
-
-            <div className="flex items-end lg:col-span-4">
-              {reachable ? (
-                <div className="grid w-full grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-0">
-                  <Stat value={counts.prophecies} label="Prophecies" href="/prophecies" />
-                  <Stat value={counts.teachings} label="Teachings" href="/teachings" />
-                  <Stat value={counts.healings} label="Healings" href="/healings" />
-                </div>
-              ) : null}
+      {/* Light hero. The weight comes from the type, not from a dark slab. */}
+      <section className="border-b border-ink-100 bg-gradient-to-b from-primary-50 via-ink-0 to-ink-0">
+        <Container className="pb-16 pt-16 lg:pb-20 lg:pt-24">
+          <div className="max-w-[54ch]">
+            <p className="text-eyebrow uppercase text-primary-500">Isaiah 40:3</p>
+            <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+            <h1 className="text-display-2xl mt-6 text-primary-900">
+              Prepare the way
+              <span className="block text-primary-700">for the LORD</span>
+            </h1>
+            <p className="mt-7 max-w-[52ch] font-prose text-prose-lg text-ink-600">
+              A voice of one calling: in the wilderness prepare the way for the
+              LORD; make straight in the desert a highway for our God.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <ButtonLink href="/salvation-prayer" variant="primary" size="lg">
+                The Salvation Prayer
+              </ButtonLink>
+              <ButtonLink href="/prophecies" variant="secondary" size="lg">
+                Browse the archive
+              </ButtonLink>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Dawn gradient: the light-blue transition out of the dark mass. */}
-      <Section tone="dawn" spacing="sm">
-        <div className="grid gap-8 md:grid-cols-3">
-          {[
-            {
-              href: "/prophecies",
-              title: "Prophecies",
-              body: "Prophetic words given through the ministry, gathered from two decades of recordings.",
-            },
-            {
-              href: "/teachings",
-              title: "Teachings",
-              body: "Messages on repentance, holiness and preparing for the coming of the Messiah.",
-            },
-            {
-              href: "/healings",
-              title: "Healings",
-              body: "Testimonies of healing recorded at services and crusades across the nations.",
-            },
-          ].map((card) => (
-            <Link
-              key={card.href}
-              href={card.href}
-              className="group rounded-sm bg-ink-0/70 p-6 ring-1 ring-inset ring-primary-200/60 transition-shadow hover:shadow-md"
-            >
-              <h2 className="text-h3 text-primary-700">{card.title}</h2>
-              <p className="mt-2 text-body-sm text-ink-600">{card.body}</p>
-              <span className="mt-4 inline-block text-body-sm font-semibold text-primary-700 underline-offset-4 group-hover:underline">
-                Explore →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </Section>
-
-      {latest.length > 0 ? (
-        <Section tone="default">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <Eyebrow rule>From the archive</Eyebrow>
-              <h2 className="text-h2 mt-5 text-ink-900">Recently published</h2>
-            </div>
-            <Link
-              href="/prophecies"
-              className="text-body-sm font-semibold text-primary-700 underline underline-offset-4"
-            >
-              See all prophecies →
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latest.map((item, index) => (
-              <ContentCard
-                key={item.slug}
-                item={item}
-                href={`/prophecies/${item.slug}`}
-                priority={index === 0}
-              />
-            ))}
-          </div>
-        </Section>
+      {/* A quiet band of figures. An archive should be plain about its size. */}
+      {reachable ? (
+        <section className="border-b border-ink-100 bg-ink-25">
+          <Container className="py-8">
+            <dl className="grid grid-cols-3 gap-4">
+              {[
+                { label: "Prophecies", value: counts.prophecies, href: "/prophecies" },
+                { label: "Teachings", value: counts.teachings, href: "/teachings" },
+                { label: "Healings", value: counts.healings, href: "/healings" },
+              ].map((stat) => (
+                <div key={stat.href}>
+                  <Link href={stat.href} className="group block">
+                    <dd className="text-h2 tabular-nums text-primary-700">
+                      {stat.value.toLocaleString()}
+                    </dd>
+                    <dt className="mt-1 text-eyebrow uppercase text-ink-500 group-hover:text-primary-700">
+                      {stat.label}
+                    </dt>
+                  </Link>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </section>
       ) : null}
 
-      <Section tone="sunken" spacing="sm">
-        <div className="grid items-center gap-8 lg:grid-cols-2">
-          <div>
-            <Eyebrow rule>Jesus is LORD Radio</Eyebrow>
-            <h2 className="text-h2 mt-5 max-w-[18ch] text-ink-900">
-              Preparing the way, around the clock
-            </h2>
-            <p className="mt-4 max-w-[52ch] text-body text-ink-600">
-              The ministry broadcasts from Nakuru. When the station is on air you
-              can listen from the bar at the top of any page, and it keeps playing
-              while you read.
-            </p>
+      <section>
+        <Container className="py-section-sm">
+          <div className="grid gap-5 md:grid-cols-3">
+            {SECTIONS.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
+                className="group rounded-sm border border-ink-100 bg-ink-0 p-6 transition-shadow duration-300 ease-emphasis hover:shadow-md"
+              >
+                <h2 className="text-h3 text-primary-800 group-hover:text-primary-700">
+                  {card.title}
+                </h2>
+                <p className="mt-2 text-body-sm text-ink-600">{card.body}</p>
+                <span className="mt-4 inline-block text-body-sm font-semibold text-primary-700 underline-offset-4 group-hover:underline">
+                  Explore →
+                </span>
+              </Link>
+            ))}
           </div>
-          <div className="lg:justify-self-end">
-            <PlayRadioButton label="Listen live" />
+        </Container>
+      </section>
+
+      {latest.length > 0 ? (
+        <section className="border-t border-ink-100 bg-ink-25">
+          <Container className="py-section-sm">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-eyebrow uppercase text-primary-500">From the archive</p>
+                <h2 className="text-h2 mt-3 text-primary-900">Recently published</h2>
+              </div>
+              <Link
+                href="/prophecies"
+                className="text-body-sm font-semibold text-primary-700 underline underline-offset-4"
+              >
+                See all prophecies →
+              </Link>
+            </div>
+
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {latest.map((item, index) => (
+                <ContentCard
+                  key={item.slug}
+                  item={item}
+                  href={`/prophecies/${item.slug}`}
+                  priority={index === 0}
+                />
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
+
+      <section className="border-t border-ink-100">
+        <Container className="py-section-sm">
+          <div className="grid items-center gap-6 rounded-sm border border-ink-100 bg-ink-0 p-8 lg:grid-cols-2">
+            <div>
+              <p className="text-eyebrow uppercase text-primary-500">
+                Jesus is LORD Radio
+              </p>
+              <h2 className="text-h2 mt-3 max-w-[18ch] text-primary-900">
+                Preparing the way, around the clock
+              </h2>
+              <p className="mt-3 max-w-[52ch] text-body text-ink-600">
+                The ministry broadcasts from Nakuru. When the station is on air
+                you can listen from the bar at the top of any page, and it keeps
+                playing while you read.
+              </p>
+            </div>
+            <div className="lg:justify-self-end">
+              <PlayRadioButton label="Listen live" />
+            </div>
           </div>
-        </div>
-      </Section>
+        </Container>
+      </section>
     </>
   );
 }

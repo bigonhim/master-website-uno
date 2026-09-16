@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { PrayerFlow } from "@/components/prayer/PrayerFlow";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 
 export const metadata: Metadata = {
@@ -15,11 +14,10 @@ export const metadata: Metadata = {
 /**
  * Every step is rendered into the HTML on the server. PrayerFlow turns it into
  * a stepper where JavaScript is available; where it is not, the page stays a
- * complete, readable document.
+ * complete, readable document with a working response form.
  *
  * The old site's Salvation Prayer page contained no prayer at all — only a
- * verse and two phone numbers. It captured nothing and offered nothing. That
- * is the thing this page exists to fix.
+ * verse and two phone numbers. That is the thing this page exists to fix.
  */
 
 function Step({
@@ -37,8 +35,9 @@ function Step({
 }) {
   return (
     <section aria-labelledby={`step-${number}`}>
-      <Eyebrow rule>{number}</Eyebrow>
-      <h2 id={`step-${number}`} className="text-h2 mt-5 max-w-[20ch] text-ink-900">
+      <p className="text-eyebrow uppercase text-primary-500">{number}</p>
+      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <h2 id={`step-${number}`} className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         {title}
       </h2>
       <Prose className="mt-5">
@@ -101,14 +100,15 @@ export default function SalvationPrayerPage() {
       It is a decision, and it is yours to make.
     </Step>,
     <section key="5" aria-labelledby="step-prayer">
-      <Eyebrow rule>Step five</Eyebrow>
-      <h2 id="step-prayer" className="text-h2 mt-5 max-w-[20ch] text-ink-900">
+      <p className="text-eyebrow uppercase text-primary-500">Step five</p>
+      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <h2 id="step-prayer" className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         Pray this, and mean it
       </h2>
       <p className="mt-4 max-w-prose text-body-sm text-ink-600">
         The words are not a formula. Say them aloud, slowly, and mean them.
       </p>
-      <blockquote className="mt-7 rounded-sm bg-primary-50 p-7 ring-1 ring-inset ring-primary-200">
+      <blockquote className="mt-7 rounded-sm border border-primary-100 bg-primary-50 p-7">
         <p className="max-w-prose font-prose text-prose-lg text-ink-800">
           Lord Jesus, I come to You today. I confess that I have sinned against
           You and gone my own way. I am sorry, and I turn from my sin now. I
@@ -120,8 +120,9 @@ export default function SalvationPrayerPage() {
       </blockquote>
     </section>,
     <section key="6" aria-labelledby="step-decision">
-      <Eyebrow rule>Step six</Eyebrow>
-      <h2 id="step-decision" className="text-h2 mt-5 max-w-[20ch] text-ink-900">
+      <p className="text-eyebrow uppercase text-primary-500">Step six</p>
+      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <h2 id="step-decision" className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         What happens now
       </h2>
       <Prose className="mt-5">
@@ -142,13 +143,14 @@ export default function SalvationPrayerPage() {
 
   return (
     <>
-      <div className="on-dark grad-dither bg-grad-royal">
-        <Container className="py-section-sm">
-          <Eyebrow rule>Begin here</Eyebrow>
-          <h1 className="text-display-xl mt-6 max-w-[15ch]">
-            Make your peace with <span className="text-sun">God</span>
+      <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50 to-ink-0">
+        <Container className="pb-12 pt-14 lg:pt-16">
+          <p className="text-eyebrow uppercase text-primary-500">Begin here</p>
+          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+          <h1 className="text-display-xl mt-6 max-w-[15ch] text-primary-900">
+            Make your peace with God
           </h1>
-          <p className="mt-6 max-w-[54ch] font-prose text-prose-lg text-ink-200">
+          <p className="mt-6 max-w-[54ch] font-prose text-prose-lg text-ink-600">
             Six short steps: what God offers, why we are separated from Him, what
             He has done about it, and how to respond.
           </p>

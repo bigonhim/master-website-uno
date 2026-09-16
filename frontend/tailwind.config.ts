@@ -43,8 +43,7 @@ export default {
           700: v("--c-gold-700"),
           800: v("--c-gold-800"),
         },
-        // Banned on white (1.07:1). Legal only inside .on-dark — enforced by
-        // tokens.test.ts and by lint, not by good intentions.
+        // Banned on white (1.07:1). Legal only inside .on-dark.
         sun: v("--c-sun"),
         success: v("--c-success"),
         danger: v("--c-danger"),
@@ -64,7 +63,6 @@ export default {
         h4: ["1.25rem", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "600" }],
         h3: ["1.5rem", { lineHeight: "1.25", letterSpacing: "-0.015em", fontWeight: "600" }],
         h2: ["2rem", { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "700" }],
-        // Untracked large Montserrat looks amateur; tracking tightens with size.
         "display-lg": [
           "clamp(1.875rem, 1.4rem + 1.9vw, 3rem)",
           { lineHeight: "1.05", letterSpacing: "-0.025em", fontWeight: "700" },
@@ -74,20 +72,18 @@ export default {
           { lineHeight: "1", letterSpacing: "-0.03em", fontWeight: "700" },
         ],
         "display-2xl": [
-          "clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem)",
-          { lineHeight: "0.95", letterSpacing: "-0.035em", fontWeight: "800" },
+          "clamp(2.5rem, 1.5rem + 4.2vw, 4.75rem)",
+          { lineHeight: "1", letterSpacing: "-0.035em", fontWeight: "800" },
         ],
       },
       spacing: {
         "section-xs": "3rem",
         "section-sm": "4.5rem",
         section: "6rem",
-        "section-lg": "clamp(6rem, 4rem + 7vw, 9rem)",
-        "section-xl": "clamp(8rem, 5rem + 9vw, 12rem)",
+        "section-lg": "clamp(5rem, 3.5rem + 5vw, 7.5rem)",
         radio: "var(--radio-h)",
+        nav: "var(--nav-h)",
       },
-      // Deliberately tight. "Everything rounded-2xl" is the clearest
-      // Tailwind-template tell.
       borderRadius: {
         DEFAULT: "4px",
         xs: "2px",
@@ -95,30 +91,27 @@ export default {
         md: "8px",
         lg: "14px",
       },
-      // Tinted with brand blue. Black shadows over blue-tinted neutrals
-      // look muddy.
+      // Tinted with the brand navy; black shadows over cool neutrals look muddy.
       boxShadow: {
-        xs: "0 1px 2px rgba(15,38,140,.06)",
-        sm: "0 2px 6px -1px rgba(15,38,140,.08), 0 1px 2px rgba(15,38,140,.06)",
-        md: "0 8px 24px -6px rgba(15,38,140,.12), 0 2px 6px -2px rgba(15,38,140,.08)",
-        lg: "0 20px 48px -12px rgba(15,38,140,.18)",
-        // The gold hairline under the radio bar is the site's signature detail,
-        // so it ships as part of the shadow rather than an extra element.
-        player: "0 2px 0 0 rgba(224,168,0,.9), 0 10px 30px -10px rgba(10,18,72,.45)",
+        xs: "0 1px 2px rgba(10,26,92,.06)",
+        sm: "0 2px 6px -1px rgba(10,26,92,.08), 0 1px 2px rgba(10,26,92,.06)",
+        md: "0 8px 24px -6px rgba(10,26,92,.12), 0 2px 6px -2px rgba(10,26,92,.08)",
+        lg: "0 20px 48px -12px rgba(10,26,92,.18)",
+        player: "0 1px 0 0 rgba(224,168,0,.85)",
       },
+      // Re-cut for the deeper ramp. The old stops were mixed from the previous,
+      // lighter blue and would read as a different brand beside it.
       backgroundImage: {
-        "grad-royal": "linear-gradient(158deg,#183AB4 0%,#0F268C 46%,#0A1248 100%)",
-        "grad-dawn": "linear-gradient(180deg,#FFFFFF 0%,#F0F6FF 45%,#DCEBFE 100%)",
+        "grad-royal": "linear-gradient(158deg,#0E2478 0%,#0A1A5C 46%,#060E33 100%)",
+        "grad-dawn": "linear-gradient(180deg,#FFFFFF 0%,#EEF3FD 55%,#D6E2FA 100%)",
         "grad-halo":
-          "radial-gradient(62% 58% at 50% 0%,#DCEBFE 0%,rgba(240,246,255,0) 72%)",
-        "grad-azure": "linear-gradient(135deg,#2452DB 0%,#0F268C 100%)",
-        // Mandatory under white text over any video thumbnail — guarantees
-        // contrast whatever the frame happens to be.
+          "radial-gradient(62% 58% at 50% 0%,#D6E2FA 0%,rgba(238,243,253,0) 72%)",
+        "grad-azure": "linear-gradient(135deg,#1533A0 0%,#0A1A5C 100%)",
         "grad-veil":
-          "linear-gradient(180deg,rgba(8,11,43,0) 0%,rgba(8,11,43,.55) 58%,rgba(8,11,43,.9) 100%)",
+          "linear-gradient(180deg,rgba(4,8,31,0) 0%,rgba(4,8,31,.55) 58%,rgba(4,8,31,.9) 100%)",
         "grad-rule": "linear-gradient(90deg,#E0A800 0%,#F5C542 50%,#E0A800 100%)",
       },
-      maxWidth: { prose: "68ch", container: "82.5rem" },
+      maxWidth: { prose: "68ch", container: "78rem" },
       transitionTimingFunction: { emphasis: "cubic-bezier(.2,.8,.2,1)" },
     },
   },
@@ -126,7 +119,6 @@ export default {
     require("@tailwindcss/typography"),
     plugin(({ addUtilities }) => {
       addUtilities({
-        // The old project used scrollbar-hide in two files and never defined it.
         ".scrollbar-hide": {
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
