@@ -1,0 +1,540 @@
+{
+  "captured_at": "2026-09-16T13:54:49.752207+00:00",
+  "base": "https://repentandpreparetheway.org/",
+  "files": [
+    {
+      "url": "https://repentandpreparetheway.org/index.html",
+      "name": "index.html",
+      "status": 200,
+      "bytes": 328726,
+      "sha256": "bbe93f2088195e4e4b8ca87a860521f1c4a31978060102d685100540e276fafc",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:10:17 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/salvationprayer.html",
+      "name": "salvationprayer.html",
+      "status": 200,
+      "bytes": 28508,
+      "sha256": "4e30a5631a2c06e8b19b52cab219c907fd3f59d0cd51ed4164826c81c12ebe50",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:26:59 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/sitemap.xml",
+      "name": "sitemap.xml",
+      "status": 200,
+      "bytes": 2722,
+      "sha256": "1de89b703ab6b95f4c4e9a26c685cd40e8ac40caeebf1ba9d04cac73a16c3581",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_2.html",
+      "name": "crbst_2.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_3.html",
+      "name": "crbst_3.html",
+      "status": 200,
+      "bytes": 26429,
+      "sha256": "e519c0efa4b76ee27242fa1a101612af539ad7830ab54fbf43594da931ce9010",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_4.html",
+      "name": "crbst_4.html",
+      "status": 200,
+      "bytes": 26920,
+      "sha256": "380f02fe173cb9041f9a28311680552718cc9c1697197181b7e9e8916b64760d",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:22:28 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_5.html",
+      "name": "crbst_5.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_6.html",
+      "name": "crbst_6.html",
+      "status": 200,
+      "bytes": 39768,
+      "sha256": "971e0fe1be18d4669f3ebdd7d800a51607b0e81e60c205f83887a76c2cfbdd98",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:25:16 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_7.html",
+      "name": "crbst_7.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_8.html",
+      "name": "crbst_8.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_9.html",
+      "name": "crbst_9.html",
+      "status": 200,
+      "bytes": 26034,
+      "sha256": "8cd2306f1d0f8eefe4f34a5313c1efe5a00d0b4c852251e76fef86a00c6f2a52",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_10.html",
+      "name": "crbst_10.html",
+      "status": 200,
+      "bytes": 29855,
+      "sha256": "3098aa956b861fe98389125b993fb8d15421d62ab6d809ad2bb9ff8b14ead632",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:26:33 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_11.html",
+      "name": "crbst_11.html",
+      "status": 200,
+      "bytes": 27483,
+      "sha256": "9311a1f97ca0f0950b75de337cc432d4f0c40c9400fc892feb88d313885d7d30",
+      "etag": null,
+      "last_modified": "Wed, 14 Jan 2026 20:29:20 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_12.html",
+      "name": "crbst_12.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "725580541533f7f1fe31b3d0a41ba6407f2cbb637cdb33523243bd84157a76a5",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_13.html",
+      "name": "crbst_13.html",
+      "status": 200,
+      "bytes": 26461,
+      "sha256": "f1889589b67229cfe337c87e6142152e8342b458e0fc721c9b0f3f10e6e31770",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_14.html",
+      "name": "crbst_14.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "eb88e2dd04b8ac18bfc767134f20ad740a4ddb7b9233bbfeff18154b40a67480",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_15.html",
+      "name": "crbst_15.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_16.html",
+      "name": "crbst_16.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "ce478a743464e58c0e23a0636385e4b766882d7888488b7bb3faed4e2aaa8a65",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_17.html",
+      "name": "crbst_17.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "9ec5571c48c6043538e27e235933ed1c371e41b2457e220cd65030d138e8e6b5",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_18.html",
+      "name": "crbst_18.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "87ac12b32986a533d7844c23f3ed78cb7dec460720bcf631eb2f9843886a986b",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_19.html",
+      "name": "crbst_19.html",
+      "status": 200,
+      "bytes": 26011,
+      "sha256": "2a6be9fed46075c60277f883e36f7f33aceb0036376a241e659e776394541878",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_20.html",
+      "name": "crbst_20.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "e7c711f94168b3dfaaad8cad6fdec589334729c0b634969981c3d3c4f2ba6c4b",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_21.html",
+      "name": "crbst_21.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "ea76743c788740bf4e2bffa47fb5054b01fcb5fb394c66586f0057518a1fe995",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:03 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_22.html",
+      "name": "crbst_22.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_23.html",
+      "name": "crbst_23.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "693c09e10baa730be5afcf1702a2cda348b1d9db1a5b2109046260e000c1932b",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_24.html",
+      "name": "crbst_24.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "b93ae4422ac8edc19c25f0685614c09b018a58947b2a3f8641c784f5426b9ff9",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_25.html",
+      "name": "crbst_25.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "1fb501be627d126a43ac58a31b63f7637e531aca3881fd99228e04395b0359ef",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:06 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_26.html",
+      "name": "crbst_26.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "79a1404c973c9d61b6881c06d35a41c9893777e3f53cccd9b1c01760be15983d",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_27.html",
+      "name": "crbst_27.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "21bb4abd0026279e6c2e64ece3605aeac06677b7163b31f90042b2d373c880ed",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_28.html",
+      "name": "crbst_28.html",
+      "status": 200,
+      "bytes": 26015,
+      "sha256": "7b6f28ad799d3317c9c5132db67f35bd35104690c1d0522bd7db3d3320c6b3f6",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_29.html",
+      "name": "crbst_29.html",
+      "status": 404,
+      "bytes": 0
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_30.html",
+      "name": "crbst_30.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "3e8b7cdeca8f92be50c5d167939492688004811dc7b629025d1172e206057989",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_31.html",
+      "name": "crbst_31.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "72eb27d75260668bcd991a4201d7f8ef7773dafbcfed45ed31e9e0c766cc5915",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_32.html",
+      "name": "crbst_32.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "0636f49e1ae70f1ea9daa0f4169e2f40278671c0fd86348363e960a81f7fc766",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:14:59 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_33.html",
+      "name": "crbst_33.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "e128102ad81ff81dba01e7439305478bb17537699935ddc4aeef649b758bbd6e",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_34.html",
+      "name": "crbst_34.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "9965df918aad8ea3b772ba8691ea498afa44466633720da1de1964fa96e39846",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:06 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_35.html",
+      "name": "crbst_35.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "5429698dd69642769db060c55a1212d5b4417ddf8de44c1e65c0a8047770b510",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_36.html",
+      "name": "crbst_36.html",
+      "status": 200,
+      "bytes": 26018,
+      "sha256": "935a51b124d714e73439bf66fd030e686ee8a61e362e4742d685dfb25a66f0bb",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_37.html",
+      "name": "crbst_37.html",
+      "status": 200,
+      "bytes": 26021,
+      "sha256": "c2b768f9a48c2886cd215cdf0e2230469d7932510a46ae3c6eee287c57fc07e4",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:06 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_38.html",
+      "name": "crbst_38.html",
+      "status": 200,
+      "bytes": 26021,
+      "sha256": "9f57e7b32d17a7500f3d490072ac3335253f859771d7cb2a523b3c1155678257",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:14:59 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_39.html",
+      "name": "crbst_39.html",
+      "status": 200,
+      "bytes": 26021,
+      "sha256": "16dd45e88657a0dc82886658d8887112e67423e8319c72468d224994dc85f60f",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_40.html",
+      "name": "crbst_40.html",
+      "status": 200,
+      "bytes": 26021,
+      "sha256": "ff6cf2b4f716cb00156efccd868f77fe9ad98cd3b18df395fb5cbc175bd5a501",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_41.html",
+      "name": "crbst_41.html",
+      "status": 200,
+      "bytes": 26017,
+      "sha256": "31b1aebe29be34748e9af2fca1f2f118f1bc229ee3f3747c49eb58eada2c5b35",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_42.html",
+      "name": "crbst_42.html",
+      "status": 200,
+      "bytes": 26021,
+      "sha256": "c0fc59eb937247cd3f00e036ad17a11491d681d998a901756b98e8b6fb629a21",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:03 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_43.html",
+      "name": "crbst_43.html",
+      "status": 200,
+      "bytes": 26024,
+      "sha256": "65d360d646770598a33b78bcaf196d703fc826faa8178409f5e57d893cefb88c",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_44.html",
+      "name": "crbst_44.html",
+      "status": 200,
+      "bytes": 26024,
+      "sha256": "50aba390e888388057df6aab9a2fe9ae3ae9782530e4324d3d6e2755040bb16f",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_45.html",
+      "name": "crbst_45.html",
+      "status": 200,
+      "bytes": 26899,
+      "sha256": "bf0fa07d6cb575fc33dea50831335313700354885c1d9dbd328130423b174980",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/crbst_46.html",
+      "name": "crbst_46.html",
+      "status": 200,
+      "bytes": 26020,
+      "sha256": "f1cfef5008498e9a8928715d2c1b5e94acffeadd62ae9f68219ce635e10379e7",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/ClockofGOD.pdf",
+      "name": "ClockofGOD.pdf",
+      "status": 200,
+      "bytes": 6068708,
+      "sha256": "2072d3e0eb51f4f79df3bfbfc0d6a1b674aa6128b12484f203e76877d3b65725",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:03 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/EbolaProphecyFulfilled.pdf",
+      "name": "EbolaProphecyFulfilled.pdf",
+      "status": 200,
+      "bytes": 1070237,
+      "sha256": "210c7337bfa801fea4bb6afed0c2098ab9fdff1c476e1def90d27a951210fc84",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/FOREWORD.pdf",
+      "name": "FOREWORD.pdf",
+      "status": 200,
+      "bytes": 1051015,
+      "sha256": "96e1dc24feac3e93bf818163eeeee6468da9ba39bb6c21d0cb13484bf3976443",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/HANDWRITTENNOTE.pdf",
+      "name": "HANDWRITTENNOTE.pdf",
+      "status": 200,
+      "bytes": 527320,
+      "sha256": "3aaf664fc8ed24d084436b2f90e468d00c655a6d449675e20a9c536a42c68ff7",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/HISNAILPIERCEDHANDS.pdf",
+      "name": "HISNAILPIERCEDHANDS.pdf",
+      "status": 200,
+      "bytes": 954826,
+      "sha256": "a262e77ab048eec8c55b3c09b8b630e375756aff1e5d5dd416438b7fc877a79f",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/PurityinChurch.pdf",
+      "name": "PurityinChurch.pdf",
+      "status": 200,
+      "bytes": 1526268,
+      "sha256": "be529322fac36ab8ab2f33b2690f2ac6742e6a6cad779aaab72b48c4999f5209",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:03 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/THELORDWALKEDACROSSTHESKY.pdf",
+      "name": "THELORDWALKEDACROSSTHESKY.pdf",
+      "status": 200,
+      "bytes": 622068,
+      "sha256": "5aa2106e8648f4b3293c6bdb2b9bf34907095de358149422318b1472462bb8ea",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheCloudofGOD.pdf",
+      "name": "TheCloudofGOD.pdf",
+      "status": 200,
+      "bytes": 4410742,
+      "sha256": "c683bf2af957cb3e5c9a707d4dd0a628bd8b1f546d515fcc97934e6b9dce4923",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:00 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheGarmentForThisHour.pdf",
+      "name": "TheGarmentForThisHour.pdf",
+      "status": 200,
+      "bytes": 791253,
+      "sha256": "ec40435d154666fdccac130f6e01bb94605533e426a8445a53c429edb09fb04b",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheLionoftheTribeofJUDAH.pdf",
+      "name": "TheLionoftheTribeofJUDAH.pdf",
+      "status": 200,
+      "bytes": 521218,
+      "sha256": "c8fbd0c3bdd469b8b546a1d553c3ebae23f76ea9671ccb5b966bb9a67d0b7823",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:01 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheMessiahisComing.pdf",
+      "name": "TheMessiahisComing.pdf",
+      "status": 200,
+      "bytes": 116136,
+      "sha256": "882b6616ff88b143d4057488a3d7e8b6dfadb1830f6df8c4b97965fb25f2697b",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheRaptureoftheDead.pdf",
+      "name": "TheRaptureoftheDead.pdf",
+      "status": 200,
+      "bytes": 2087495,
+      "sha256": "829c61f055ccbaafbe97e5abbfa91fe02fdf631ca23bcb1807df5ba34c6f727e",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:05 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/WEDDINGRINGS.pdf",
+      "name": "WEDDINGRINGS.pdf",
+      "status": 200,
+      "bytes": 3962276,
+      "sha256": "c749953d6ec34305199fc73ca7d03f99b039d98aa264ad22ef3f6f0ecae0f63a",
+      "etag": null,
+      "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    }
+  ],
+  "counts": {
+    "pages_ok": 41,
+    "pages_missing": 7,
+    "pdfs": 13,
+    "unique_video_ids": 419
+  }
+}
