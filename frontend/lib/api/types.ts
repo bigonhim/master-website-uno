@@ -1,10 +1,8 @@
-/** Shapes the Django API guarantees. Verified against the live endpoint. */
+/** Shapes the Django API guarantees. Verified against the live endpoints. */
+
+/* ------------------------------------------------------------------ radio */
 
 export type RadioStatus = "live" | "offline" | "unknown";
-
-export interface NowPlaying {
-  title: string;
-}
 
 export interface RadioStatusPayload {
   status: RadioStatus;
@@ -21,6 +19,8 @@ export interface RadioStatusPayload {
   checked_at: string;
 }
 
+/* ------------------------------------------------------------------ media */
+
 export type VideoAvailability = "available" | "unavailable" | "unknown";
 
 export interface AttachedVideo {
@@ -35,6 +35,65 @@ export interface AttachedVideo {
   watch_url: string;
   duration_seconds: number | null;
 }
+
+/* ---------------------------------------------------------------- content */
+
+export type ContentKind = "teaching" | "prophecy" | "healing" | "writing";
+export type DateSource = "title_parsed" | "manual" | "unknown";
+
+export interface Category {
+  name: string;
+  slug: string;
+  description: string;
+}
+
+export interface Region {
+  name: string;
+  slug: string;
+  iso2: string;
+  continent: string;
+}
+
+export interface Series {
+  title: string;
+  slug: string;
+  description: string;
+  starts_on: string | null;
+  ends_on: string | null;
+  location: string;
+}
+
+export interface ContentItem {
+  slug: string;
+  kind: ContentKind;
+  kicker: string;
+  title: string;
+  speaker: string;
+  summary: string;
+  category: Category | null;
+  published_at: string | null;
+  prophecy_date: string | null;
+  date_source: DateSource;
+  date_precision: string;
+  /** False for almost the whole imported archive — the source carried no dates. */
+  is_dated: boolean;
+  is_fulfilled: boolean;
+  condition: string;
+  videos: AttachedVideo[];
+}
+
+export interface ContentDetail extends ContentItem {
+  body: string;
+  fulfillment_summary: string;
+  regions: Region[];
+  series: Series | null;
+  position_in_series: number | null;
+  is_anonymous: boolean;
+  language: string;
+  updated_at: string;
+}
+
+/* ------------------------------------------------------------- collections */
 
 export interface Facet {
   value: string;
