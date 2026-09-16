@@ -31,3 +31,7 @@ data/source_snapshot/**/*.pdf
 
 # Harvested YouTube metadata cache
 data/youtube_meta.jsonl
+
+# Import QA output — regenerable from the database with `verify_import`,
+# so it is derived output rather than source.
+**/import_review.csv

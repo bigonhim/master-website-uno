@@ -51,9 +51,13 @@ class HasDeadVideoFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "dead":
-            return queryset.filter(videos__video__availability=Availability.UNAVAILABLE).distinct()
+            return queryset.filter(
+                videos__video__availability=Availability.UNAVAILABLE
+            ).distinct()
         if self.value() == "ok":
-            return queryset.filter(videos__video__availability=Availability.AVAILABLE).distinct()
+            return queryset.filter(
+                videos__video__availability=Availability.AVAILABLE
+            ).distinct()
         if self.value() == "none":
             return queryset.filter(videos__isnull=True)
         return queryset
@@ -87,32 +91,97 @@ class ContentItemAdmin(admin.ModelAdmin):
     list_per_page = 50
     filter_horizontal = ["regions"]
     inlines = [VideoAttachmentInline]
-    readonly_fields = ["title_source", "import_key", "import_hash", "imported_values",
-                       "import_conflicts", "created_at", "updated_at"]
-    actions = ["publish_selected", "unpublish_selected", "mark_reviewed", "flag_for_review"]
+    readonly_fields = [
+        "title_source",
+        "import_key",
+        "import_hash",
+        "imported_values",
+        "import_conflicts",
+        "created_at",
+        "updated_at",
+    ]
+    actions = [
+        "publish_selected",
+        "unpublish_selected",
+        "mark_reviewed",
+        "flag_for_review",
+    ]
 
     fieldsets = [
-        ("Content", {"fields": ["kind", "status", "title", "kicker", "speaker",
-                                "slug", "summary", "body"]}),
-        ("Classification", {"fields": ["category", "regions", "series",
-                                       "position_in_series", "is_featured"]}),
-        ("Dating", {"fields": ["published_at", "prophecy_date", "date_source",
-                               "date_precision"],
-                    "description": "Most imported rows are undated. Set "
-                                   "<em>date source</em> to “Entered by staff” when you "
-                                   "supply one."}),
-        ("Prophecy", {"fields": ["is_fulfilled", "fulfillment_summary"], "classes": ["collapse"]}),
+        (
+            "Content",
+            {
+                "fields": [
+                    "kind",
+                    "status",
+                    "title",
+                    "kicker",
+                    "speaker",
+                    "slug",
+                    "summary",
+                    "body",
+                ]
+            },
+        ),
+        (
+            "Classification",
+            {
+                "fields": [
+                    "category",
+                    "regions",
+                    "series",
+                    "position_in_series",
+                    "is_featured",
+                ]
+            },
+        ),
+        (
+            "Dating",
+            {
+                "fields": [
+                    "published_at",
+                    "prophecy_date",
+                    "date_source",
+                    "date_precision",
+                ],
+                "description": "Most imported rows are undated. Set "
+                "<em>date source</em> to “Entered by staff” when you "
+                "supply one.",
+            },
+        ),
+        (
+            "Prophecy",
+            {
+                "fields": ["is_fulfilled", "fulfillment_summary"],
+                "classes": ["collapse"],
+            },
+        ),
         ("Healing", {"fields": ["condition", "is_anonymous"], "classes": ["collapse"]}),
         ("Review", {"fields": ["needs_review", "confidence"]}),
-        ("Import provenance", {"fields": ["title_yt", "title_source", "import_key",
-                                          "import_hash", "imported_values",
-                                          "import_conflicts", "created_at", "updated_at"],
-                               "classes": ["collapse"]}),
+        (
+            "Import provenance",
+            {
+                "fields": [
+                    "title_yt",
+                    "title_source",
+                    "import_key",
+                    "import_hash",
+                    "imported_values",
+                    "import_conflicts",
+                    "created_at",
+                    "updated_at",
+                ],
+                "classes": ["collapse"],
+            },
+        ),
     ]
 
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related("category").prefetch_related(
-            "videos__video"
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("category")
+            .prefetch_related("videos__video")
         )
 
     @admin.display(description="video")
@@ -120,23 +189,31 @@ class ContentItemAdmin(admin.ModelAdmin):
         attachments = list(obj.videos.all())
         if not attachments:
             return format_html('<span style="color:#8D9BB4">none</span>')
-        dead = sum(1 for a in attachments if a.video.availability == Availability.UNAVAILABLE)
+        dead = sum(
+            1 for a in attachments if a.video.availability == Availability.UNAVAILABLE
+        )
         if dead:
             return format_html(
-                '<strong style="color:#B3261E">{} dead</strong> / {}', dead, len(attachments)
+                '<strong style="color:#B3261E">{} dead</strong> / {}',
+                dead,
+                len(attachments),
             )
         return format_html('<span style="color:#0B7A57">{} ok</span>', len(attachments))
 
     @admin.display(description="confidence", ordering="confidence")
     def confidence_flag(self, obj):
         colour = "#0B7A57" if obj.confidence >= 0.8 else "#9A6A00"
-        return format_html('<span style="color:{}">{:.2f}</span>', colour, obj.confidence)
+        return format_html(
+            '<span style="color:{}">{:.2f}</span>', colour, obj.confidence
+        )
 
     @admin.action(description="Publish selected")
     def publish_selected(self, request, queryset):
         # A dead video must never reach the public site, so this action refuses
         # rather than silently publishing a broken embed.
-        blocked = queryset.filter(videos__video__availability=Availability.UNAVAILABLE).distinct()
+        blocked = queryset.filter(
+            videos__video__availability=Availability.UNAVAILABLE
+        ).distinct()
         publishable = queryset.exclude(pk__in=blocked.values("pk"))
         count = publishable.update(status=Status.PUBLISHED)
         self.message_user(request, f"Published {count} item(s).", messages.SUCCESS)
@@ -151,12 +228,16 @@ class ContentItemAdmin(admin.ModelAdmin):
     @admin.action(description="Return to draft")
     def unpublish_selected(self, request, queryset):
         count = queryset.update(status=Status.DRAFT)
-        self.message_user(request, f"Returned {count} item(s) to draft.", messages.SUCCESS)
+        self.message_user(
+            request, f"Returned {count} item(s) to draft.", messages.SUCCESS
+        )
 
     @admin.action(description="Mark reviewed")
     def mark_reviewed(self, request, queryset):
         count = queryset.update(needs_review=False)
-        self.message_user(request, f"Marked {count} item(s) reviewed.", messages.SUCCESS)
+        self.message_user(
+            request, f"Marked {count} item(s) reviewed.", messages.SUCCESS
+        )
 
     @admin.action(description="Flag for review")
     def flag_for_review(self, request, queryset):

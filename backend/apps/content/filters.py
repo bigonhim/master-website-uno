@@ -21,7 +21,15 @@ class ContentItemFilter(filters.FilterSet):
 
     class Meta:
         model = ContentItem
-        fields = ["kind", "category", "region", "series", "year", "fulfilled", "speaker"]
+        fields = [
+            "kind",
+            "category",
+            "region",
+            "series",
+            "year",
+            "fulfilled",
+            "speaker",
+        ]
 
     def filter_watchable(self, queryset, name, value):
         if value is None:

@@ -223,14 +223,16 @@ class ContentItem(TimeStamped):
         max_length=200, blank=True, help_text="Healings: the condition reported."
     )
     is_anonymous = models.BooleanField(
-        default=True, help_text="Healings: keep the person unnamed unless consent is on file."
+        default=True,
+        help_text="Healings: keep the person unnamed unless consent is on file.",
     )
 
     # Editorial and import provenance.
     is_featured = models.BooleanField(default=False)
     needs_review = models.BooleanField(default=False, db_index=True)
     confidence = models.FloatField(
-        default=0.0, help_text="Auto-classification confidence, 0-1. Below 0.8 needs review."
+        default=0.0,
+        help_text="Auto-classification confidence, 0-1. Below 0.8 needs review.",
     )
     source_order = models.PositiveIntegerField(null=True, blank=True)
     import_key = models.CharField(max_length=64, blank=True, db_index=True)
@@ -271,7 +273,9 @@ class VideoAttachment(models.Model):
     rather than three.
     """
 
-    video = models.ForeignKey(Video, on_delete=models.PROTECT, related_name="attachments")
+    video = models.ForeignKey(
+        Video, on_delete=models.PROTECT, related_name="attachments"
+    )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey("content_type", "object_id")
@@ -285,7 +289,8 @@ class VideoAttachment(models.Model):
         indexes = [models.Index(fields=["content_type", "object_id"])]
         constraints = [
             models.UniqueConstraint(
-                fields=["video", "content_type", "object_id"], name="uniq_video_attachment"
+                fields=["video", "content_type", "object_id"],
+                name="uniq_video_attachment",
             )
         ]
 

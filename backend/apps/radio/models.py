@@ -29,7 +29,8 @@ class RadioStation(TimeStamped):
         help_text='Optional, e.g. "Next broadcast: Sunday 09:00 EAT".',
     )
     is_primary = models.BooleanField(
-        default=True, help_text="The station the site plays. Only one should be primary."
+        default=True,
+        help_text="The station the site plays. Only one should be primary.",
     )
 
     class Meta:

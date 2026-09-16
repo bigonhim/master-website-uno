@@ -40,7 +40,9 @@ def _clean_track(raw: str | None) -> str | None:
     return None if cleaned.strip(" -").lower() in BLANK_TRACKS else cleaned
 
 
-def _payload(station, *, status: str, now_playing=None, artwork=None, stale=False) -> dict[str, Any]:
+def _payload(
+    station, *, status: str, now_playing=None, artwork=None, stale=False
+) -> dict[str, Any]:
     return {
         "status": status,  # live | offline | unknown
         "station_name": station.name,
@@ -90,7 +92,7 @@ def get_radio_status(station) -> dict[str, Any]:
         cache.set(BREAKER_KEY, 1, BREAKER_SECONDS)
         return _last_snapshot(station)
 
-    track = (data.get("current_track") or {})
+    track = data.get("current_track") or {}
     payload = _payload(
         station,
         status="live" if data.get("status") == "online" else "offline",
@@ -115,7 +117,9 @@ def get_primary_station():
     """The station the site plays, created on first use so a fresh install works."""
     from .models import RadioStation
 
-    station = RadioStation.objects.filter(is_enabled=True).order_by("-is_primary").first()
+    station = (
+        RadioStation.objects.filter(is_enabled=True).order_by("-is_primary").first()
+    )
     if station is None:
         station = RadioStation.objects.create()
     return station

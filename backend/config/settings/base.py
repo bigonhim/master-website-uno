@@ -1,4 +1,5 @@
 """Shared settings. Environment-driven; no insecure defaults."""
+
 from pathlib import Path
 
 import environ
@@ -45,30 +46,40 @@ MIDDLEWARE = [
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 
-TEMPLATES = [{
-    "BACKEND": "django.template.backends.django.DjangoTemplates",
-    "DIRS": [BASE_DIR / "templates"],
-    "APP_DIRS": True,
-    "OPTIONS": {"context_processors": [
-        "django.template.context_processors.request",
-        "django.contrib.auth.context_processors.auth",
-        "django.contrib.messages.context_processors.messages",
-    ]},
-}]
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ]
+        },
+    }
+]
 
 # SQLite locally; DATABASE_URL (Postgres) in production.
 if env.str("DATABASE_URL", default=""):
     DATABASES = {"default": env.db("DATABASE_URL")}
 else:
-    DATABASES = {"default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }}
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": f"django.contrib.auth.password_validation.{v}"}
-    for v in ("UserAttributeSimilarityValidator", "MinimumLengthValidator",
-              "CommonPasswordValidator", "NumericPasswordValidator")
+    for v in (
+        "UserAttributeSimilarityValidator",
+        "MinimumLengthValidator",
+        "CommonPasswordValidator",
+        "NumericPasswordValidator",
+    )
 ]
 
 LANGUAGE_CODE = "en-us"
@@ -84,7 +95,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     # Public site: read-only by default. Writes are opt-in, per view.
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+    ],
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
@@ -93,7 +106,11 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
-    "DEFAULT_THROTTLE_RATES": {"salvation": "5/hour", "radio": "60/min", "search": "30/min"},
+    "DEFAULT_THROTTLE_RATES": {
+        "salvation": "5/hour",
+        "radio": "60/min",
+        "search": "30/min",
+    },
 }
 
 SPECTACULAR_SETTINGS = {
@@ -107,6 +124,10 @@ CORS_ALLOW_CREDENTIALS = False  # no cross-origin cookies; don't opt into the ri
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
 RADIO_STATION_ID = env.str("RADIO_STATION_ID", default="s97f38db97")
-RADIO_STREAM_URL = env.str("RADIO_STREAM_URL", default="https://s3.radio.co/s97f38db97/listen")
-RADIO_STATUS_URL = env.str("RADIO_STATUS_URL", default="https://public.radio.co/stations/s97f38db97/status")
+RADIO_STREAM_URL = env.str(
+    "RADIO_STREAM_URL", default="https://s3.radio.co/s97f38db97/listen"
+)
+RADIO_STATUS_URL = env.str(
+    "RADIO_STATUS_URL", default="https://public.radio.co/stations/s97f38db97/status"
+)
 RADIO_STATUS_CACHE_SECONDS = 20

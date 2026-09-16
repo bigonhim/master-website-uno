@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { RadioBar } from "@/components/radio/RadioBar";
 import { RadioProvider } from "@/components/radio/RadioProvider";
 import { getRadioStatus } from "@/lib/api/radio";
@@ -43,6 +44,7 @@ export default async function RootLayout({
           <main id="main" className="flex-1">
             {children}
           </main>
+          <SiteFooter />
         </RadioProvider>
       </body>
     </html>

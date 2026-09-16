@@ -8,43 +8,96 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='RadioStation',
+            name="RadioStation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(default='Jesus is LORD Radio', max_length=120)),
-                ('station_id', models.CharField(default='s97f38db97', max_length=40)),
-                ('stream_url', models.URLField(default='https://s3.radio.co/s97f38db97/listen')),
-                ('status_url', models.URLField(default='https://public.radio.co/stations/s97f38db97/status')),
-                ('is_enabled', models.BooleanField(default=True)),
-                ('offline_message', models.CharField(default="We're off air right now — browse the teaching archive meanwhile.", help_text='Shown in the player bar when the station is not broadcasting.', max_length=200)),
-                ('schedule_note', models.CharField(blank=True, help_text='Optional, e.g. "Next broadcast: Sunday 09:00 EAT".', max_length=200)),
-                ('is_primary', models.BooleanField(default=True, help_text='The station the site plays. Only one should be primary.')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "name",
+                    models.CharField(default="Jesus is LORD Radio", max_length=120),
+                ),
+                ("station_id", models.CharField(default="s97f38db97", max_length=40)),
+                (
+                    "stream_url",
+                    models.URLField(default="https://s3.radio.co/s97f38db97/listen"),
+                ),
+                (
+                    "status_url",
+                    models.URLField(
+                        default="https://public.radio.co/stations/s97f38db97/status"
+                    ),
+                ),
+                ("is_enabled", models.BooleanField(default=True)),
+                (
+                    "offline_message",
+                    models.CharField(
+                        default="We're off air right now — browse the teaching archive meanwhile.",
+                        help_text="Shown in the player bar when the station is not broadcasting.",
+                        max_length=200,
+                    ),
+                ),
+                (
+                    "schedule_note",
+                    models.CharField(
+                        blank=True,
+                        help_text='Optional, e.g. "Next broadcast: Sunday 09:00 EAT".',
+                        max_length=200,
+                    ),
+                ),
+                (
+                    "is_primary",
+                    models.BooleanField(
+                        default=True,
+                        help_text="The station the site plays. Only one should be primary.",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-is_primary', 'name'],
+                "ordering": ["-is_primary", "name"],
             },
         ),
         migrations.CreateModel(
-            name='RadioStatusSnapshot',
+            name="RadioStatusSnapshot",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('status', models.CharField(default='unknown', max_length=12)),
-                ('now_playing_title', models.CharField(blank=True, max_length=300)),
-                ('artwork_url', models.URLField(blank=True)),
-                ('fetched_at', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('station', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='snapshots', to='radio.radiostation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("status", models.CharField(default="unknown", max_length=12)),
+                ("now_playing_title", models.CharField(blank=True, max_length=300)),
+                ("artwork_url", models.URLField(blank=True)),
+                ("fetched_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                (
+                    "station",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="snapshots",
+                        to="radio.radiostation",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-fetched_at'],
+                "ordering": ["-fetched_at"],
             },
         ),
     ]
