@@ -131,3 +131,9 @@ RADIO_STATUS_URL = env.str(
     "RADIO_STATUS_URL", default="https://public.radio.co/stations/s97f38db97/status"
 )
 RADIO_STATUS_CACHE_SECONDS = 20
+
+# Where salvation-decision alerts go. Declared explicitly rather than only read
+# via getattr, so it is visible to whoever configures a deployment. Empty means
+# no team alert is sent; the decision is still recorded either way.
+SALVATION_TEAM_EMAIL = env.str("SALVATION_TEAM_EMAIL", default="")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="webmaster@localhost")

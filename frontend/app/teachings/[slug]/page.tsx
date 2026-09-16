@@ -7,12 +7,12 @@ type Params = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const item = await loadDetail("prophecies", slug);
+  const item = await loadDetail("teachings", slug);
   if (!item) return { title: "Not found" };
   return {
     title: item.title,
     description: item.summary || undefined,
-    alternates: { canonical: `/prophecies/${item.slug}` },
+    alternates: { canonical: `/teachings/${item.slug}` },
     openGraph: {
       title: item.title,
       description: item.summary || undefined,
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ProphecyDetailPage({ params }: Params) {
+export default async function TeachingDetailPage({ params }: Params) {
   const { slug } = await params;
-  const item = await loadDetail("prophecies", slug);
+  const item = await loadDetail("teachings", slug);
   if (!item) notFound();
-  return <DetailScreen item={item} backHref="/prophecies" backLabel="Prophecies" />;
+  return <DetailScreen item={item} backHref="/teachings" backLabel="Teachings" />;
 }

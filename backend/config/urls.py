@@ -16,6 +16,7 @@ from apps.content.views import (
     WritingViewSet,
 )
 from apps.radio.views import RadioStatusView
+from apps.salvation.views import SalvationDecisionCreateView
 
 router = DefaultRouter()
 # One archive per content type, plus a combined feed for cross-type listings.
@@ -29,10 +30,16 @@ router.register("regions", RegionViewSet, basename="region")
 router.register("series", SeriesViewSet, basename="series")
 
 # Versioned from the start: the previous attempt had no prefix, so any future
-# breaking change would have broken the frontend with nowhere to stand.
+# breaking change would have had nowhere to stand.
 api_v1 = [
     path("", include(router.urls)),
     path("radio/status/", RadioStatusView.as_view(), name="radio-status"),
+    # The single public write route on the site.
+    path(
+        "salvation/decisions/",
+        SalvationDecisionCreateView.as_view(),
+        name="salvation-decision",
+    ),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "schema/swagger-ui/",
