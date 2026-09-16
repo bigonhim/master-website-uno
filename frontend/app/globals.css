@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Tokens are space-separated RGB channels so Tailwind's <alpha-value> opacity
+ * modifiers keep working, and so a future theme is one redefined block rather
+ * than a refactor.
+ */
+@layer base {
+  :root {
+    /* Declaring this stops browsers auto-darkening form controls and
+       scrollbars for users on OS dark mode, which would silently wreck
+       input contrast on a deliberately light page. */
+    color-scheme: light;
+
+    /* Primary ramp from #0F268C (HSL 229). Tints drift toward 214 so the
+       light-blue gradients read as sky; shades drift toward 234 so the
+       footer reads as ink rather than black. */
+    --c-primary-50: 240 246 255;
+    --c-primary-100: 220 235 254;
+    --c-primary-200: 182 211 252;
+    --c-primary-300: 130 175 247;
+    --c-primary-400: 81 130 236;
+    --c-primary-500: 36 82 219;
+    --c-primary-600: 24 58 180;
+    --c-primary-700: 15 38 140; /* BRAND — 12.52:1 on white, AAA at every size */
+    --c-primary-800: 12 27 106;
+    --c-primary-900: 10 18 72;
+    --c-primary-950: 8 11 43;
+
+    /* Neutrals cooled to ~222 so every surface sits in the brand's family.
+       Tailwind's pure grey fights a 229 blue. */
+    --c-ink-0: 255 255 255;
+    --c-ink-25: 251 252 254;
+    --c-ink-50: 244 247 251;
+    --c-ink-100: 233 238 246;
+    --c-ink-200: 214 222 235;
+    --c-ink-300: 183 195 214;
+    --c-ink-400: 141 155 180;
+    --c-ink-500: 107 122 148;
+    --c-ink-600: 79 92 115;
+    --c-ink-700: 58 69 88;
+    --c-ink-800: 38 46 61;
+    --c-ink-900: 21 27 38;
+
+    /* Gold. See the contrast table — #E0A800 is a FILL, never text on white. */
+    --c-gold-400: 245 197 66;
+    --c-gold-500: 224 168 0;
+    --c-gold-700: 184 134 11;
+    --c-gold-800: 154 106 0;
+    --c-sun: 255 255 0;
+
+    --c-success: 11 122 87;
+    --c-danger: 179 38 30;
+    --c-live-400: 255 77 79;
+    --c-live-600: 200 16 46;
+
+    /* Semantic aliases. Components reference ONLY these, never a raw ramp
+       step — which is what makes a later theme a one-block change. */
+    --surface: var(--c-ink-0);
+    --surface-sunken: var(--c-ink-25);
+    --text-primary: var(--c-ink-800);
+    --text-secondary: var(--c-ink-600);
+    --border: var(--c-ink-200);
+
+    /* Gold by ROLE, so a component cannot pick an illegal one:
+       on white, only gold-800 is safe for body text (4.65:1). */
+    --text-gold-on-light: var(--c-gold-800);
+    --text-gold-on-dark: var(--c-gold-400);
+    --fill-gold: var(--c-gold-500);
+    --accent-sun: var(--c-sun); /* guarded — legal only inside .on-dark */
+
+    /* Every sticky offset on the site derives from this. Hardcoding the
+       radio bar's height is how the old project ended up with top-[72px]
+       wrong in two files. */
+    --radio-h: 56px;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --radio-h: 64px;
+    }
+  }
+
+  body {
+    @apply bg-ink-25 font-display text-ink-800 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-[3px] ring-primary-500 ring-offset-2 ring-offset-ink-0;
+  }
+
+  /* On dark surfaces the blue focus ring disappears into the ground. */
+  .on-dark :focus-visible {
+    @apply ring-gold-400 ring-offset-primary-900;
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --text-secondary: var(--c-ink-700);
+      --border: var(--c-ink-300);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Large low-contrast blue gradients band badly on 8-bit panels and it reads
+     as cheap. A faint noise overlay kills it. */
+  .grad-dither {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .grad-dither::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.02;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}

@@ -529,12 +529,23 @@
       "sha256": "c749953d6ec34305199fc73ca7d03f99b039d98aa264ad22ef3f6f0ecae0f63a",
       "etag": null,
       "last_modified": "Sun, 24 Aug 2025 04:15:04 GMT"
+    },
+    {
+      "url": "https://repentandpreparetheway.org/TheConcealedSideOfTheProphet.pdf",
+      "name": "TheConcealedSideOfTheProphet.pdf",
+      "status": 200,
+      "bytes": 8741136,
+      "sha256": "7ab12784ff5908e0e7bb94c56f5328f3eb57819e1e244141260340c7df84520f",
+      "etag": null,
+      "last_modified": null,
+      "note": "discovered via nav probe after initial crawl"
     }
   ],
   "counts": {
     "pages_ok": 41,
     "pages_missing": 7,
-    "pdfs": 13,
-    "unique_video_ids": 419
+    "pdfs": 14,
+    "unique_video_ids": 419,
+    "pdf_bytes": 32450698
   }
 }
