@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
 import { Badge } from "@/components/ui/Badge";
 import type { ContentItem } from "@/lib/api/types";
 
@@ -23,31 +23,19 @@ export function ContentCard({
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-sm bg-ink-0 ring-1 ring-inset ring-ink-100 transition-shadow duration-300 ease-emphasis hover:shadow-md">
-      <Link href={href} className="block">
-        <div className="relative aspect-video overflow-hidden bg-primary-950">
-          {primary && !dead ? (
-            <Image
-              src={primary.thumbnail_url}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 ease-emphasis group-hover:scale-[1.03]"
-              priority={priority}
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-ink-50">
-              <span className="text-caption uppercase tracking-wider text-ink-500">
-                {dead ? "Recording unavailable" : "No recording"}
-              </span>
-            </div>
-          )}
-          {item.videos.length > 1 ? (
-            <span className="absolute bottom-2 right-2 rounded-xs bg-primary-950/85 px-2 py-0.5 text-caption text-ink-0">
-              {item.videos.length} parts
+      {/* Plays right here in the card: one press, no trip to the detail page
+          or to YouTube. Only dead or missing recordings fall back to a link. */}
+      {primary && !dead ? (
+        <YouTubeEmbed video={primary} title={item.title} priority={priority} flush />
+      ) : (
+        <Link href={href} className="block">
+          <div className="flex aspect-video items-center justify-center bg-ink-50">
+            <span className="text-caption uppercase tracking-wider text-ink-500">
+              {dead ? "Recording unavailable" : "No recording"}
             </span>
-          ) : null}
-        </div>
-      </Link>
+          </div>
+        </Link>
+      )}
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-center gap-2">
@@ -56,6 +44,11 @@ export function ContentCard({
           ) : null}
           {item.is_fulfilled ? <Badge tone="fulfilled">Fulfilled</Badge> : null}
           {dead ? <Badge tone="danger">Unavailable</Badge> : null}
+          {/* Lives here, not over the video, where it would cover the
+              player's own controls. */}
+          {item.videos.length > 1 ? (
+            <Badge tone="neutral">{item.videos.length} parts</Badge>
+          ) : null}
         </div>
 
         {item.kicker ? (

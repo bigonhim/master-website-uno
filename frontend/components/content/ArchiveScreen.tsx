@@ -1,3 +1,4 @@
+import { ArchiveSearch } from "@/components/archive/ArchiveSearch";
 import { FacetRail } from "@/components/archive/FacetRail";
 import { Pagination } from "@/components/archive/Pagination";
 import { ContentCard } from "@/components/content/ContentCard";
@@ -13,7 +14,7 @@ import { getArchive, type ArchiveKind } from "@/lib/api/content";
 
 export const ARCHIVE_LIMIT = 24;
 
-const FILTER_KEYS = ["category", "region", "series", "year", "fulfilled", "offset"];
+const FILTER_KEYS = ["q", "category", "region", "series", "year", "fulfilled", "offset"];
 
 /** Only parameters the API understands; anything else is ignored rather than
  *  forwarded, so a junk query string cannot produce a confusing result set. */
@@ -23,7 +24,8 @@ export function readArchiveParams(
   const params: Record<string, string> = {};
   for (const key of FILTER_KEYS) {
     const value = raw[key];
-    if (typeof value === "string" && value) params[key] = value;
+    const trimmed = typeof value === "string" ? value.trim() : "";
+    if (trimmed) params[key] = trimmed;
   }
   return params;
 }
@@ -92,6 +94,8 @@ export async function ArchiveScreen({
           </div>
 
           <div className="lg:col-span-9">
+            <ArchiveSearch basePath={basePath} params={params} label={emptyLabel} />
+
             {data.count > 0 ? (
               <p className="mb-5 text-body-sm tabular-nums text-ink-600">
                 Showing {from}–{to} of {data.count}
@@ -100,7 +104,14 @@ export async function ArchiveScreen({
 
             {data.results.length === 0 ? (
               hasFilters ? (
-                <NoResultsState resetHref={basePath} />
+                <NoResultsState
+                  resetHref={basePath}
+                  hint={
+                    params.q
+                      ? "Try fewer or different words, or remove a filter."
+                      : undefined
+                  }
+                />
               ) : (
                 <NotYetPublishedState kind={emptyLabel} />
               )

@@ -20,13 +20,31 @@ function StopIcon() {
   );
 }
 
+function RadioWaves() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+    >
+      <circle cx="12" cy="12" r="2" />
+      <path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14" />
+    </svg>
+  );
+}
+
 /**
  * Pinned to the top of every page.
  *
- * The station has been off air since March 2023, so off-air is the DEFAULT
- * state and has to look deliberate. Rather than a dead control, the bar
- * becomes a route into the archive — which turns the ministry's biggest
- * liability into a way in.
+ * When the station is not broadcasting the bar carries the station's name and
+ * a route into the archive, never an "off air" notice. It still never claims
+ * to be live: the play control and "Live" marker appear only when radio.co
+ * reports the station on air, and then the bar becomes the player on its own.
  */
 export function RadioBar() {
   const { station, isLive, player, toggle } = useRadio();
@@ -38,7 +56,7 @@ export function RadioBar() {
         ? "Couldn't connect"
         : isLive
           ? (station.now_playing ?? "Live broadcast")
-          : station.offline_message;
+          : station.schedule_note || "Preparing the way for the LORD";
 
   return (
     <div
@@ -46,23 +64,20 @@ export function RadioBar() {
       style={{ top: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="mx-auto flex h-radio w-full max-w-container items-center gap-3 px-5 sm:px-8 lg:px-12">
-        <span className="flex items-center gap-2">
-          <span aria-hidden className="relative flex h-2 w-2">
-            {isLive ? (
+        {isLive ? (
+          <span className="flex items-center gap-2">
+            <span aria-hidden className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-400 opacity-75 motion-reduce:hidden" />
-            ) : null}
-            <span
-              className={`relative inline-flex h-2 w-2 rounded-full ${
-                isLive ? "bg-live-400" : "bg-ink-400"
-              }`}
-            />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-live-400" />
+            </span>
+            <span className="text-caption uppercase tracking-[0.14em] text-sun">Live</span>
           </span>
-          <span
-            className={`text-caption uppercase tracking-[0.14em] ${
-              isLive ? "text-sun" : "text-ink-300"
-            }`}
-          >
-            {isLive ? "On air" : station.status === "unknown" ? "Status unavailable" : "Off air"}
+        ) : null}
+
+        <span className="flex shrink-0 items-center gap-2 text-gold-400">
+          <RadioWaves />
+          <span className="text-caption uppercase tracking-[0.14em]">
+            {station.station_name || "Jesus is LORD Radio"}
           </span>
         </span>
 
@@ -78,12 +93,13 @@ export function RadioBar() {
           </button>
         ) : null}
 
-        <p
-          className="min-w-0 flex-1 truncate text-body-sm text-ink-200"
-          aria-live="polite"
-        >
-          <span className="sr-only">{station.station_name}: </span>
-          {label}
+        <p className="min-w-0 flex-1 truncate text-body-sm text-ink-200" aria-live="polite">
+          {/* On phones the station name is enough while not broadcasting;
+              once live, what is playing matters more than the tagline. */}
+          <span aria-hidden className="mr-2 hidden text-ink-400 sm:inline">
+            ·
+          </span>
+          <span className={isLive ? "" : "hidden sm:inline"}>{label}</span>
         </p>
 
         {!isLive ? (

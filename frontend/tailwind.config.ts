@@ -113,6 +113,20 @@ export default {
       },
       maxWidth: { prose: "68ch", container: "78rem" },
       transitionTimingFunction: { emphasis: "cubic-bezier(.2,.8,.2,1)" },
+      keyframes: {
+        rise: {
+          from: { opacity: "0", transform: "translateY(14px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        nudge: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(4px)" },
+        },
+      },
+      animation: {
+        rise: "rise .7s cubic-bezier(.2,.8,.2,1) both",
+        nudge: "nudge 2.4s ease-in-out infinite",
+      },
     },
   },
   plugins: [

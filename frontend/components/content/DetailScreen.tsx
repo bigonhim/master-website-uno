@@ -90,6 +90,7 @@ export function DetailScreen({
                       video={video}
                       title={item.title}
                       priority={index === 0}
+                      eager
                     />
                     <figcaption className="mt-2 flex items-center justify-between gap-4 text-meta text-ink-500">
                       <span>

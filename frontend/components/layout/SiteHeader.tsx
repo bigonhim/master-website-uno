@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { Logo } from "@/components/brand/Logo";
+
 /**
  * Primary navigation.
  *
@@ -18,6 +20,7 @@ import { useEffect, useState } from "react";
 // Only routes that exist. /radio and /about were in here first and both 404 —
 // a nav that lies about where it goes is worse than a shorter nav.
 const LINKS = [
+  { href: "/", label: "Home" },
   { href: "/prophecies", label: "Prophecies" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
@@ -30,8 +33,11 @@ export function SiteHeader() {
   // A menu that survives navigation is a menu stuck open.
   useEffect(() => setOpen(false), [pathname]);
 
+  // Home is exact-match only, or it would light up on every page.
   const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <header
@@ -40,12 +46,9 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex h-nav w-full max-w-container items-center gap-6 px-5 sm:px-8 lg:px-12">
         <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <span
-            aria-hidden
-            className="flex h-9 w-9 items-center justify-center rounded-sm bg-primary-700 font-display text-body-sm font-bold text-ink-0"
-          >
-            R
-          </span>
+          <Logo size={44} priority />
+          {/* On phones the name is hidden, so the link still needs one. */}
+          <span className="sr-only sm:hidden">Repentance &amp; Holiness — home</span>
           <span className="hidden leading-tight sm:block">
             <span className="block font-display text-body-sm font-bold text-primary-800">
               Repentance &amp; Holiness

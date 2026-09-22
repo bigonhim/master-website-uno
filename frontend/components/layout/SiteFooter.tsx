@@ -1,48 +1,44 @@
 import Link from "next/link";
 
+import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 import { LocalTime } from "./LocalTime";
 
 /**
- * Three tiers.
+ * Three tiers: one call to action, the substance, then utility.
  *
- * The test for "genuinely useful" is whether someone landing here from a search
- * result finds what they need without scrolling back up — so this carries real
- * addresses, dialable numbers and every way into the archive, rather than a row
- * of social icons.
+ * Every link here points at something that exists. The first version linked to
+ * nine routes that were never built — books, search, radio, prayer requests,
+ * testimonies, contact, privacy, terms, accessibility — so the footer on every
+ * page was a list of 404s. A shorter footer that tells the truth beats a longer
+ * one that doesn't. Add a link back when its page is built, not before.
  */
 
-const archiveLinks = [
-  { href: "/teachings", label: "Teachings" },
+type FooterLink = { href: string; label: string; external?: boolean };
+
+const archiveLinks: FooterLink[] = [
   { href: "/prophecies", label: "Prophecies" },
+  { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
-  { href: "/library", label: "Books & booklets" },
-  { href: "/prophecies?dated=true", label: "Browse by year" },
-  { href: "/search", label: "Search the archive" },
 ];
 
-const listenLinks = [
-  { href: "/radio", label: "Jesus is LORD Radio" },
-  { href: "https://www.youtube.com/@repentpreparetheway", label: "YouTube channel", external: true },
+const listenLinks: FooterLink[] = [
+  // The archive's recordings live on this channel, not @repentpreparetheway.
+  {
+    href: "https://www.youtube.com/@repentancechannel1",
+    label: "YouTube channel",
+    external: true,
+  },
   { href: "/feed.xml", label: "RSS feed" },
 ];
 
-const nextStepLinks = [
+const nextStepLinks: FooterLink[] = [
   { href: "/salvation-prayer", label: "The Salvation Prayer" },
-  { href: "/prayer-request", label: "Request prayer" },
-  { href: "/testimony", label: "Share a testimony" },
-  { href: "/contact", label: "Contact the ministry" },
 ];
 
-function FooterColumn({
-  title,
-  links,
-}: {
-  title: string;
-  links: { href: string; label: string; external?: boolean }[];
-}) {
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <nav aria-label={title}>
       <h2 className="text-eyebrow uppercase text-gold-400">{title}</h2>
@@ -71,7 +67,6 @@ export function SiteFooter() {
 
   return (
     <footer className="on-dark mt-auto">
-      {/* Tier 0 — the one action that matters most on the site. */}
       <div className="grad-dither bg-grad-royal">
         <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -87,10 +82,10 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      {/* Tier 1 — the substance. */}
       <div className="bg-primary-900">
         <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
+            <Logo size={64} onDark className="mb-5" />
             <h2 className="text-eyebrow uppercase text-gold-400">The Ministry</h2>
             <p className="mt-4 text-body-sm leading-relaxed text-ink-200">
               Ministry of Repentance and Holiness
@@ -123,30 +118,18 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      {/* Tier 2 — utility. */}
       <div className="bg-primary-950">
         <Container className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="text-body-sm text-ink-300">
             © {year} Ministry of Repentance and Holiness
           </p>
           <LocalTime />
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-body-sm">
-            {[
-              { href: "/privacy", label: "Privacy" },
-              { href: "/terms", label: "Terms" },
-              { href: "/accessibility", label: "Accessibility" },
-              { href: "/sitemap.xml", label: "Sitemap" },
-            ].map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-ink-300 underline-offset-4 transition-colors hover:text-ink-0 hover:underline"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Link
+            href="/sitemap.xml"
+            className="text-body-sm text-ink-300 underline-offset-4 transition-colors hover:text-ink-0 hover:underline"
+          >
+            Sitemap
+          </Link>
         </Container>
       </div>
     </footer>

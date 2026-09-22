@@ -24,7 +24,9 @@ const variants: Record<Variant, string> = {
 const sizes: Record<Size, string> = {
   sm: "h-9 px-3.5 text-body-sm",
   md: "h-11 px-5 text-body",
-  lg: "h-13 px-7 text-body",
+  // h-13 is not in Tailwind's default scale, so it compiled to nothing and
+  // large buttons collapsed to the height of their text.
+  lg: "h-12 px-7 text-body",
 };
 
 type Common = { variant?: Variant; size?: Size; className?: string; children: ReactNode };

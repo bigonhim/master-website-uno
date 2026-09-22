@@ -4,6 +4,7 @@ import { apiFetch, query } from "./client";
 import type { ContentDetail, ContentItem, Paginated } from "./types";
 
 export type ArchiveQuery = {
+  q?: string;
   category?: string;
   region?: string;
   series?: string;

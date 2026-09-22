@@ -52,9 +52,7 @@ function FacetGroup({
                 }`}
               >
                 <span>{facet.label}</span>
-                <span className="tabular-nums text-caption text-ink-500">
-                  {facet.count}
-                </span>
+                <span className="tabular-nums text-caption text-ink-500">{facet.count}</span>
               </Link>
             </li>
           );
@@ -79,8 +77,29 @@ export function FacetRail({
     { title: "Series", param: "series", key: "series" },
   ];
 
+  // The rail stays in place even before anything is catalogued, so every
+  // archive has the same shape; it says why it is empty rather than vanishing.
   const hasAny = groups.some((g) => (facets[g.key] ?? []).length > 0);
-  if (!hasAny) return null;
+  if (!hasAny) {
+    return (
+      <aside aria-label="Filter the archive" className="lg:sticky lg:top-40">
+        <h2 className="text-h4 text-ink-900">Filter</h2>
+        <div className="mt-4 space-y-4">
+          {groups.slice(0, 2).map((group) => (
+            <div
+              key={group.key}
+              className="border-t border-ink-100 pt-4 first:border-t-0 first:pt-0"
+            >
+              <h3 className="text-eyebrow uppercase text-ink-500">{group.title}</h3>
+            </div>
+          ))}
+          <p className="text-body-sm text-ink-500">
+            Themes and nations appear here as entries are catalogued.
+          </p>
+        </div>
+      </aside>
+    );
+  }
 
   const activeCount = groups.filter((g) => params[g.param]).length;
 

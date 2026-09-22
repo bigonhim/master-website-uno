@@ -35,3 +35,13 @@ data/youtube_meta.jsonl
 # Import QA output — regenerable from the database with `verify_import`,
 # so it is derived output rather than source.
 **/import_review.csv
+
+# Tool caches & local browser-testing artefacts
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.playwright-mcp/
+*.log
+.vscode/

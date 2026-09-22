@@ -124,6 +124,20 @@
 }
 
 @layer utilities {
+  /* A navy dot lattice that fades out toward the edges. Gives a light surface
+     texture without resorting to a dark slab. */
+  .bg-dots {
+    background-image: radial-gradient(rgb(var(--c-primary-700) / 0.09) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(70% 70% at 70% 40%, #000 30%, transparent 100%);
+  }
+
+  .on-dark .bg-dots,
+  .bg-dots-light {
+    background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+
   /* A faint noise overlay: large low-contrast gradients band badly on 8-bit
      panels and it reads as cheap. */
   .grad-dither {
