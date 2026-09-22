@@ -7,8 +7,8 @@ export default function NotFound() {
     <>
       <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50 to-ink-0">
         <Container className="pb-12 pt-14">
-          <p className="text-eyebrow uppercase text-primary-500">404</p>
-          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+          <p className="text-eyebrow uppercase text-cyan-700">404</p>
+          <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
           <h1 className="text-display-lg mt-6 max-w-[18ch] text-primary-900">
             That page is not here
           </h1>

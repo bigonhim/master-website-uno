@@ -41,7 +41,7 @@ const nextStepLinks: FooterLink[] = [
 function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <nav aria-label={title}>
-      <h2 className="text-eyebrow uppercase text-gold-400">{title}</h2>
+      <h2 className="text-eyebrow uppercase text-cyan-400">{title}</h2>
       <ul className="mt-4 space-y-2.5">
         {links.map((link) => (
           <li key={link.href}>
@@ -70,7 +70,7 @@ export function SiteFooter() {
       <div className="grad-dither bg-grad-royal">
         <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div aria-hidden className="h-0.5 w-16 bg-grad-rule" />
+            <div aria-hidden className="h-1 w-16 bg-grad-rule" />
             <p className="mt-4 text-h3 text-ink-0">Begin here</p>
             <p className="mt-1 max-w-[46ch] text-body-sm text-ink-200">
               If you want to make peace with God, start with the prayer.
@@ -86,7 +86,7 @@ export function SiteFooter() {
         <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo size={64} onDark className="mb-5" />
-            <h2 className="text-eyebrow uppercase text-gold-400">The Ministry</h2>
+            <h2 className="text-eyebrow uppercase text-cyan-400">The Ministry</h2>
             <p className="mt-4 text-body-sm leading-relaxed text-ink-200">
               Ministry of Repentance and Holiness
               <br />

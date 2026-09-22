@@ -6,7 +6,7 @@ import { RadioBar } from "@/components/radio/RadioBar";
 import { RadioProvider } from "@/components/radio/RadioProvider";
 import { getRadioStatus } from "@/lib/api/radio";
 
-import { montserrat, sourceSerif } from "./fonts";
+import { montserrat } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function RootLayout({
   const initialStatus = await getRadioStatus();
 
   return (
-    <html lang="en" className={`${montserrat.variable} ${sourceSerif.variable}`}>
+    <html lang="en" className={montserrat.variable}>
       <body className="flex min-h-dvh flex-col bg-ink-0">
         <a
           href="#main"

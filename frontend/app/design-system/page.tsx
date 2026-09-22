@@ -141,7 +141,7 @@ export default function DesignSystemPage() {
             <Swatch label="grad-azure" className="bg-grad-azure" note="primary fills" />
             <Swatch label="grad-halo" className="bg-grad-halo" note="atmospheric wash" />
             <Swatch label="grad-veil" className="bg-grad-veil" note="over video thumbnails" />
-            <Swatch label="grad-rule" className="bg-grad-rule" note="gold hairline" />
+            <Swatch label="grad-rule" className="bg-grad-rule" note="red + navy broadcast rule" />
           </div>
         </Row>
 

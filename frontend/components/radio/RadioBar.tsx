@@ -70,11 +70,11 @@ export function RadioBar() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live-400 opacity-75 motion-reduce:hidden" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-live-400" />
             </span>
-            <span className="text-caption uppercase tracking-[0.14em] text-sun">Live</span>
+            <span className="bg-alert-600 px-2 py-0.5 text-caption font-black uppercase tracking-[0.14em] text-sun">Live</span>
           </span>
         ) : null}
 
-        <span className="flex shrink-0 items-center gap-2 text-gold-400">
+        <span className="flex shrink-0 items-center gap-2 text-sun">
           <RadioWaves />
           <span className="text-caption uppercase tracking-[0.14em]">
             {station.station_name || "Jesus is LORD Radio"}
@@ -87,7 +87,7 @@ export function RadioBar() {
             onClick={toggle}
             aria-pressed={player === "playing"}
             aria-label={player === "playing" ? "Stop the radio" : "Listen live"}
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold-500 text-primary-950 transition-colors hover:bg-gold-400"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sun text-primary-950 transition-colors hover:bg-gold-400"
           >
             {player === "playing" ? <StopIcon /> : <PlayIcon />}
           </button>
@@ -102,10 +102,12 @@ export function RadioBar() {
           <span className={isLive ? "" : "hidden sm:inline"}>{label}</span>
         </p>
 
+        {/* Not on phones: at heavy weights it pushes the bar past the screen,
+            and the menu already links the archive. */}
         {!isLive ? (
           <Link
             href="/teachings"
-            className="shrink-0 text-body-sm font-semibold text-gold-400 underline-offset-4 hover:underline"
+            className="hidden shrink-0 text-body-sm font-semibold text-sun underline-offset-4 hover:underline sm:inline"
           >
             Browse the archive
             <span aria-hidden> →</span>

@@ -30,7 +30,7 @@ export function PlayRadioButton({ label = "Listen live" }: { label?: string }) {
       type="button"
       onClick={toggle}
       aria-pressed={player === "playing"}
-      className="inline-flex h-11 items-center justify-center gap-2 rounded-sm bg-gold-500 px-5 font-display text-body font-semibold text-primary-950 transition-colors hover:bg-gold-400"
+      className="inline-flex h-11 items-center justify-center gap-2 rounded-sm bg-alert-600 px-5 font-display text-body-sm font-black uppercase tracking-wide text-sun transition-colors hover:bg-danger"
     >
       {player === "playing" ? "Stop" : label}
       <span className="sr-only"> — {station.station_name}</span>

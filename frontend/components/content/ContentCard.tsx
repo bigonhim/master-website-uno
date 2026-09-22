@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
 import { Badge } from "@/components/ui/Badge";
+import { LowerThird } from "@/components/ui/Broadcast";
 import type { ContentItem } from "@/lib/api/types";
 
 /**
@@ -37,8 +38,24 @@ export function ContentCard({
         </Link>
       )}
 
+      {/* The lower third: kind and date, butted under the picture as in the
+          ministry's broadcasts. Almost the entire imported archive is undated,
+          so it says so plainly rather than inventing a date. */}
+      <LowerThird
+        kind={item.kind}
+        date={
+          item.is_dated && item.prophecy_date
+            ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : "Date not recorded"
+        }
+      />
+
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 empty:hidden">
           {item.category ? (
             <Badge tone="published">{item.category.name}</Badge>
           ) : null}
@@ -52,13 +69,13 @@ export function ContentCard({
         </div>
 
         {item.kicker ? (
-          <p className="mt-3 text-eyebrow uppercase text-primary-500">{item.kicker}</p>
+          <p className="mt-3 text-eyebrow uppercase text-cyan-700">{item.kicker}</p>
         ) : null}
 
-        <h3 className="mt-2 text-h4 text-ink-900">
+        <h3 className="mt-2 text-h4 text-primary-900">
           <Link
             href={href}
-            className="underline-offset-4 outline-none transition-colors group-hover:text-primary-700 group-focus-within:underline"
+            className="underline-offset-4 outline-none transition-colors group-hover:text-primary-600 group-focus-within:underline"
           >
             {item.title}
           </Link>
@@ -68,20 +85,9 @@ export function ContentCard({
           <p className="mt-2 line-clamp-3 text-body-sm text-ink-600">{item.summary}</p>
         ) : null}
 
-        <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-meta text-ink-500">
-          {item.speaker ? <span>{item.speaker}</span> : null}
-          {/* Almost the entire imported archive is undated, so this says so
-              plainly rather than inventing a date or hiding the field. */}
-          <span className="tabular-nums">
-            {item.is_dated && item.prophecy_date
-              ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })
-              : "Date not recorded"}
-          </span>
-        </p>
+        {item.speaker ? (
+          <p className="mt-4 text-meta text-ink-600">{item.speaker}</p>
+        ) : null}
       </div>
     </article>
   );

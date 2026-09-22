@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { ComponentType, SVGProps } from "react";
 
@@ -7,7 +6,7 @@ import { ContentCard } from "@/components/content/ContentCard";
 import {
   ArrowIcon,
   BookIcon,
-  HeartIcon,
+  PenIcon,
   HolyIcon,
   LampIcon,
   PlayIcon,
@@ -15,42 +14,39 @@ import {
   RepentIcon,
   ScrollIcon,
 } from "@/components/home/icons";
+import { HeroSlider } from "@/components/home/HeroSlider";
+import { RecognitionGallery } from "@/components/home/RecognitionGallery";
 import { PlayRadioButton } from "@/components/radio/PlayRadioButton";
+import { KindTag, PlaceTag } from "@/components/ui/Broadcast";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { getArchive } from "@/lib/api/content";
-import type { ContentItem } from "@/lib/api/types";
+import { HERO_SLIDES } from "@/lib/hero-slides";
+import { RECOGNITION_PHOTOS, RECOGNITION_PLACE } from "@/lib/recognition";
+import type { ContentItem, ContentKind } from "@/lib/api/types";
 
 export const metadata: Metadata = {
   description:
     "Repent, and prepare the way for the LORD. Teachings, prophecies and healing testimonies from the Ministry of Repentance and Holiness, Nakuru, Kenya.",
 };
 
-type Counts = { prophecies: number; teachings: number; healings: number };
+type RecentKey = "prophecies" | "writings" | "teachings";
 
 async function loadHome(): Promise<{
-  latest: ContentItem[];
-  newest: Record<keyof Counts, ContentItem | null>;
-  counts: Counts;
+  newest: Record<RecentKey, ContentItem | null>;
   reachable: boolean;
 }> {
   try {
-    const [prophecies, teachings, healings] = await Promise.all([
-      getArchive("prophecies", { limit: 3 }),
+    const [prophecies, writings, teachings] = await Promise.all([
+      getArchive("prophecies", { limit: 1 }),
+      getArchive("writings", { limit: 1 }),
       getArchive("teachings", { limit: 1 }),
-      getArchive("healings", { limit: 1 }),
     ]);
     return {
-      latest: prophecies.results,
       newest: {
         prophecies: prophecies.results[0] ?? null,
+        writings: writings.results[0] ?? null,
         teachings: teachings.results[0] ?? null,
-        healings: healings.results[0] ?? null,
-      },
-      counts: {
-        prophecies: prophecies.count,
-        teachings: teachings.count,
-        healings: healings.count,
       },
       reachable: true,
     };
@@ -58,9 +54,7 @@ async function loadHome(): Promise<{
     // The page still says what it has to say; it just does not claim to know
     // what is in the archive. No invented numbers, no placeholder cards.
     return {
-      latest: [],
-      newest: { prophecies: null, teachings: null, healings: null },
-      counts: { prophecies: 0, teachings: 0, healings: 0 },
+      newest: { prophecies: null, writings: null, teachings: null },
       reachable: false,
     };
   }
@@ -68,39 +62,35 @@ async function loadHome(): Promise<{
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
-function thumbOf(item: ContentItem | null): string | null {
-  if (!item) return null;
-  const video = item.videos.find((v) => v.is_primary) ?? item.videos[0];
-  return video?.thumbnail_url || null;
-}
-
-const SECTIONS: {
-  href: string;
+// The newest of each kind, side by side. Articles have no archive page yet,
+// so they carry no href and show a placeholder until one exists.
+const RECENT: {
+  key: RecentKey;
+  href: string | null;
   title: string;
-  key: keyof Counts;
+  kind: ContentKind;
   icon: IconType;
-  body: string;
 }[] = [
   {
+    key: "prophecies",
     href: "/prophecies",
     title: "Prophecies",
-    key: "prophecies",
+    kind: "prophecy",
     icon: ScrollIcon,
-    body: "Prophetic words given through the ministry, gathered from two decades of recordings.",
   },
   {
+    key: "writings",
+    href: null,
+    title: "Articles",
+    kind: "writing",
+    icon: PenIcon,
+  },
+  {
+    key: "teachings",
     href: "/teachings",
     title: "Teachings",
-    key: "teachings",
+    kind: "teaching",
     icon: BookIcon,
-    body: "Messages on repentance, holiness and preparing for the coming of the Messiah.",
-  },
-  {
-    href: "/healings",
-    title: "Healings",
-    key: "healings",
-    icon: HeartIcon,
-    body: "Testimonies of healing recorded at services and crusades across the nations.",
   },
 ];
 
@@ -117,7 +107,8 @@ const PILLARS: {
     n: "01",
     title: "Repent",
     icon: RepentIcon,
-    quote: "Repent ye therefore, and be converted, that your sins may be blotted out.",
+    quote:
+      "Repent ye therefore, and be converted, that your sins may be blotted out.",
     ref: "Acts 3:19",
     body: "Turning from sin is where every walk with God begins. It is not a feeling but a decision, made before Him.",
     cta: { href: "/salvation-prayer", label: "Pray the Salvation Prayer" },
@@ -142,197 +133,379 @@ const PILLARS: {
   },
 ];
 
+// The ministry's own words, as supplied; keep them verbatim.
+const ABOUT_PILLARS: {
+  n: string;
+  title: string;
+  icon: IconType;
+  /** Shown as a name plate under the heading. */
+  plate?: { name: string; role: string };
+  body: string[];
+}[] = [
+  {
+    n: "01",
+    title: "Who we are",
+    icon: HolyIcon,
+    body: [
+      "The Ministry of Repentance and Holiness is a prophetic ministry raised to awaken the Church to the urgency of repentance and holy living. It proclaims that salvation is found only through the finished work of the Cross and that a holy life is the evidence of true redemption.",
+      "The ministry stands firmly on the authority of the Holy Scriptures and teaches uncompromising obedience to the Word of GOD as the only way to prepare for the Kingdom of Heaven.",
+    ],
+  },
+  {
+    n: "02",
+    title: "The leadership",
+    icon: ScrollIcon,
+    plate: {
+      name: "Prophet Dr. David Edward Owuor",
+      role: "Servant of THE LORD",
+    },
+    body: [
+      "The ministry is led by Prophet Dr. David Edward Owuor, the Servant of THE LORD, sent to restore repentance and holiness in the Church and to prepare the way for the coming of the Messiah.",
+      "His calling is centred on obedience to the voice of THE LORD GOD OF ISRAEL and the proclamation of righteousness, holiness and repentance, pointing all glory to GOD alone.",
+    ],
+  },
+];
+
 export default async function HomePage() {
-  const { latest, newest, counts, reachable } = await loadHome();
+  const { newest, reachable } = await loadHome();
   const featured = newest.prophecies;
-  const featuredThumb = thumbOf(featured);
 
   return (
     <>
       {/* ------------------------------------------------------------ hero
-          Two parts: the words on the left, the newest recording on the right.
-          The photo is left clean; its title sits beneath it, not over it. */}
-      <section className="relative isolate overflow-hidden border-b border-ink-100 bg-gradient-to-b from-primary-50 via-ink-0 to-ink-0">
-        {/* Texture: a dot lattice and a halo behind the photo. */}
-        <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 -z-10" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-40 -top-40 -z-10 h-[46rem] w-[46rem] rounded-full bg-[radial-gradient(closest-side,rgb(var(--c-primary-100))_0%,rgb(var(--c-primary-50)/0)_100%)]"
-        />
-
-        <Container>
-          <div className="grid items-center gap-12 py-14 lg:grid-cols-12 lg:gap-10 lg:py-20">
-            {/* Words */}
-            <div className="min-w-0 lg:col-span-6">
-              <div className="animate-rise">
-                <span className="inline-flex items-center gap-2 rounded-full border border-primary-100 bg-ink-0/80 py-1.5 pl-2 pr-3.5 text-meta text-primary-700 shadow-xs backdrop-blur">
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-grad-rule">
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-900" />
+          The nations fill the whole hero; the call sits over them on the left,
+          on a navy shade that clears towards the right. Yellow and bright cyan
+          are legal only on navy, which is why the shade is navy. */}
+      <section className="on-dark relative overflow-hidden bg-primary-950 text-ink-0">
+        <HeroSlider slides={HERO_SLIDES}>
+          <Container>
+            <div className="flex flex-col justify-center pt-14 lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
+              {/* The call */}
+              <div className="min-w-0 lg:max-w-[46%]">
+                <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                  <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+                  Revelation 16:15
+                </p>
+                <h1 className="mt-6 text-[clamp(2.75rem,1.2rem+2.9vw,4.25rem)] font-black uppercase leading-[0.95] tracking-[-0.035em] text-ink-0">
+                  <span className="block">Prepare</span>
+                  <span className="block">the way</span>
+                  <span className="mt-3 block text-cyan-400">The Messiah</span>
+                  <span className="mt-3 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950">
+                    is coming
                   </span>
-                  Ministry of Repentance &amp; Holiness · Nakuru, Kenya
-                </span>
-              </div>
-
-              <p className="mt-7 animate-rise text-eyebrow uppercase text-primary-500 [animation-delay:60ms]">
-                Isaiah 40:3
-              </p>
-              <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
-              <h1 className="text-display-2xl mt-5 animate-rise text-primary-900 [animation-delay:120ms]">
-                Prepare the way
-                <span className="block bg-gradient-to-r from-primary-700 via-primary-500 to-primary-700 bg-clip-text text-transparent">
-                  for the LORD
-                </span>
-              </h1>
-              <p className="mt-6 max-w-[50ch] animate-rise font-prose text-prose-lg text-ink-600 [animation-delay:180ms]">
-                A voice of one calling: in the wilderness prepare the way for the LORD; make
-                straight in the desert a highway for our God.
-              </p>
-              <div className="mt-8 flex animate-rise flex-wrap items-center gap-3 [animation-delay:240ms]">
-                <ButtonLink
-                  href="/salvation-prayer"
-                  variant="primary"
-                  size="lg"
-                  className="shadow-md shadow-primary-700/20"
-                >
-                  The Salvation Prayer
-                  <ArrowIcon className="h-4 w-4" />
-                </ButtonLink>
-                <ButtonLink href="/prophecies" variant="secondary" size="lg">
-                  Browse the archive
-                </ButtonLink>
+                </h1>
+                <p className="mt-8 max-w-[34ch] border-l-4 border-sun pl-4 text-prose-lg italic text-ink-0/80">
+                  &ldquo;Behold, I come as a thief. Blessed is he that
+                  watcheth.&rdquo;
+                </p>
+                <div className="mt-9 flex flex-wrap items-center gap-3">
+                  <ButtonLink href="/salvation-prayer" variant="gold" size="lg">
+                    The Salvation Prayer
+                    <ArrowIcon className="h-4 w-4" />
+                  </ButtonLink>
+                  <ButtonLink href="/prophecies" variant="secondary" size="lg">
+                    Browse the archive
+                  </ButtonLink>
+                </div>
               </div>
             </div>
+          </Container>
+        </HeroSlider>
+      </section>
 
-            {/* Photo */}
-            <div className="relative min-w-0 animate-rise [animation-delay:200ms] lg:col-span-6 lg:pl-6 xl:pl-10">
-              {/* Offset navy plate and a gold corner give the photo depth. */}
-              <div
-                aria-hidden
-                className="absolute -right-3 -top-3 hidden h-full w-full rounded-lg bg-grad-royal sm:block lg:-right-4 lg:-top-4"
-              />
-              <div
-                aria-hidden
-                className="absolute -bottom-4 -left-4 hidden h-20 w-20 border-b-2 border-l-2 border-gold-500 sm:block lg:left-2"
-              />
+      {/* ---------------------------------------------------- prophecy alert
+          The newest prophecy, which used to sit in the hero, as a lower third
+          directly beneath it. */}
+      {featured ? (
+        <Link
+          href={`/prophecies/${featured.slug}`}
+          className="group block border-b border-ink-100 bg-ink-0 transition-colors hover:bg-primary-50"
+        >
+          <Container className="flex items-center gap-4 py-4">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-alert-500 text-ink-0 shadow-md transition-transform duration-300 ease-emphasis group-hover:scale-110">
+              <PlayIcon className="ml-0.5 h-4 w-4" />
+            </span>
+            <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-4">
+              <KindTag kind="prophecy" className="shrink-0">
+                Prophecy alert!
+              </KindTag>
+              <span className="line-clamp-2 min-w-0 text-body font-extrabold text-primary-900 group-hover:text-primary-700 sm:line-clamp-1 sm:text-h4">
+                {featured.title}
+              </span>
+            </span>
+            <ArrowIcon className="h-5 w-5 shrink-0 text-ink-300 transition-all group-hover:translate-x-1 group-hover:text-primary-600" />
+          </Container>
+        </Link>
+      ) : null}
 
-              {featured ? (
-                <Link
-                  href={`/prophecies/${featured.slug}`}
-                  className="group relative block overflow-hidden rounded-lg bg-ink-0 shadow-lg ring-1 ring-ink-100"
-                >
-                  <div className="relative aspect-video overflow-hidden bg-primary-950">
-                    {featuredThumb ? (
-                      <Image
-                        src={featuredThumb}
-                        alt=""
-                        fill
-                        priority
-                        sizes="(min-width: 1024px) 45vw, 100vw"
-                        className="object-cover transition-transform duration-700 ease-emphasis group-hover:scale-[1.03]"
-                      />
-                    ) : null}
-                  </div>
-                  <div className="flex items-center gap-4 p-5">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold-500 text-primary-950 shadow-md transition-transform duration-300 ease-emphasis group-hover:scale-110">
-                      <PlayIcon className="ml-0.5 h-5 w-5" />
+      {/* ------------------------------------------------------------ about
+          Who the ministry is, in its own words. The introduction beside the
+          vision and mission, then who we are and the leadership as a pair. The
+          vision card repeats the hero's navy-and-sun treatment on purpose: it is
+          the same message. */}
+      <section
+        aria-labelledby="about-heading"
+        className="relative border-t border-ink-100 bg-ink-0"
+      >
+        <Container className="py-section">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+            <div className="lg:self-center">
+              <p className="text-eyebrow uppercase text-cyan-700">About us</p>
+              <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
+              <h2
+                id="about-heading"
+                className="text-display-lg mt-5 max-w-[16ch] text-primary-900 text-balance"
+              >
+                The Ministry of Repentance and Holiness
+              </h2>
+              <p className="mt-6 max-w-prose text-prose-lg text-ink-600">
+                The Ministry of Repentance and Holiness was founded in 2005 and
+                is led by Prophet Dr. David Edward Owuor. It is a global
+                end-time ministry mandated by THE LORD GOD OF ISRAEL to prepare
+                the nations for the imminent and glorious coming of THE LORD
+                JESUS CHRIST.
+              </p>
+            </div>
+
+            <div className="grid content-start gap-5">
+              {/* Vision */}
+              <div className="on-dark relative overflow-hidden rounded-lg bg-primary-900 p-7 text-ink-0 shadow-lg sm:p-9">
+                <div
+                  aria-hidden
+                  className="bg-dots-light pointer-events-none absolute inset-0"
+                />
+                <div className="relative">
+                  <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                    <span aria-hidden className="h-1 w-8 bg-grad-rule" />
+                    Our vision
+                  </p>
+                  <p className="mt-5 text-[clamp(2rem,1.2rem+2vw,2.75rem)] font-black uppercase leading-[1] tracking-[-0.03em]">
+                    <span className="block text-cyan-400">The Messiah</span>
+                    <span className="mt-2 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950">
+                      is coming
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-caption uppercase tracking-wider text-gold-800">
-                        Latest prophecy
-                      </span>
-                      <span className="mt-1 line-clamp-2 block text-h4 text-primary-900 group-hover:text-primary-700">
-                        {featured.title}
-                      </span>
-                    </span>
-                    <ArrowIcon className="h-5 w-5 shrink-0 text-ink-300 transition-all group-hover:translate-x-1 group-hover:text-primary-600" />
-                  </div>
-                </Link>
-              ) : (
-                <div className="on-dark relative overflow-hidden rounded-lg bg-grad-royal p-10 shadow-lg grad-dither">
-                  <div aria-hidden className="bg-dots-light absolute inset-0" />
-                  <p className="relative text-eyebrow uppercase text-gold-400">Matthew 3:2</p>
-                  <p className="relative mt-4 font-prose text-display-lg text-ink-0">
-                    Repent ye: for the kingdom of heaven is at hand.
+                  </p>
+                  <p className="mt-5 max-w-[44ch] text-body-sm text-ink-0/80">
+                    This vision stands as the divine alarm to the nations and
+                    the central message of the ministry.
                   </p>
                 </div>
-              )}
+              </div>
+
+              {/* Mission */}
+              <div className="relative overflow-hidden rounded-lg bg-grad-dawn p-7 shadow-md ring-1 ring-primary-100 sm:p-9">
+                <div
+                  aria-hidden
+                  className="bg-dots pointer-events-none absolute inset-0"
+                />
+                <span
+                  aria-hidden
+                  className="absolute inset-y-0 left-0 w-1.5 bg-alert-500"
+                />
+                <div className="relative">
+                  <div className="flex items-center justify-between gap-4">
+                    <p className="text-eyebrow uppercase text-cyan-700">
+                      Our mission
+                    </p>
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-grad-azure text-ink-0 shadow-md shadow-primary-700/25">
+                      <LampIcon className="h-5 w-5" />
+                    </span>
+                  </div>
+                  <p className="mt-3 text-h3 text-primary-900 text-balance">
+                    Preparing the Way for the glorious coming of the Messiah.
+                  </p>
+                  <p className="mt-3 text-body-sm text-ink-700">
+                    Through powerful preaching, revival meetings, healing
+                    services, conferences and global broadcasts, the ministry
+                    calls the world to repentance, holiness and readiness for
+                    the return of THE LORD JESUS CHRIST.
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:mt-16">
+            {ABOUT_PILLARS.map((p) => (
+              <article
+                key={p.title}
+                className="group relative flex flex-col overflow-hidden rounded-lg bg-ink-0 p-7 shadow-lg ring-1 ring-ink-100 transition-all duration-300 ease-emphasis hover:-translate-y-1 hover:shadow-xl hover:ring-primary-200 sm:p-9"
+              >
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-1.5 bg-grad-rule"
+                />
+                <p.icon
+                  aria-hidden
+                  className="pointer-events-none absolute -bottom-8 -right-8 h-48 w-48 text-primary-50 transition-transform duration-700 ease-emphasis group-hover:scale-105"
+                />
+
+                <div className="relative flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-grad-azure text-ink-0 shadow-md shadow-primary-700/25">
+                      <p.icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="text-h3 text-primary-900">{p.title}</h3>
+                  </div>
+                  <span className="font-display text-h2 tabular-nums text-alert-500 sm:text-display-lg">
+                    {p.n}
+                  </span>
+                </div>
+
+                {p.plate ? (
+                  <div className="relative mt-6 rounded-md border-l-4 border-alert-500 bg-primary-50 px-4 py-3">
+                    <p className="text-body font-extrabold text-primary-900">
+                      {p.plate.name}
+                    </p>
+                    <p className="mt-0.5 font-display text-meta font-extrabold uppercase text-alert-600">
+                      {p.plate.role}
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    aria-hidden
+                    className="relative mt-6 h-px w-full bg-ink-100"
+                  />
+                )}
+
+                <div className="relative mt-5 space-y-3 text-body text-ink-600">
+                  {p.body.map((para, i) => (
+                    <p
+                      key={para.slice(0, 24)}
+                      className={i === 0 ? "text-ink-800" : undefined}
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
         </Container>
       </section>
 
-      {/* ---------------------------------------------------- the archives
-          Pictures are left clean; words sit beneath them. */}
-      <section className="relative border-t border-ink-100 bg-ink-25">
-        <Container className="py-section-sm">
-          <div className="grid gap-6 md:grid-cols-3">
-            {SECTIONS.map((card, index) => {
-              const count = counts[card.key];
-              const thumb = thumbOf(newest[card.key]);
-              return (
-                <Link
-                  key={card.href}
-                  href={card.href}
-                  className="group flex animate-rise flex-col overflow-hidden rounded-lg bg-ink-0 shadow-lg ring-1 ring-ink-100 transition-all duration-300 ease-emphasis hover:-translate-y-1 hover:shadow-xl hover:ring-primary-200"
-                  style={{ animationDelay: `${320 + index * 80}ms` }}
-                >
-                  <div className="relative aspect-video overflow-hidden bg-primary-50">
-                    {thumb ? (
-                      <Image
-                        src={thumb}
-                        alt=""
-                        fill
-                        sizes="(min-width: 768px) 33vw, 100vw"
+      {/* ------------------------------------------------------ recognition
+          The Prophet of THE LORD honoured in the nations. Navy, so the photos
+          are framed rather than washed out by a white page, and so the sun
+          rule and place tag are legal. */}
+      <section
+        aria-labelledby="recognition-heading"
+        className="on-dark relative overflow-hidden bg-primary-950 text-ink-0"
+      >
+        <div
+          aria-hidden
+          className="bg-dots-light pointer-events-none absolute inset-0"
+        />
+        <Container className="relative py-section">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+                Recognition
+              </p>
+              <h2
+                id="recognition-heading"
+                className="text-display-lg mt-5 max-w-[20ch] text-ink-0 text-balance"
+              >
+                The Prophet of THE LORD,{" "}
+                <span className="text-sun">honoured</span>
+              </h2>
+            </div>
+            <PlaceTag
+              name={RECOGNITION_PLACE.name}
+              detail={RECOGNITION_PLACE.detail}
+            />
+          </div>
+
+          <div className="mt-10 lg:mt-12">
+            <RecognitionGallery photos={RECOGNITION_PHOTOS} />
+          </div>
+        </Container>
+      </section>
+
+      {/* ----------------------------------------------- recently published
+          The newest prophecy, article and teaching, one column each. */}
+      {reachable ? (
+        <section
+          aria-labelledby="recent-heading"
+          className="relative border-t border-ink-100 bg-ink-25"
+        >
+          <Container className="py-section-sm">
+            <div>
+              <p className="text-eyebrow uppercase text-cyan-700">
+                From the archive
+              </p>
+              <h2 id="recent-heading" className="text-h2 mt-3 text-primary-900">
+                Recently published
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {RECENT.map((col, index) => {
+                const item = newest[col.key];
+                return (
+                  <div key={col.key} className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="flex items-center gap-3 text-h4 text-primary-900">
+                        <KindTag kind={col.kind} className="!p-0">
+                          <span className="grid h-8 w-8 place-items-center">
+                            <col.icon className="h-4 w-4" />
+                          </span>
+                        </KindTag>
+                        {col.title}
+                      </h3>
+                      {col.href ? (
+                        <Link
+                          href={col.href}
+                          className="group inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary-700 hover:text-primary-900"
+                        >
+                          View all
+                          <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      ) : null}
+                    </div>
+
+                    {item && col.href ? (
+                      <ContentCard
+                        item={item}
+                        href={`${col.href}/${item.slug}`}
                         priority={index === 0}
-                        className="object-cover transition-transform duration-700 ease-emphasis group-hover:scale-[1.04]"
                       />
                     ) : (
-                      <div className="absolute inset-0 grid place-items-center bg-grad-dawn">
-                        <card.icon className="h-16 w-16 text-primary-200" />
+                      <div className="flex flex-1 flex-col overflow-hidden rounded-sm bg-ink-0 ring-1 ring-inset ring-ink-100">
+                        <div className="grid aspect-video place-items-center bg-grad-dawn">
+                          <col.icon className="h-14 w-14 text-primary-200" />
+                        </div>
+                        <p className="p-5 text-body-sm text-ink-600">
+                          {col.title} are being prepared and will appear here
+                          soon.
+                        </p>
                       </div>
                     )}
                   </div>
-
-                  <div className="flex flex-1 flex-col p-6 text-left">
-                    <div className="flex items-center justify-between gap-3">
-                      <h2 className="flex items-center gap-3 text-h3 text-primary-900 group-hover:text-primary-700">
-                        <span className="grid h-9 w-9 place-items-center rounded-full bg-primary-50 text-primary-600 ring-1 ring-inset ring-primary-100">
-                          <card.icon className="h-4 w-4" />
-                        </span>
-                        {card.title}
-                      </h2>
-                      {reachable ? (
-                        <span className="shrink-0 text-meta tabular-nums text-ink-500">
-                          {count > 0
-                            ? `${count.toLocaleString()} ${count === 1 ? "item" : "items"}`
-                            : "Being catalogued"}
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="mt-2 flex-1 text-body-sm text-ink-600">{card.body}</p>
-                    <span className="mt-5 inline-flex items-center gap-2 text-body-sm font-semibold text-primary-700">
-                      Explore {card.title.toLowerCase()}
-                      <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </Container>
-      </section>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       {/* ------------------------------------------------------ the message */}
       <section className="relative overflow-hidden border-t border-ink-100 bg-grad-dawn">
-        <div aria-hidden className="bg-dots pointer-events-none absolute inset-0" />
+        <div
+          aria-hidden
+          className="bg-dots pointer-events-none absolute inset-0"
+        />
         <Container className="relative py-section">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-eyebrow uppercase text-primary-500">The message</p>
-            <div aria-hidden className="mx-auto mt-3 h-0.5 w-12 bg-grad-rule" />
-            <h2 className="text-display-lg mt-5 text-primary-900">Repent. Be holy. Prepare.</h2>
-            <p className="mt-4 font-prose text-prose-lg text-ink-600">
-              Everything in this archive comes back to one call, given again and again across two
-              decades of preaching.
+            <p className="text-eyebrow uppercase text-cyan-700">The message</p>
+            <div aria-hidden className="mx-auto mt-3 h-1 w-12 bg-grad-rule" />
+            <h2 className="text-display-lg mt-5 text-primary-900">
+              Repent. Be holy. Prepare.
+            </h2>
+            <p className="mt-4 text-prose-lg text-ink-600">
+              Everything in this archive comes back to one call, given again and
+              again across two decades of preaching.
             </p>
           </div>
 
@@ -346,18 +519,20 @@ export default async function HomePage() {
                   <span className="grid h-11 w-11 place-items-center rounded-full bg-primary-50 text-primary-600 ring-1 ring-inset ring-primary-100">
                     <p.icon className="h-5 w-5" />
                   </span>
-                  <span className="font-display text-display-lg tabular-nums text-primary-100">
+                  <span className="font-display text-display-lg tabular-nums text-alert-500">
                     {p.n}
                   </span>
                 </div>
                 <h3 className="mt-5 text-h3">{p.title}</h3>
-                <blockquote className="mt-4 border-l-2 border-gold-500 pl-4 font-prose text-body italic text-ink-700">
+                <blockquote className="mt-4 border-l-4 border-alert-500 pl-4 text-body italic text-ink-700">
                   &ldquo;{p.quote}&rdquo;
-                  <footer className="mt-1 font-display text-meta not-italic text-gold-800">
+                  <footer className="mt-1 font-display text-meta font-extrabold uppercase not-italic text-alert-600">
                     {p.ref}
                   </footer>
                 </blockquote>
-                <p className="mt-4 flex-1 text-body-sm text-ink-600">{p.body}</p>
+                <p className="mt-4 flex-1 text-body-sm text-ink-600">
+                  {p.body}
+                </p>
                 <Link
                   href={p.cta.href}
                   className="mt-6 inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary-700 underline-offset-4 hover:underline"
@@ -371,64 +546,40 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* ----------------------------------------------- recently published */}
-      {latest.length > 0 ? (
-        <section className="border-t border-ink-100 bg-ink-25">
-          <Container className="py-section-sm">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="text-eyebrow uppercase text-primary-500">From the archive</p>
-                <h2 className="text-h2 mt-3 text-primary-900">Recently published</h2>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {SECTIONS.map((s) => (
-                  <Link
-                    key={s.href}
-                    href={s.href}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-ink-0 px-3.5 py-1.5 text-body-sm font-semibold text-primary-700 transition-colors hover:border-primary-300 hover:bg-primary-50"
-                  >
-                    <s.icon className="h-4 w-4 text-primary-400" />
-                    All {s.title.toLowerCase()}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {latest.map((item, index) => (
-                <ContentCard
-                  key={item.slug}
-                  item={item}
-                  href={`/prophecies/${item.slug}`}
-                  priority={index === 0}
-                />
-              ))}
-            </div>
-          </Container>
-        </section>
-      ) : null}
-
       {/* -------------------------------------------------- scripture band */}
       <section className="on-dark relative overflow-hidden bg-grad-royal text-ink-0 grad-dither">
-        <div aria-hidden className="bg-dots-light pointer-events-none absolute inset-0" />
+        <div
+          aria-hidden
+          className="bg-dots-light pointer-events-none absolute inset-0"
+        />
         <span
           aria-hidden
-          className="pointer-events-none absolute -left-4 -top-16 select-none font-prose text-[16rem] leading-none text-ink-0/5"
+          className="pointer-events-none absolute -left-4 -top-16 select-none font-display text-[16rem] font-black leading-none text-ink-0/5"
         >
           &ldquo;
         </span>
         <Container className="relative py-section">
           <figure className="mx-auto max-w-3xl text-center">
-            <p className="text-eyebrow uppercase text-gold-400">Hebrews 12:14</p>
-            <blockquote className="mt-6 font-prose text-display-lg font-normal text-ink-0 text-balance">
-              Follow peace with all men, and holiness, without which no man shall see the Lord.
+            <p className="text-eyebrow uppercase text-cyan-400">
+              Hebrews 12:14
+            </p>
+            {/* The ministry's quote cards: heavy white caps, the lead word in
+                cyan, the words that carry the point in yellow. */}
+            <blockquote className="mt-6 text-display-lg uppercase leading-[1.15] text-ink-0 text-balance">
+              <span className="text-cyan-400">Follow</span> peace with all men,
+              and <span className="text-sun">holiness</span>, without which no
+              man shall <span className="text-sun">see the Lord</span>.
             </blockquote>
-            <div aria-hidden className="mx-auto mt-8 h-0.5 w-16 bg-grad-rule" />
+            <div aria-hidden className="mx-auto mt-8 h-1 w-16 bg-grad-rule" />
             <figcaption className="mt-8 flex flex-wrap justify-center gap-3">
               <ButtonLink href="/teachings" variant="gold" size="lg">
                 Teachings on holiness
               </ButtonLink>
-              <ButtonLink href="/salvation-prayer" variant="secondary" size="lg">
+              <ButtonLink
+                href="/salvation-prayer"
+                variant="secondary"
+                size="lg"
+              >
                 Begin with prayer
               </ButtonLink>
             </figcaption>
@@ -447,8 +598,9 @@ export default async function HomePage() {
               className="pointer-events-none absolute inset-x-0 bottom-0 flex h-16 items-end justify-between gap-1.5 px-8 opacity-70"
             >
               {[
-                18, 34, 26, 48, 30, 62, 40, 24, 52, 36, 70, 44, 28, 58, 38, 22, 46, 32, 64, 42, 26,
-                54, 34, 20, 50, 40, 72, 46, 30, 60, 36, 24, 44, 56, 28, 40, 66, 32, 48, 26,
+                18, 34, 26, 48, 30, 62, 40, 24, 52, 36, 70, 44, 28, 58, 38, 22,
+                46, 32, 64, 42, 26, 54, 34, 20, 50, 40, 72, 46, 30, 60, 36, 24,
+                44, 56, 28, 40, 66, 32, 48, 26,
               ].map((h, i) => (
                 <span
                   key={i}
@@ -463,13 +615,16 @@ export default async function HomePage() {
                 <RadioIcon className="h-6 w-6" />
               </span>
               <div>
-                <p className="text-eyebrow uppercase text-primary-500">Jesus is LORD Radio</p>
+                <p className="text-eyebrow uppercase text-cyan-700">
+                  Jesus is LORD Radio
+                </p>
                 <h2 className="text-h2 mt-3 max-w-[18ch] text-primary-900">
                   Preparing the way, around the clock
                 </h2>
                 <p className="mt-3 max-w-[52ch] text-body text-ink-600">
-                  The ministry broadcasts from Nakuru. When the station is on air you can listen
-                  from the bar at the top of any page, and it keeps playing while you read.
+                  The ministry broadcasts from Nakuru. When the station is on
+                  air you can listen from the bar at the top of any page, and it
+                  keeps playing while you read.
                 </p>
               </div>
             </div>

@@ -18,10 +18,10 @@ export function Eyebrow({
 }) {
   return (
     <div className={className}>
-      <p className="text-eyebrow uppercase text-primary-500 [.on-dark_&]:text-gold-400">
+      <p className="text-eyebrow uppercase text-cyan-700 [.on-dark_&]:text-cyan-400">
         {children}
       </p>
-      {rule ? <div aria-hidden className="mt-3 h-0.5 w-16 bg-grad-rule" /> : null}
+      {rule ? <div aria-hidden className="mt-3 h-1 w-16 bg-grad-rule" /> : null}
     </div>
   );
 }

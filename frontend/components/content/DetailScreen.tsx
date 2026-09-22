@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
 import { Badge } from "@/components/ui/Badge";
+import { Bar, LeadIn, LowerThird, PlaceTag } from "@/components/ui/Broadcast";
 import { Container } from "@/components/ui/Container";
 import { Prose } from "@/components/ui/Prose";
 import { ApiError } from "@/lib/api/client";
@@ -47,35 +48,48 @@ export function DetailScreen({
           <nav aria-label="Breadcrumb">
             <Link
               href={backHref}
-              className="text-eyebrow uppercase text-primary-500 underline-offset-4 hover:underline"
+              className="text-eyebrow uppercase text-primary-600 underline-offset-4 hover:underline"
             >
               ← {backLabel}
             </Link>
           </nav>
-          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
-          <h1 className="text-display-lg mt-5 max-w-[24ch] text-primary-900">
-            {item.title}
+
+          {/* Set as the ministry's own title cards: lead-in, then the title in
+              stacked navy bars, then the lower third. */}
+          {item.kicker ? <LeadIn className="mt-8">{item.kicker}</LeadIn> : null}
+          <h1
+            className={`text-display-lg max-w-[26ch] uppercase leading-[1.32] ${
+              item.kicker ? "mt-3" : "mt-8"
+            }`}
+          >
+            <Bar>{item.title}</Bar>
           </h1>
 
-          <div className="mt-5 flex flex-wrap items-center gap-2">
+          <LowerThird
+            className="mt-6"
+            kind={item.kind}
+            date={
+              item.is_dated && item.prophecy_date
+                ? formatDate(item.prophecy_date)
+                : "Date not recorded"
+            }
+          />
+
+          {item.regions.length > 0 ? (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {item.regions.map((region) => (
+                <PlaceTag key={region.slug} name={region.name} detail={region.continent || undefined} />
+              ))}
+            </div>
+          ) : null}
+
+          <div className="mt-4 flex flex-wrap items-center gap-2 empty:hidden">
             {item.category ? <Badge tone="published">{item.category.name}</Badge> : null}
             {item.is_fulfilled ? <Badge tone="fulfilled">Fulfilled</Badge> : null}
             {item.condition ? <Badge tone="neutral">{item.condition}</Badge> : null}
-            {item.regions.map((region) => (
-              <Badge key={region.slug} tone="neutral">
-                {region.name}
-              </Badge>
-            ))}
           </div>
 
-          <p className="mt-4 text-meta text-ink-500">
-            {item.speaker ? <span>{item.speaker} · </span> : null}
-            <span className="tabular-nums">
-              {item.is_dated && item.prophecy_date
-                ? formatDate(item.prophecy_date)
-                : "Date not recorded"}
-            </span>
-          </p>
+          {item.speaker ? <p className="mt-4 text-meta text-ink-600">{item.speaker}</p> : null}
         </Container>
       </div>
 

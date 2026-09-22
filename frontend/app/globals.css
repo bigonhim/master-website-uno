@@ -56,6 +56,21 @@
     --c-gold-800: 154 106 0;
     --c-sun: 255 255 0;
 
+    /* The broadcast palette, sampled from the ministry's own video graphics
+       ("PROPHECY ALERT!", "PROPHECY OF / A BIG DISEASE…"). Each colour has one
+       job there and keeps it here:
+         navy   — the bar that carries a title
+         cyan   — the lead-in label ("PROPHECY OF", "And")
+         yellow — the date and the words being stressed
+         red    — urgency: alerts, warnings, the prophecy tag
+       Cyan is like yellow: legal only on navy. cyan-700 is its on-white form. */
+    --c-cyan-400: 0 240 255;
+    --c-cyan-700: 0 124 145;
+    /* alert-500 is the video's exact red: a fill, or large type on navy.
+       alert-600 is the text red, and takes the video's yellow-on-red tag at AA. */
+    --c-alert-500: 254 34 0;
+    --c-alert-600: 217 28 10;
+
     --c-success: 11 122 87;
     --c-danger: 179 38 30;
     --c-live-400: 255 77 79;
@@ -84,15 +99,23 @@
     }
   }
 
+  /* Montserrat throughout, one step heavier than its defaults: 500 for
+     reading, 800–900 for headings. Thin Montserrat looks unfinished next to the
+     heavy caps the ministry uses in its own video graphics. */
   body {
-    @apply bg-ink-0 font-display text-ink-800 antialiased;
+    @apply bg-ink-0 font-display font-medium text-ink-800 antialiased;
+  }
+
+  strong,
+  b {
+    @apply font-extrabold;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display font-bold tracking-tight text-primary-900;
+    @apply font-display font-extrabold tracking-tight text-primary-900;
     text-wrap: balance;
   }
 
@@ -124,6 +147,16 @@
 }
 
 @layer utilities {
+  /* A title set in bars, one per line. clone repeats the padding on every
+     wrapped line, so a long title breaks into stacked bars like the ministry's
+     video graphics instead of one ragged block. The parent needs room between
+     lines: leading-[1.4] or so. */
+  .bar {
+    padding: 0.08em 0.32em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
   /* A navy dot lattice that fades out toward the edges. Gives a light surface
      texture without resorting to a dark slab. */
   .bg-dots {
@@ -136,6 +169,10 @@
   .bg-dots-light {
     background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1.2px);
     background-size: 22px 22px;
+  }
+
+  .on-dark .bg-grad-rule {
+    background-image: linear-gradient(90deg, #fe2200 0 38%, #ffff00 38% 100%);
   }
 
   /* A faint noise overlay: large low-contrast gradients band badly on 8-bit
