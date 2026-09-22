@@ -50,4 +50,4 @@ htmlcov/
 Slider-photos/
 
 # Raw recognition screenshots; the web-ready crops live in frontend/public/recognition/.
-Recognition/
+/Recognition/
