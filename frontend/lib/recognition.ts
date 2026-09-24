@@ -21,6 +21,10 @@ export type RecognitionPhoto = {
 
 export const RECOGNITION_PLACE = { name: "Bogotá", detail: "Colombia" };
 
+/** The captions below, gathered into one sentence; it claims nothing they do not. */
+export const RECOGNITION_SUMMARY =
+  "Received at the airport in Bogotá with a police escort, welcomed with the flag of the city, and presented with a ceremonial golden key.";
+
 export const RECOGNITION_PHOTOS: RecognitionPhoto[] = [
   {
     src: "/recognition/bogota-key-to-the-city.webp",

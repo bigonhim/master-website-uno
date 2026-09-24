@@ -109,6 +109,10 @@ export default {
       // lighter blue and would read as a different brand beside it.
       backgroundImage: {
         "grad-royal": "linear-gradient(158deg,#0E2478 0%,#0A1A5C 46%,#060E33 100%)",
+        // A brighter royal blue than the navy slabs around it, lit from the top
+        // left: primary-400 glowing over primary-500, settling to the brand navy.
+        "grad-sapphire":
+          "radial-gradient(70% 60% at 12% 0%,rgba(46,82,201,.6) 0%,rgba(46,82,201,0) 70%),linear-gradient(165deg,#1533A0 0%,#0E2478 60%,#0A1A5C 100%)",
         "grad-dawn": "linear-gradient(180deg,#FFFFFF 0%,#EEF3FD 55%,#D6E2FA 100%)",
         "grad-halo":
           "radial-gradient(62% 58% at 50% 0%,#D6E2FA 0%,rgba(238,243,253,0) 72%)",

@@ -22,7 +22,11 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { getArchive } from "@/lib/api/content";
 import { HERO_SLIDES } from "@/lib/hero-slides";
-import { RECOGNITION_PHOTOS, RECOGNITION_PLACE } from "@/lib/recognition";
+import {
+  RECOGNITION_PHOTOS,
+  RECOGNITION_PLACE,
+  RECOGNITION_SUMMARY,
+} from "@/lib/recognition";
 import type { ContentItem, ContentKind } from "@/lib/api/types";
 
 export const metadata: Metadata = {
@@ -397,41 +401,50 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------ recognition
-          The Prophet of THE LORD honoured in the nations. Navy, so the photos
-          are framed rather than washed out by a white page, and so the sun
-          rule and place tag are legal. */}
+          The Prophet of THE LORD honoured in the nations. A brighter royal
+          blue than the navy hero, so the section reads as its own; still dark
+          enough that the photos are framed rather than washed out, and that
+          the sun rule and place tag are legal. The heading sits beside a
+          single photo viewer, so the section stays within one screen and has
+          no empty corner. */}
       <section
         aria-labelledby="recognition-heading"
-        className="on-dark relative overflow-hidden bg-primary-950 text-ink-0"
+        className="on-dark relative overflow-hidden bg-grad-sapphire text-ink-0 grad-dither"
       >
         <div
           aria-hidden
           className="bg-dots-light pointer-events-none absolute inset-0"
         />
-        <Container className="relative py-section">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
-                <span aria-hidden className="h-1 w-10 bg-grad-rule" />
-                Recognition
+        <Container className="relative py-section-sm">
+          <RecognitionGallery photos={RECOGNITION_PHOTOS}>
+            {/* Heading and summary side by side on tablets, where the viewer
+                runs full width below them; stacked beside it from lg. */}
+            <div className="md:grid md:grid-cols-2 md:items-end md:gap-10 lg:block">
+              <div>
+                <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                  <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+                  Recognition
+                </p>
+                <h2
+                  id="recognition-heading"
+                  className="text-display-lg mt-5 max-w-[14ch] text-ink-0 text-balance"
+                >
+                  {/* Kept on one line: "THE" alone at a line end reads badly. */}
+                  The Prophet of THE&nbsp;LORD,{" "}
+                  <span className="text-sun">honoured</span>
+                </h2>
+                <div className="mt-5">
+                  <PlaceTag
+                    name={RECOGNITION_PLACE.name}
+                    detail={RECOGNITION_PLACE.detail}
+                  />
+                </div>
+              </div>
+              <p className="mt-5 max-w-[46ch] text-body text-ink-0/85 md:mt-0 lg:mt-5">
+                {RECOGNITION_SUMMARY}
               </p>
-              <h2
-                id="recognition-heading"
-                className="text-display-lg mt-5 max-w-[20ch] text-ink-0 text-balance"
-              >
-                The Prophet of THE LORD,{" "}
-                <span className="text-sun">honoured</span>
-              </h2>
             </div>
-            <PlaceTag
-              name={RECOGNITION_PLACE.name}
-              detail={RECOGNITION_PLACE.detail}
-            />
-          </div>
-
-          <div className="mt-10 lg:mt-12">
-            <RecognitionGallery photos={RECOGNITION_PHOTOS} />
-          </div>
+          </RecognitionGallery>
         </Container>
       </section>
 
