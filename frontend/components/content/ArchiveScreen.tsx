@@ -64,7 +64,7 @@ export async function ArchiveScreen({
     return (
       <>
         <PageHeader eyebrow={eyebrow} title={title} />
-        <Container className="py-section-sm">
+        <Container className="pb-section-sm pt-8">
           <ApiErrorState status={error instanceof ApiError ? error.status : undefined} />
         </Container>
       </>
@@ -85,7 +85,7 @@ export async function ArchiveScreen({
         countLabel={data.count === 1 ? "entry" : "entries"}
       />
 
-      <Container className="py-section-sm">
+      <Container className="pb-section-sm pt-8">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-3">
             {data.facets ? (

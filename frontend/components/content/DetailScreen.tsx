@@ -44,7 +44,7 @@ export function DetailScreen({
   return (
     <>
       <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50/70 to-ink-0">
-        <Container className="pb-10 pt-10 lg:pt-14">
+        <Container className="py-6 lg:py-8">
           <nav aria-label="Breadcrumb">
             <Link
               href={backHref}
@@ -56,17 +56,17 @@ export function DetailScreen({
 
           {/* Set as the ministry's own title cards: lead-in, then the title in
               stacked navy bars, then the lower third. */}
-          {item.kicker ? <LeadIn className="mt-8">{item.kicker}</LeadIn> : null}
+          {item.kicker ? <LeadIn className="mt-5">{item.kicker}</LeadIn> : null}
           <h1
-            className={`text-display-lg max-w-[26ch] uppercase leading-[1.32] ${
-              item.kicker ? "mt-3" : "mt-8"
+            className={`text-display-lg max-w-[40ch] uppercase leading-[1.32] ${
+              item.kicker ? "mt-3" : "mt-5"
             }`}
           >
             <Bar>{item.title}</Bar>
           </h1>
 
           <LowerThird
-            className="mt-6"
+            className="mt-5"
             kind={item.kind}
             date={
               item.is_dated && item.prophecy_date
@@ -93,7 +93,7 @@ export function DetailScreen({
         </Container>
       </div>
 
-      <Container className="py-section-sm">
+      <Container className="pb-section-sm pt-8">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-8">
             {item.videos.length > 0 ? (

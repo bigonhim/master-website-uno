@@ -27,14 +27,14 @@ export function PageHeader({
 }) {
   return (
     <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50/70 to-ink-0">
-      <Container className="pb-10 pt-12 lg:pb-12 lg:pt-16">
+      <Container className="py-6 lg:py-8">
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
           <div className="max-w-[46ch]">
             <LeadIn>{eyebrow}</LeadIn>
-            <h1 className="text-display-lg mt-4 uppercase leading-[1.3]">
+            <h1 className="text-display-lg mt-3 uppercase leading-[1.3]">
               <Bar tone="gold">{title}</Bar>
             </h1>
-            {lede ? <p className="mt-5 text-body text-ink-600">{lede}</p> : null}
+            {lede ? <p className="mt-3 text-body text-ink-600">{lede}</p> : null}
           </div>
 
           {count !== undefined ? (
@@ -48,7 +48,7 @@ export function PageHeader({
             </p>
           ) : null}
         </div>
-        {children ? <div className="mt-8 max-w-xl">{children}</div> : null}
+        {children ? <div className="mt-6 max-w-xl">{children}</div> : null}
       </Container>
     </div>
   );
