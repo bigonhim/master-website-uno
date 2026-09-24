@@ -138,8 +138,8 @@ const ABOUT_PILLARS: {
   n: string;
   title: string;
   icon: IconType;
-  /** Shown as a name plate under the heading. */
-  plate?: { name: string; role: string };
+  /** A name, shown as a plate under the heading. */
+  plate?: string;
   body: string[];
 }[] = [
   {
@@ -155,10 +155,7 @@ const ABOUT_PILLARS: {
     n: "02",
     title: "The leadership",
     icon: ScrollIcon,
-    plate: {
-      name: "Prophet Dr. David Edward Owuor",
-      role: "Servant of THE LORD",
-    },
+    plate: "Prophet Dr. David Edward Owuor",
     body: [
       "The ministry is led by Prophet Dr. David Edward Owuor, the Servant of THE LORD, sent to restore repentance and holiness in the Church and to prepare the way for the coming of the Messiah.",
       "His calling is centred on obedience to the voice of THE LORD GOD OF ISRAEL and the proclamation of righteousness, holiness and repentance, pointing all glory to GOD alone.",
@@ -345,7 +342,7 @@ export default async function HomePage() {
               >
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 top-0 h-1.5 bg-grad-rule"
+                  className="absolute inset-x-0 top-0 h-1 bg-cyan-400"
                 />
                 <p.icon
                   aria-hidden
@@ -359,20 +356,15 @@ export default async function HomePage() {
                     </span>
                     <h3 className="text-h3 text-primary-900">{p.title}</h3>
                   </div>
-                  <span className="font-display text-h2 tabular-nums text-alert-500 sm:text-display-lg">
+                  <span className="font-display text-h2 tabular-nums text-primary-100 sm:text-display-lg">
                     {p.n}
                   </span>
                 </div>
 
                 {p.plate ? (
-                  <div className="relative mt-6 rounded-md border-l-4 border-alert-500 bg-primary-50 px-4 py-3">
-                    <p className="text-body font-extrabold text-primary-900">
-                      {p.plate.name}
-                    </p>
-                    <p className="mt-0.5 font-display text-meta font-extrabold uppercase text-alert-600">
-                      {p.plate.role}
-                    </p>
-                  </div>
+                  <p className="relative mt-6 rounded-md border-l-4 border-cyan-400 bg-primary-50 px-4 py-3 text-body font-extrabold text-primary-900">
+                    {p.plate}
+                  </p>
                 ) : (
                   <div
                     aria-hidden
