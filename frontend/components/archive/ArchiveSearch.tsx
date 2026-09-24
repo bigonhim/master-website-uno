@@ -24,7 +24,7 @@ export function ArchiveSearch({
   const clearHref = clearParams.size ? `${basePath}?${clearParams}` : basePath;
 
   return (
-    <form action={basePath} method="get" role="search" className="mb-6">
+    <form action={basePath} method="get" role="search">
       <label htmlFor="archive-search" className="sr-only">
         Search {label}
       </label>
