@@ -192,3 +192,47 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
+
+/* ------------------------------------------------------------------ hero
+   The photo box: the rectangle a 3:2 photo covers inside its frame, which is
+   what object-fit: cover computes, made a real element so each slide can say
+   which part of its photo stays in view at every width. The frame must be a
+   size container; --fx/--fy run 0 (left/top) to 1 (right/bottom), and
+   --fx-lg/--fy-lg do the same on wide screens. */
+.hero-box {
+  position: absolute;
+  width: max(100cqw, 150cqh);
+  height: max(100cqh, 66.6667cqw);
+  left: calc((100cqw - max(100cqw, 150cqh)) * var(--fx, 0.5));
+  top: calc((100cqh - max(100cqh, 66.6667cqw)) * var(--fy, 0.5));
+}
+
+@media (min-width: 1024px) {
+  .hero-box {
+    left: calc((100cqw - max(100cqw, 150cqh)) * var(--fx-lg, var(--fx, 0.5)));
+    top: calc((100cqh - max(100cqh, 66.6667cqw)) * var(--fy-lg, var(--fy, 0.5)));
+  }
+}
+
+/* A line wiping in from the left, as the titles do in the ministry's video
+   graphics. Stagger with animation-delay. The fill is backwards only, so the
+   clip goes once the line is in and a text-shadow is not cut off at its box.
+   Under reduced motion the base layer cuts every animation to nothing, so the
+   line is simply there. */
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Longhands, not the shorthand: this rule comes after the utilities, and the
+   shorthand would reset each line's animation-delay to 0. */
+.wipe-in {
+  animation-name: wipe-in;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: backwards;
+}

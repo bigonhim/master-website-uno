@@ -1,26 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { PlaceTag } from "@/components/ui/Broadcast";
+import { Container } from "@/components/ui/Container";
 import type { HeroSlide } from "@/lib/hero-slides";
 
 /**
- * The home hero: the call (children) on solid navy, and photos of the ministry
- * across the nations in a frame of their own beside it.
+ * The home hero: photos of the ministry across the nations fill it, held back
+ * under navy, and the call (children) sits over them.
  *
- * Words never sit on a photo. These are documentary pictures, wide and crowded,
- * with the subject often at an edge and no quiet sky to write on, so any shade
- * dark enough to carry the words also buries the people in them. The words get
- * the navy, the photo gets a hard edge, and the only shade on the photo is a
- * short one at its foot, under the caption and controls.
+ * These are documentary pictures, crowded and loud, so the words are not left
+ * to fight them. A wash of navy lies over the whole photo, deepening behind
+ * the words on the left and under the caption at the foot; the photo reads as
+ * the scene the words are spoken into rather than as a second headline. Every
+ * photo used has its subject right of centre (see lib/hero-slides), clear of
+ * the words. The photo is sharp everywhere: blur under text reads as a smear.
  *
- * On wide screens the photo runs from just past the centre line to the edge of
- * the window, and the words stop just short of it (see the hero in app/page),
- * so the gap between them is the same at every width. On narrower screens the
- * photo is a full-width band under the words, and its caption and controls sit
- * on the navy below it rather than over it.
+ * Each photo sits in a .hero-box (globals.css), placed by the slide's `frame`,
+ * so its subject stays in view from a phone to a wide screen. On phones the
+ * photo is a band at the top that runs down into the navy, and the words sit
+ * below it.
  *
  * Each photo carries its own caption, so the words fade with the picture. The
  * fade is short and the photo is never scaled: a long crossfade holds two
@@ -71,9 +79,72 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
     `transition-opacity duration-500 ease-out ${active ? "opacity-100" : "opacity-0"}`;
 
   return (
-    <div className="relative">
+    <div
+      className="relative isolate"
+      onTouchStart={(e) => {
+        touchX.current = e.touches[0].clientX;
+      }}
+      onTouchEnd={(e) => {
+        if (touchX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchX.current;
+        touchX.current = null;
+        if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+      }}
+    >
+      {/* The photos: a band on phones, the whole hero on wide screens. */}
+      <div className="absolute inset-x-0 top-0 -z-10 aspect-square overflow-hidden [container-type:size] sm:aspect-[16/10] lg:inset-0 lg:aspect-auto">
+        {slides.map((slide, i) => (
+          <div
+            key={slide.src}
+            aria-hidden={i !== index}
+            className={`absolute inset-0 ${fade(i === index)}`}
+          >
+            <div
+              className="hero-box"
+              style={
+                {
+                  "--fx": slide.frame.x,
+                  "--fy": slide.frame.y,
+                  "--fx-lg": slide.frameLg.x,
+                  "--fy-lg": slide.frameLg.y,
+                } as CSSProperties
+              }
+            >
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                quality={90}
+                priority={i === 0}
+                sizes="100vw"
+                className="object-cover saturate-[.8]"
+              />
+            </div>
+          </div>
+        ))}
+
+        {/* The overlay: navy over everything, then deeper behind the words
+            (the foot of the band on phones, the left on wide screens) and
+            under the controls. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-primary-950/45" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgb(var(--c-primary-950))_100%)] lg:hidden"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(var(--c-primary-950)/0.9)_0%,rgb(var(--c-primary-950)/0.7)_32%,rgb(var(--c-primary-950)/0.25)_58%,transparent_78%)] lg:block"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-56 bg-gradient-to-t from-primary-950/80 to-transparent lg:block"
+        />
+      </div>
+
       {children}
 
+      {/* Caption and controls: under the words on phones, at the foot of the
+          photo on wide screens. */}
       <section
         aria-roledescription="carousel"
         aria-label="The ministry across the nations"
@@ -89,119 +160,83 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
           if (e.key === "ArrowLeft") go(index - 1);
           if (e.key === "ArrowRight") go(index + 1);
         }}
-        onTouchStart={(e) => {
-          touchX.current = e.touches[0].clientX;
-        }}
-        onTouchEnd={(e) => {
-          if (touchX.current === null) return;
-          const dx = e.changedTouches[0].clientX - touchX.current;
-          touchX.current = null;
-          if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
-        }}
-        className="relative lg:absolute lg:inset-y-0 lg:left-[calc(50%+2rem)] lg:right-0"
+        className="pb-8 pt-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:pb-10 lg:pt-0"
       >
-        {/* The frame. On wide screens it is as tall as the hero and roughly
-            square on a laptop, so each slide's `focus` keeps its subject in.
-            The photos come heavily processed; a touch less saturation stops
-            the red carpets outshining the yellow button beside them. */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-primary-900 sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto">
-          {slides.map((slide, i) => (
-            <Image
-              key={slide.src}
-              src={slide.src}
-              alt={slide.alt}
-              aria-hidden={i !== index}
-              fill
-              quality={90}
-              priority={i === 0}
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              style={{ objectPosition: slide.focus }}
-              className={`object-cover saturate-[.88] ${fade(i === index)}`}
-            />
-          ))}
-
-          {/* Under the caption and controls only, and only where they sit on
-              the photo. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-60 bg-gradient-to-t from-primary-950/85 via-primary-950/40 to-transparent lg:block"
-          />
-        </div>
-
-        {/* Caption and controls. */}
-        <div className="px-5 pb-8 pt-5 sm:px-8 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-10 lg:pb-8 lg:pt-0">
-          <div className="grid">
-            {slides.map((slide, i) => (
-              <div
-                key={slide.src}
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${count}`}
-                aria-hidden={i !== index}
-                className={`flex flex-col items-start gap-1.5 [grid-area:1/1] ${fade(i === index)}`}
-              >
-                <PlaceTag name={slide.place} detail={slide.detail} />
-                <span className="bg-primary-950/85 px-2.5 py-1 text-caption font-black uppercase tracking-wide text-ink-0">
-                  {slide.event}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 flex items-center gap-4">
-            <div className="flex flex-1 items-center gap-1.5">
-              {slides.map((slide, i) => {
-                const active = i === index;
-                return (
-                  <button
-                    key={slide.src}
-                    type="button"
-                    onClick={() => go(i)}
-                    aria-label={`Show photo ${i + 1}: ${slide.place}, ${slide.event}`}
-                    aria-current={active}
-                    className="group flex h-6 flex-1 items-center"
-                  >
-                    <span className="relative block h-1 w-full overflow-hidden rounded-full bg-ink-0/25 transition-colors group-hover:bg-ink-0/50">
-                      {active && autoplay ? (
-                        <span
-                          key={index}
-                          onAnimationEnd={() => go(index + 1)}
-                          style={{ animationPlayState: paused ? "paused" : "running" }}
-                          className="absolute inset-0 origin-left animate-fill bg-sun"
-                        />
-                      ) : active ? (
-                        <span className="absolute inset-0 bg-sun" />
-                      ) : i < index ? (
-                        <span className="absolute inset-0 bg-cyan-400/70" />
-                      ) : null}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex shrink-0 items-center gap-1.5">
-              {autoplay ? (
-                <ControlButton
-                  label={stopped ? "Play slideshow" : "Pause slideshow"}
-                  onClick={() => setStopped((s) => !s)}
+        <Container>
+          <div className="lg:ml-auto lg:w-[42%]">
+            <div className="grid">
+              {slides.map((slide, i) => (
+                <div
+                  key={slide.src}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} of ${count}`}
+                  aria-hidden={i !== index}
+                  className={`flex flex-col items-start gap-1.5 [grid-area:1/1] ${fade(i === index)}`}
                 >
-                  {stopped ? (
-                    <path d="M8 5.5v13l11-6.5-11-6.5Z" className="fill-current" />
-                  ) : (
-                    <path d="M9 6v12M15 6v12" />
-                  )}
+                  <PlaceTag name={slide.place} detail={slide.detail} />
+                  <span className="bg-primary-950/85 px-2.5 py-1 text-caption font-black uppercase tracking-wide text-ink-0">
+                    {slide.event}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-5 flex items-center gap-4">
+              <div className="flex flex-1 items-center gap-1.5">
+                {slides.map((slide, i) => {
+                  const active = i === index;
+                  return (
+                    <button
+                      key={slide.src}
+                      type="button"
+                      onClick={() => go(i)}
+                      aria-label={`Show photo ${i + 1}: ${slide.place}, ${slide.event}`}
+                      aria-current={active}
+                      className="group flex h-6 flex-1 items-center"
+                    >
+                      <span className="relative block h-1 w-full overflow-hidden rounded-full bg-ink-0/25 transition-colors group-hover:bg-ink-0/50">
+                        {active && autoplay ? (
+                          <span
+                            key={index}
+                            onAnimationEnd={() => go(index + 1)}
+                            style={{ animationPlayState: paused ? "paused" : "running" }}
+                            className="absolute inset-0 origin-left animate-fill bg-sun"
+                          />
+                        ) : active ? (
+                          <span className="absolute inset-0 bg-sun" />
+                        ) : i < index ? (
+                          <span className="absolute inset-0 bg-cyan-400/70" />
+                        ) : null}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex shrink-0 items-center gap-1.5">
+                {autoplay ? (
+                  <ControlButton
+                    label={stopped ? "Play slideshow" : "Pause slideshow"}
+                    onClick={() => setStopped((s) => !s)}
+                  >
+                    {stopped ? (
+                      <path d="M8 5.5v13l11-6.5-11-6.5Z" className="fill-current" />
+                    ) : (
+                      <path d="M9 6v12M15 6v12" />
+                    )}
+                  </ControlButton>
+                ) : null}
+                <ControlButton label="Previous photo" onClick={() => go(index - 1)}>
+                  <path d="m14.5 6-6 6 6 6" />
                 </ControlButton>
-              ) : null}
-              <ControlButton label="Previous photo" onClick={() => go(index - 1)}>
-                <path d="m14.5 6-6 6 6 6" />
-              </ControlButton>
-              <ControlButton label="Next photo" onClick={() => go(index + 1)}>
-                <path d="m9.5 6 6 6-6 6" />
-              </ControlButton>
+                <ControlButton label="Next photo" onClick={() => go(index + 1)}>
+                  <path d="m9.5 6 6 6-6 6" />
+                </ControlButton>
+              </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
     </div>
   );

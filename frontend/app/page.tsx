@@ -173,29 +173,33 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero
-          The call on solid navy, the nations in their own frame beside it;
-          neither is laid over the other. Yellow and bright cyan are legal only
-          on navy. The words stop 2rem short of the centre line and the photo
-          starts 2rem past it (HeroSlider), so the gap holds at every width. */}
+          The call over the nations, which are held back under navy by
+          HeroSlider. Yellow and bright cyan are legal only on navy. On phones
+          the photo is a band above the words: the top padding is its height
+          (a square, 16:10 from sm) less the part that has faded into navy.
+          The lines wipe in one after another, as the ministry's video titles
+          do. */}
       <section className="on-dark relative overflow-hidden bg-primary-950 text-ink-0">
         <HeroSlider slides={HERO_SLIDES}>
           <Container>
-            <div className="flex flex-col justify-center pb-10 pt-14 lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
+            <div className="flex flex-col justify-center pt-[calc(100vw-4rem)] sm:pt-[calc(62.5vw-4rem)] lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
               {/* The call */}
               <div className="min-w-0 lg:max-w-[calc(50%-2rem)]">
-                <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                <p className="wipe-in flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
                   <span aria-hidden className="h-1 w-10 bg-grad-rule" />
                   Revelation 16:15
                 </p>
-                <h1 className="mt-6 text-[clamp(2.75rem,1.2rem+2.9vw,4.25rem)] font-black uppercase leading-[0.95] tracking-[-0.035em] text-ink-0">
-                  <span className="block">Prepare</span>
-                  <span className="block">the way</span>
-                  <span className="mt-3 block text-cyan-400">The Messiah</span>
-                  <span className="mt-3 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950">
+                <h1 className="mt-6 text-[clamp(2.75rem,1.2rem+2.9vw,4.25rem)] font-black uppercase leading-[0.95] tracking-[-0.035em] text-ink-0 [text-shadow:0_2px_24px_rgb(4_8_31/0.5)]">
+                  <span className="wipe-in block [animation-delay:120ms]">Prepare</span>
+                  <span className="wipe-in block [animation-delay:200ms]">the way</span>
+                  <span className="wipe-in mt-3 block text-cyan-400 [animation-delay:320ms]">
+                    The Messiah
+                  </span>
+                  <span className="wipe-in mt-3 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950 [animation-delay:440ms] [text-shadow:none]">
                     is coming
                   </span>
                 </h1>
-                <p className="mt-8 max-w-[34ch] border-l-4 border-ink-0/20 pl-4 text-prose-lg italic text-ink-0/80">
+                <p className="mt-8 max-w-[34ch] border-l-4 border-ink-0/25 pl-4 text-prose-lg italic text-ink-0/85">
                   &ldquo;Behold, I come as a thief. Blessed is he that
                   watcheth.&rdquo;
                 </p>
