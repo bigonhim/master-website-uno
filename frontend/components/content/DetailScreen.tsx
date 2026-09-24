@@ -29,15 +29,25 @@ function formatDate(value: string) {
   });
 }
 
+/** True when the visitor got here by pressing play on an archive card. */
+export async function readAutoplay(
+  searchParams: Promise<Record<string, string | string[] | undefined>>,
+): Promise<boolean> {
+  return (await searchParams).play === "1";
+}
+
 /** One detail layout, shared by all three content types. */
 export function DetailScreen({
   item,
   backHref,
   backLabel,
+  autoplay = false,
 }: {
   item: ContentDetail;
   backHref: string;
   backLabel: string;
+  /** Start the first recording as the page opens. */
+  autoplay?: boolean;
 }) {
   const playable = item.videos.filter((v) => v.availability !== "unavailable");
 
@@ -105,6 +115,7 @@ export function DetailScreen({
                       title={item.title}
                       priority={index === 0}
                       eager
+                      autoplay={autoplay && index === 0}
                     />
                     <figcaption className="mt-2 flex items-center justify-between gap-4 text-meta text-ink-500">
                       <span>

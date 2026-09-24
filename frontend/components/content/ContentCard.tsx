@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
+import { VideoPoster } from "@/components/media/VideoPoster";
 import { Badge } from "@/components/ui/Badge";
 import { LowerThird } from "@/components/ui/Broadcast";
 import type { ContentItem } from "@/lib/api/types";
@@ -24,10 +24,17 @@ export function ContentCard({
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm transition-shadow duration-300 ease-emphasis hover:shadow-md">
-      {/* Plays right here in the card: one press, no trip to the detail page
-          or to YouTube. Only dead or missing recordings fall back to a link. */}
+      {/* Pressing play opens the entry's own page with the player already
+          running; nothing plays inside the grid. The title links to the same
+          page without starting the recording. */}
       {primary && !dead ? (
-        <YouTubeEmbed video={primary} title={item.title} priority={priority} flush />
+        <Link
+          href={`${href}?play=1`}
+          aria-label={`Play video: ${item.title}`}
+          className="relative block aspect-video overflow-hidden bg-primary-950"
+        >
+          <VideoPoster video={primary} priority={priority} />
+        </Link>
       ) : (
         <Link href={href} className="block">
           <div className="flex aspect-video items-center justify-center bg-ink-50">
