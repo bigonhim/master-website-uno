@@ -523,14 +523,14 @@ export default async function HomePage() {
                   <span className="grid h-11 w-11 place-items-center rounded-full bg-primary-50 text-primary-600 ring-1 ring-inset ring-primary-100">
                     <p.icon className="h-5 w-5" />
                   </span>
-                  <span className="font-display text-display-lg tabular-nums text-alert-500">
+                  <span className="font-display text-display-lg tabular-nums text-primary-100">
                     {p.n}
                   </span>
                 </div>
                 <h3 className="mt-5 text-h3">{p.title}</h3>
-                <blockquote className="mt-4 border-l-4 border-alert-500 pl-4 text-body italic text-ink-700">
+                <blockquote className="mt-4 border-l-4 border-cyan-400 pl-4 text-body italic text-ink-700">
                   &ldquo;{p.quote}&rdquo;
-                  <footer className="mt-1 font-display text-meta font-extrabold uppercase not-italic text-alert-600">
+                  <footer className="mt-1 font-display text-meta font-extrabold uppercase not-italic text-cyan-700">
                     {p.ref}
                   </footer>
                 </blockquote>
