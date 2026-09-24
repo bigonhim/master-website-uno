@@ -472,7 +472,7 @@ export default async function HomePage() {
                         priority={index === 0}
                       />
                     ) : (
-                      <div className="flex flex-1 flex-col overflow-hidden rounded-sm bg-ink-0 ring-1 ring-inset ring-ink-100">
+                      <div className="flex flex-1 flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm">
                         <div className="grid aspect-video place-items-center bg-grad-dawn">
                           <col.icon className="h-14 w-14 text-primary-200" />
                         </div>
