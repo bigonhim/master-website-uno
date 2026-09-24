@@ -173,15 +173,16 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero
-          The nations fill the whole hero; the call sits over them on the left,
-          on a navy shade that clears towards the right. Yellow and bright cyan
-          are legal only on navy, which is why the shade is navy. */}
+          The call on solid navy, the nations in their own frame beside it;
+          neither is laid over the other. Yellow and bright cyan are legal only
+          on navy. The words stop 2rem short of the centre line and the photo
+          starts 2rem past it (HeroSlider), so the gap holds at every width. */}
       <section className="on-dark relative overflow-hidden bg-primary-950 text-ink-0">
         <HeroSlider slides={HERO_SLIDES}>
           <Container>
-            <div className="flex flex-col justify-center pt-14 lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
+            <div className="flex flex-col justify-center pb-10 pt-14 lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
               {/* The call */}
-              <div className="min-w-0 lg:max-w-[46%]">
+              <div className="min-w-0 lg:max-w-[calc(50%-2rem)]">
                 <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
                   <span aria-hidden className="h-1 w-10 bg-grad-rule" />
                   Revelation 16:15
@@ -194,18 +195,25 @@ export default async function HomePage() {
                     is coming
                   </span>
                 </h1>
-                <p className="mt-8 max-w-[34ch] border-l-4 border-sun pl-4 text-prose-lg italic text-ink-0/80">
+                <p className="mt-8 max-w-[34ch] border-l-4 border-ink-0/20 pl-4 text-prose-lg italic text-ink-0/80">
                   &ldquo;Behold, I come as a thief. Blessed is he that
                   watcheth.&rdquo;
                 </p>
-                <div className="mt-9 flex flex-wrap items-center gap-3">
+                {/* One button: the prayer is the step that matters. The
+                    archive is a quiet link beside it, not a second button
+                    competing for the same glance. */}
+                <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
                   <ButtonLink href="/salvation-prayer" variant="gold" size="lg">
                     The Salvation Prayer
                     <ArrowIcon className="h-4 w-4" />
                   </ButtonLink>
-                  <ButtonLink href="/prophecies" variant="secondary" size="lg">
+                  <Link
+                    href="/prophecies"
+                    className="group inline-flex items-center gap-2 font-display text-body-sm font-extrabold uppercase tracking-wide text-ink-0/85 underline-offset-8 hover:text-ink-0 hover:underline"
+                  >
                     Browse the archive
-                  </ButtonLink>
+                    <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 </div>
               </div>
             </div>

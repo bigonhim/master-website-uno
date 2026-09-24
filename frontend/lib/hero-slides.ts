@@ -3,8 +3,10 @@
  *
  * Files in public/hero/ are cropped to 3:2 around their subject from the
  * originals in Slider-photos/ and saved as high-quality WebP (q92, 2560px);
- * the image optimiser sizes them down per screen. Captions say only what the
- * source folders say; no city or date is filled in that was not supplied.
+ * the image optimiser sizes them down per screen. Nothing is painted in: where
+ * the subject stands at an edge of the original, he stays there and `focus`
+ * keeps that side of the frame. Captions say only what the source folders say;
+ * no city or date is filled in that was not supplied.
  */
 
 export type HeroSlide = {
@@ -15,7 +17,8 @@ export type HeroSlide = {
   /** Navy block of the place tag, when known. */
   detail?: string;
   event: string;
-  /** CSS object-position, for frames narrower than the 3:2 files. */
+  /** CSS object-position. The frame is narrower than 3:2 on most screens
+   *  (near square on a laptop), so this says which side of the photo to keep. */
   focus?: string;
 };
 
@@ -28,10 +31,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     event: "Merica Reception",
   },
   {
-    // Re-cut: in the original the preacher stands at the far left edge, where
-    // the hero's shade would hide him. The file moves him a third of the way
-    // in, filling the gap with a blur of the photo's own edge, tinted navy.
-    src: "/hero/drc-preaching-centred.webp",
+    // Preaching from the far left of the photo, towards the hall.
+    src: "/hero/drc-preaching.webp",
     alt: "Preaching from the red carpet to a full conference hall in the DRC.",
     place: "DR Congo",
     event: "Conference Day",
@@ -65,24 +66,21 @@ export const HERO_SLIDES: HeroSlide[] = [
     event: "Conference Day",
   },
   {
-    // Re-cut for the same reason as drc-preaching.
-    src: "/hero/western-pulpit-centred.webp",
+    src: "/hero/western-pulpit.webp",
     alt: "Standing at the pulpit under the canopy at the Western Region revival.",
     place: "Western Region",
     event: "Revival",
     focus: "0% 50%",
   },
   {
-    // Re-cut for the same reason as drc-preaching.
-    src: "/hero/brazil-reception-centred.webp",
+    src: "/hero/brazil-reception.webp",
     alt: "Children and families gathered with banners to receive the ministry in Brazil.",
     place: "Brazil",
     event: "Reception",
     focus: "0% 50%",
   },
   {
-    // Re-cut for the same reason as drc-preaching.
-    src: "/hero/nakuru-red-carpet-centred.webp",
+    src: "/hero/nakuru-red-carpet.webp",
     alt: "Walking the red carpet past a guard of honour in Nakuru.",
     place: "Nakuru",
     detail: "Kenya",
