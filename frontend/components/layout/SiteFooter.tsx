@@ -22,6 +22,7 @@ const archiveLinks: FooterLink[] = [
   { href: "/prophecies", label: "Prophecies" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
+  { href: "/articles", label: "Articles" },
 ];
 
 const listenLinks: FooterLink[] = [

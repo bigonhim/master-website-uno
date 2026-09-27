@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { getArticleSlugs } from "@/lib/api/articles";
 import { getArchive, type ArchiveKind } from "@/lib/api/content";
 
 export const revalidate = 3600;
@@ -24,6 +25,21 @@ async function allSlugs(kind: ArchiveKind): Promise<string[]> {
   return slugs;
 }
 
+/** Articles come from the publication, so they fail separately: an outage
+ *  there must not take the archive's entries out of the sitemap with it. */
+async function articleEntries(): Promise<MetadataRoute.Sitemap> {
+  try {
+    const slugs = await getArticleSlugs();
+    return slugs.map((slug) => ({
+      url: `${SITE}/articles/${slug}`,
+      lastModified: new Date(),
+      priority: 0.6,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const staticEntries: MetadataRoute.Sitemap = [
@@ -32,6 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/prophecies`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/teachings`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/healings`, lastModified: now, priority: 0.8 },
+    { url: `${SITE}/articles`, lastModified: now, priority: 0.8 },
   ];
 
   try {
@@ -45,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }));
       }),
     );
-    return [...staticEntries, ...groups.flat()];
+    return [...staticEntries, ...groups.flat(), ...(await articleEntries())];
   } catch {
     // A sitemap listing only the hubs is honest. One that invents URLs, or a
     // build that dies because the API blinked, is not.

@@ -24,6 +24,7 @@ const LINKS = [
   { href: "/prophecies", label: "Prophecies" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
+  { href: "/articles", label: "Articles" },
 ];
 
 export function SiteHeader() {
