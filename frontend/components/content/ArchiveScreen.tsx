@@ -8,6 +8,8 @@ import {
   NotYetPublishedState,
 } from "@/components/feedback/States";
 import { PageHeader } from "@/components/layout/PageHeader";
+import type { ReactNode } from "react";
+
 import { Container } from "@/components/ui/Container";
 import { ApiError } from "@/lib/api/client";
 import { getArchive, type ArchiveKind } from "@/lib/api/content";
@@ -45,6 +47,9 @@ export async function ArchiveScreen({
   lede,
   emptyLabel,
   params,
+  fixed,
+  tabs,
+  showFulfilment = false,
 }: {
   kind: ArchiveKind;
   basePath: string;
@@ -53,17 +58,27 @@ export async function ArchiveScreen({
   lede: string;
   emptyLabel: string;
   params: Record<string, string>;
+  /** What this archive always asks the API for, whatever the visitor chooses.
+   *  Kept out of `params`, so it never shows in a link or counts as a filter
+   *  the visitor could clear. */
+  fixed?: Record<string, string>;
+  /** Sits under the title, for an archive that comes in more than one part. */
+  tabs?: ReactNode;
+  /** Passed to each card; see ContentCard. */
+  showFulfilment?: boolean;
 }) {
   const offset = Number(params.offset ?? 0) || 0;
 
   let data;
   try {
-    data = await getArchive(kind, { ...params, limit: ARCHIVE_LIMIT, offset });
+    data = await getArchive(kind, { ...params, ...fixed, limit: ARCHIVE_LIMIT, offset });
   } catch (error) {
     // No fallback content, ever. A broken backend must look broken.
     return (
       <>
-        <PageHeader eyebrow={eyebrow} title={title} />
+        <PageHeader eyebrow={eyebrow} title={title}>
+          {tabs}
+        </PageHeader>
         <Container className="pb-section-sm pt-8">
           <ApiErrorState status={error instanceof ApiError ? error.status : undefined} />
         </Container>
@@ -82,7 +97,9 @@ export async function ArchiveScreen({
         title={title}
         lede={lede}
         aside={<ArchiveSearch basePath={basePath} params={params} label={emptyLabel} />}
-      />
+      >
+        {tabs}
+      </PageHeader>
 
       <Container className="pb-section-sm pt-8">
         <div className="grid gap-10 lg:grid-cols-12">
@@ -120,6 +137,7 @@ export async function ArchiveScreen({
                     item={item}
                     href={`${basePath}/${item.slug}`}
                     priority={index < 3}
+                    showFulfilment={showFulfilment}
                   />
                 ))}
               </div>

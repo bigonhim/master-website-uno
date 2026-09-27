@@ -25,6 +25,7 @@ const LINKS = [
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
   { href: "/articles", label: "Articles" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
@@ -59,13 +60,15 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center xl:gap-1">
             {LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  className={`relative rounded-xs px-3 py-2 font-display text-body-sm font-semibold transition-colors ${
+                  // Six links and the prayer: tighter below xl, where they
+                  // would otherwise run out of room and wrap.
+                  className={`relative whitespace-nowrap rounded-xs px-2.5 py-2 font-display text-body-sm font-semibold transition-colors xl:px-3 ${
                     isActive(link.href)
                       ? "text-primary-700"
                       : "text-ink-600 hover:text-primary-700"
@@ -75,7 +78,7 @@ export function SiteHeader() {
                   {isActive(link.href) ? (
                     <span
                       aria-hidden
-                      className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary-700"
+                      className="absolute inset-x-2.5 -bottom-px h-0.5 rounded-full bg-primary-700 xl:inset-x-3"
                     />
                   ) : null}
                 </Link>

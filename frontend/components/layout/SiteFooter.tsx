@@ -20,6 +20,7 @@ type FooterLink = { href: string; label: string; external?: boolean };
 
 const archiveLinks: FooterLink[] = [
   { href: "/prophecies", label: "Prophecies" },
+  { href: "/prophecies/fulfilled", label: "Prophecies & their fulfilment" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
   { href: "/articles", label: "Articles" },
@@ -37,6 +38,7 @@ const listenLinks: FooterLink[] = [
 
 const nextStepLinks: FooterLink[] = [
   { href: "/salvation-prayer", label: "The Salvation Prayer" },
+  { href: "/contact", label: "Contact the ministry" },
 ];
 
 function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {

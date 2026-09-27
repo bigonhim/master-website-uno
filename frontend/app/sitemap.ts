@@ -48,7 +48,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/prophecies`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/teachings`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/healings`, lastModified: now, priority: 0.8 },
+    { url: `${SITE}/prophecies/fulfilled`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/articles`, lastModified: now, priority: 0.8 },
+    { url: `${SITE}/contact`, lastModified: now, priority: 0.5 },
   ];
 
   try {

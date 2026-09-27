@@ -14,11 +14,17 @@ export function ContentCard({
   item,
   href,
   priority = false,
+  showFulfilment = false,
 }: {
   item: ContentItem;
   href: string;
   priority?: boolean;
+  /** Sets how the prophecy came to pass under its title, in place of the
+   *  summary. For the fulfilment archive, where that is what is being read. */
+  showFulfilment?: boolean;
 }) {
+  const fulfilment = showFulfilment && item.is_fulfilled ? item.fulfillment_summary : "";
+
   const primary = item.videos.find((v) => v.is_primary) ?? item.videos[0];
   const dead = primary?.availability === "unavailable";
 
@@ -78,7 +84,12 @@ export function ContentCard({
           </Link>
         </h3>
 
-        {item.summary ? (
+        {fulfilment ? (
+          <div className="mt-3 border-l-2 border-success pl-3">
+            <p className="text-eyebrow uppercase text-success">Fulfilment</p>
+            <p className="mt-1.5 line-clamp-4 text-body-sm text-ink-700">{fulfilment}</p>
+          </div>
+        ) : item.summary ? (
           <p className="mt-1.5 line-clamp-2 text-body-sm text-ink-600">{item.summary}</p>
         ) : null}
 

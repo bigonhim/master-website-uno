@@ -31,7 +31,7 @@ def hash_ip(request) -> str:
 
 
 class SalvationDecisionCreateView(generics.CreateAPIView):
-    """The only public write endpoint on the site.
+    """One of the two public write endpoints on the site; contact is the other.
 
     Deliberately a CreateAPIView and not a ModelViewSet: there is no list,
     retrieve, update or delete route to secure, because none exists. The
