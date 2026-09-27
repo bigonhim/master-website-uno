@@ -124,7 +124,7 @@
   }
 
   .on-dark :focus-visible {
-    @apply ring-gold-400 ring-offset-primary-900;
+    @apply ring-gold-400 ring-offset-primary-600;
   }
 
   @media (prefers-contrast: more) {

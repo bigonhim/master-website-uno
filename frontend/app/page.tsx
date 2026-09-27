@@ -22,7 +22,11 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { getArchive } from "@/lib/api/content";
 import { HERO_SLIDES } from "@/lib/hero-slides";
-import { RECOGNITION_PHOTOS, RECOGNITION_PLACE } from "@/lib/recognition";
+import {
+  RECOGNITION_PHOTOS,
+  RECOGNITION_PLACE,
+  RECOGNITION_SUMMARY,
+} from "@/lib/recognition";
 import type { ContentItem, ContentKind } from "@/lib/api/types";
 
 export const metadata: Metadata = {
@@ -170,13 +174,13 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero
-          The call over the nations, which are held back under navy by
-          HeroSlider. Yellow and bright cyan are legal only on navy. On phones
-          the photo is a band above the words: the top padding is its height
-          (a square, 16:10 from sm) less the part that has faded into navy.
+          The call over the nations, which are held back under the sapphire's
+          blue by HeroSlider. Yellow and bright cyan are legal only on the blue.
+          On phones the photo is a band above the words: the top padding is its
+          height (a square, 16:10 from sm) less the part that has faded out.
           The lines wipe in one after another, as the ministry's video titles
           do. */}
-      <section className="on-dark relative overflow-hidden bg-primary-950 text-ink-0">
+      <section className="on-dark relative overflow-hidden bg-grad-sapphire text-ink-0 grad-dither">
         <HeroSlider slides={HERO_SLIDES}>
           <Container>
             <div className="flex flex-col justify-center pt-[calc(100vw-4rem)] sm:pt-[calc(62.5vw-4rem)] lg:min-h-[max(40rem,calc(100svh-var(--radio-h)-var(--nav-h)-4.5rem))] lg:py-16">
@@ -250,7 +254,7 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------ about
           Who the ministry is, in its own words. The introduction beside the
           vision and mission, then who we are and the leadership as a pair. The
-          vision card repeats the hero's navy-and-sun treatment on purpose: it is
+          vision card repeats the hero's blue-and-sun treatment on purpose: it is
           the same message. */}
       <section
         aria-labelledby="about-heading"
@@ -278,7 +282,7 @@ export default async function HomePage() {
 
             <div className="grid content-start gap-5">
               {/* Vision */}
-              <div className="on-dark relative overflow-hidden rounded-lg bg-primary-900 p-7 text-ink-0 shadow-lg sm:p-9">
+              <div className="on-dark relative overflow-hidden rounded-lg bg-grad-sapphire p-7 text-ink-0 shadow-lg sm:p-9">
                 <div
                   aria-hidden
                   className="bg-dots-light pointer-events-none absolute inset-0"
@@ -389,41 +393,51 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------ recognition
-          The Prophet of THE LORD honoured in the nations. Navy, so the photos
-          are framed rather than washed out by a white page, and so the sun
-          rule and place tag are legal. */}
+          The Prophet of THE LORD honoured in the nations, on the site's
+          sapphire band: dark enough that the photos are framed rather than
+          washed out, and that the sun rule and place tag are legal. The white
+          sections either side keep it from running into the hero and the
+          scripture band, which share its blue. The heading sits beside a
+          single photo viewer, so the section stays within one screen and has
+          no empty corner. */}
       <section
         aria-labelledby="recognition-heading"
-        className="on-dark relative overflow-hidden bg-primary-950 text-ink-0"
+        className="on-dark relative overflow-hidden bg-grad-sapphire text-ink-0 grad-dither"
       >
         <div
           aria-hidden
           className="bg-dots-light pointer-events-none absolute inset-0"
         />
-        <Container className="relative py-section">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
-                <span aria-hidden className="h-1 w-10 bg-grad-rule" />
-                Recognition
+        <Container className="relative py-section-sm">
+          <RecognitionGallery photos={RECOGNITION_PHOTOS}>
+            {/* Heading and summary side by side on tablets, where the viewer
+                runs full width below them; stacked beside it from lg. */}
+            <div className="md:grid md:grid-cols-2 md:items-end md:gap-10 lg:block">
+              <div>
+                <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-400">
+                  <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+                  Recognition
+                </p>
+                <h2
+                  id="recognition-heading"
+                  className="text-display-lg mt-5 max-w-[14ch] text-ink-0 text-balance"
+                >
+                  {/* Kept on one line: "THE" alone at a line end reads badly. */}
+                  The Prophet of THE&nbsp;LORD,{" "}
+                  <span className="text-sun">honoured</span>
+                </h2>
+                <div className="mt-5">
+                  <PlaceTag
+                    name={RECOGNITION_PLACE.name}
+                    detail={RECOGNITION_PLACE.detail}
+                  />
+                </div>
+              </div>
+              <p className="mt-5 max-w-[46ch] text-body text-ink-0/85 md:mt-0 lg:mt-5">
+                {RECOGNITION_SUMMARY}
               </p>
-              <h2
-                id="recognition-heading"
-                className="text-display-lg mt-5 max-w-[20ch] text-ink-0 text-balance"
-              >
-                The Prophet of THE LORD,{" "}
-                <span className="text-sun">honoured</span>
-              </h2>
             </div>
-            <PlaceTag
-              name={RECOGNITION_PLACE.name}
-              detail={RECOGNITION_PLACE.detail}
-            />
-          </div>
-
-          <div className="mt-10 lg:mt-12">
-            <RecognitionGallery photos={RECOGNITION_PHOTOS} />
-          </div>
+          </RecognitionGallery>
         </Container>
       </section>
 
@@ -476,7 +490,7 @@ export default async function HomePage() {
                         priority={index === 0}
                       />
                     ) : (
-                      <div className="flex flex-1 flex-col overflow-hidden rounded-sm bg-ink-0 ring-1 ring-inset ring-ink-100">
+                      <div className="flex flex-1 flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm">
                         <div className="grid aspect-video place-items-center bg-grad-dawn">
                           <col.icon className="h-14 w-14 text-primary-200" />
                         </div>
@@ -551,7 +565,7 @@ export default async function HomePage() {
       </section>
 
       {/* -------------------------------------------------- scripture band */}
-      <section className="on-dark relative overflow-hidden bg-grad-royal text-ink-0 grad-dither">
+      <section className="on-dark relative overflow-hidden bg-grad-sapphire text-ink-0 grad-dither">
         <div
           aria-hidden
           className="bg-dots-light pointer-events-none absolute inset-0"

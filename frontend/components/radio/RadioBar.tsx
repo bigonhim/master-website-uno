@@ -60,7 +60,7 @@ export function RadioBar() {
 
   return (
     <div
-      className="on-dark sticky z-50 bg-primary-900 shadow-player"
+      className="on-dark sticky z-50 bg-grad-sapphire shadow-player"
       style={{ top: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="mx-auto flex h-radio w-full max-w-container items-center gap-3 px-5 sm:px-8 lg:px-12">

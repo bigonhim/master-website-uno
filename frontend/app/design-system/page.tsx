@@ -74,7 +74,7 @@ function Row({ title, children }: { title: string; children: React.ReactNode }) 
 export default function DesignSystemPage() {
   return (
     <>
-      <Section tone="royal" spacing="sm">
+      <Section tone="sapphire" spacing="sm">
         <Eyebrow rule>Internal reference</Eyebrow>
         <h1 className="text-display-xl mt-5 max-w-[18ch]">Design system</h1>
         <p className="mt-5 max-w-[60ch] text-body text-ink-200">
@@ -136,7 +136,7 @@ export default function DesignSystemPage() {
 
         <Row title="Gradients">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            <Swatch label="grad-royal" className="bg-grad-royal" note="mastheads, footer" />
+            <Swatch label="grad-sapphire" className="bg-grad-sapphire" note="every blue band" />
             <Swatch label="grad-dawn" className="bg-grad-dawn" note="light-blue transition" />
             <Swatch label="grad-azure" className="bg-grad-azure" note="primary fills" />
             <Swatch label="grad-halo" className="bg-grad-halo" note="atmospheric wash" />

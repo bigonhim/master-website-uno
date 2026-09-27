@@ -117,13 +117,39 @@ describe("text neutrals on white", () => {
   });
 });
 
+describe("the sapphire band and the footer — every blue surface on the site", () => {
+  // grad-sapphire's body is primary-500. The primary-400 glow in its top-left
+  // corner is laid at 60%, which still keeps every colour below above AA. The
+  // footer's lower tiers are primary-600.
+  const SAPPHIRE = "c-primary-500";
+  const FOOTER = "c-primary-600";
+
+  it.each([
+    ["white", WHITE],
+    ["yellow", "c-sun"],
+    ["cyan-400", "c-cyan-400"],
+    ["gold-400", "c-gold-400"],
+    ["ink-200 secondary text", "c-ink-200"],
+  ])("%s is AA on the sapphire", (_, colour) => {
+    expect(contrast(colour, SAPPHIRE)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each([
+    ["cyan-400 headings", "c-cyan-400"],
+    ["ink-200 links", "c-ink-200"],
+    ["ink-300 small print", "c-ink-300"],
+  ])("%s is AA on the footer blue", (_, colour) => {
+    expect(contrast(colour, FOOTER)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
 describe("live indicator", () => {
   it("live-600 reads on white", () => {
     expect(contrast("c-live-600", WHITE)).toBeGreaterThanOrEqual(4.5);
   });
 
-  it("live-400 reads on the blue radio bar", () => {
-    expect(contrast("c-live-400", BRAND)).toBeGreaterThanOrEqual(3);
+  it("live-400 reads on the sapphire radio bar", () => {
+    expect(contrast("c-live-400", "c-primary-500")).toBeGreaterThanOrEqual(3);
   });
 });
 

@@ -16,18 +16,20 @@ import type { HeroSlide } from "@/lib/hero-slides";
 
 /**
  * The home hero: photos of the ministry across the nations fill it, held back
- * under navy, and the call (children) sits over them.
+ * under a dark wash, and the call (children) sits over them on the site's
+ * sapphire blue.
  *
  * These are documentary pictures, crowded and loud, so the words are not left
- * to fight them. A wash of navy lies over the whole photo, deepening behind
- * the words on the left and under the caption at the foot; the photo reads as
+ * to fight them. A near-black wash lies over the whole photo, so it keeps its
+ * own colours; the sapphire rises only behind the words on the left, and a
+ * darker foot lies under the caption; the photo reads as
  * the scene the words are spoken into rather than as a second headline. Every
  * photo used has its subject right of centre (see lib/hero-slides), clear of
  * the words. The photo is sharp everywhere: blur under text reads as a smear.
  *
  * Each photo sits in a .hero-box (globals.css), placed by the slide's `frame`,
  * so its subject stays in view from a phone to a wide screen. On phones the
- * photo is a band at the top that runs down into the navy, and the words sit
+ * photo is a band at the top that runs down into the blue, and the words sit
  * below it.
  *
  * Each photo carries its own caption, so the words fade with the picture. The
@@ -91,8 +93,10 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
         if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
       }}
     >
-      {/* The photos: a band on phones, the whole hero on wide screens. */}
-      <div className="absolute inset-x-0 top-0 -z-10 aspect-square overflow-hidden [container-type:size] sm:aspect-[16/10] lg:inset-0 lg:aspect-auto">
+      {/* The photos: a band on phones, the whole hero on wide screens. The
+          band fades out through a mask rather than into a painted colour, so
+          it meets the hero's gradient without a seam. */}
+      <div className="absolute inset-x-0 top-0 -z-10 aspect-square overflow-hidden [container-type:size] [mask-image:linear-gradient(180deg,#000_35%,transparent)] sm:aspect-[16/10] lg:inset-0 lg:aspect-auto lg:[mask-image:none]">
         {slides.map((slide, i) => (
           <div
             key={slide.src}
@@ -123,17 +127,14 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
           </div>
         ))}
 
-        {/* The overlay: navy over everything, then deeper behind the words
-            (the foot of the band on phones, the left on wide screens) and
-            under the controls. */}
+        {/* The overlay: a near-black wash over everything, which darkens the
+            photo without tinting it, then the sapphire behind the words on the
+            left and a darker foot under the controls. A blue wash turns the
+            whole photo blue. */}
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-primary-950/45" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgb(var(--c-primary-950))_100%)] lg:hidden"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(var(--c-primary-950)/0.9)_0%,rgb(var(--c-primary-950)/0.7)_32%,rgb(var(--c-primary-950)/0.25)_58%,transparent_78%)] lg:block"
+          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(var(--c-primary-600)/0.9)_0%,rgb(var(--c-primary-600)/0.7)_32%,rgb(var(--c-primary-600)/0.25)_58%,transparent_78%)] lg:block"
         />
         <div
           aria-hidden
@@ -175,7 +176,7 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
                   className={`flex flex-col items-start gap-1.5 [grid-area:1/1] ${fade(i === index)}`}
                 >
                   <PlaceTag name={slide.place} detail={slide.detail} />
-                  <span className="bg-primary-950/85 px-2.5 py-1 text-caption font-black uppercase tracking-wide text-ink-0">
+                  <span className="bg-primary-700/90 px-2.5 py-1 text-caption font-black uppercase tracking-wide text-ink-0">
                     {slide.event}
                   </span>
                 </div>

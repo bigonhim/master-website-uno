@@ -14,7 +14,7 @@ export function Section({
   containerWidth = "default",
   children,
 }: {
-  tone?: "default" | "sunken" | "royal" | "dawn";
+  tone?: "default" | "sunken" | "sapphire" | "dawn";
   spacing?: "sm" | "default" | "lg";
   className?: string;
   containerWidth?: "default" | "prose" | "wide";
@@ -24,7 +24,7 @@ export function Section({
     default: "bg-ink-0 text-ink-800",
     sunken: "bg-ink-25 text-ink-800",
     // `on-dark` unlocks the guarded sun/gold tokens and the gold focus ring.
-    royal: "on-dark bg-grad-royal text-ink-0 grad-dither",
+    sapphire: "on-dark bg-grad-sapphire text-ink-0 grad-dither",
     dawn: "bg-grad-dawn text-ink-800",
   } as const;
 

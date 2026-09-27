@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
+import { VideoPoster } from "@/components/media/VideoPoster";
 import { Badge } from "@/components/ui/Badge";
 import { LowerThird } from "@/components/ui/Broadcast";
 import type { ContentItem } from "@/lib/api/types";
@@ -23,11 +23,18 @@ export function ContentCard({
   const dead = primary?.availability === "unavailable";
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-sm bg-ink-0 ring-1 ring-inset ring-ink-100 transition-shadow duration-300 ease-emphasis hover:shadow-md">
-      {/* Plays right here in the card: one press, no trip to the detail page
-          or to YouTube. Only dead or missing recordings fall back to a link. */}
+    <article className="group flex flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm transition-shadow duration-300 ease-emphasis hover:shadow-md">
+      {/* Pressing play opens the entry's own page with the player already
+          running; nothing plays inside the grid. The title links to the same
+          page without starting the recording. */}
       {primary && !dead ? (
-        <YouTubeEmbed video={primary} title={item.title} priority={priority} flush />
+        <Link
+          href={`${href}?play=1`}
+          aria-label={`Play video: ${item.title}`}
+          className="relative block aspect-video overflow-hidden bg-primary-950"
+        >
+          <VideoPoster video={primary} priority={priority} />
+        </Link>
       ) : (
         <Link href={href} className="block">
           <div className="flex aspect-video items-center justify-center bg-ink-50">
@@ -54,8 +61,32 @@ export function ContentCard({
         }
       />
 
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex flex-wrap items-center gap-2 empty:hidden">
+      {/* The title sits straight under the picture and stops at two lines, so
+          every card in a row is the same height; the tags close the card. */}
+      <div className="flex flex-1 flex-col p-4">
+        {item.kicker ? (
+          <p className="mb-1.5 text-eyebrow uppercase text-cyan-700">{item.kicker}</p>
+        ) : null}
+
+        <h3 className="line-clamp-2 text-body font-semibold leading-snug text-primary-900">
+          <Link
+            href={href}
+            title={item.title}
+            className="underline-offset-4 outline-none transition-colors group-hover:text-primary-600 group-focus-within:underline"
+          >
+            {item.title}
+          </Link>
+        </h3>
+
+        {item.summary ? (
+          <p className="mt-1.5 line-clamp-2 text-body-sm text-ink-600">{item.summary}</p>
+        ) : null}
+
+        {item.speaker ? (
+          <p className="mt-2 text-meta text-ink-500">{item.speaker}</p>
+        ) : null}
+
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-3 empty:hidden">
           {item.category ? (
             <Badge tone="published">{item.category.name}</Badge>
           ) : null}
@@ -67,27 +98,6 @@ export function ContentCard({
             <Badge tone="neutral">{item.videos.length} parts</Badge>
           ) : null}
         </div>
-
-        {item.kicker ? (
-          <p className="mt-3 text-eyebrow uppercase text-cyan-700">{item.kicker}</p>
-        ) : null}
-
-        <h3 className="mt-2 text-h4 text-primary-900">
-          <Link
-            href={href}
-            className="underline-offset-4 outline-none transition-colors group-hover:text-primary-600 group-focus-within:underline"
-          >
-            {item.title}
-          </Link>
-        </h3>
-
-        {item.summary ? (
-          <p className="mt-2 line-clamp-3 text-body-sm text-ink-600">{item.summary}</p>
-        ) : null}
-
-        {item.speaker ? (
-          <p className="mt-4 text-meta text-ink-600">{item.speaker}</p>
-        ) : null}
       </div>
     </article>
   );

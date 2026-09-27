@@ -65,9 +65,12 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
+  // The call to action is the site's sapphire band; the rest sits one step
+  // deeper on primary-600, so the footer still closes the page without going
+  // to near-black. The utility row is set off by a hairline, not a third blue.
   return (
     <footer className="on-dark mt-auto">
-      <div className="grad-dither bg-grad-royal">
+      <div className="grad-dither bg-grad-sapphire">
         <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div aria-hidden className="h-1 w-16 bg-grad-rule" />
@@ -82,7 +85,7 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      <div className="bg-primary-900">
+      <div className="bg-primary-600">
         <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo size={64} onDark className="mb-5" />
@@ -118,7 +121,7 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      <div className="bg-primary-950">
+      <div className="border-t border-ink-0/10 bg-primary-600">
         <Container className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="text-body-sm text-ink-300">
             © {year} Ministry of Repentance and Holiness
