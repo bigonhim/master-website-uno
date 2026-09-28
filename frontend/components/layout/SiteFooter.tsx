@@ -1,13 +1,12 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
-import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 import { LocalTime } from "./LocalTime";
 
 /**
- * Three tiers: one call to action, the substance, then utility.
+ * Two tiers: the substance, then utility.
  *
  * Every link here points at something that exists. The first version linked to
  * nine routes that were never built — books, search, radio, prayer requests,
@@ -65,26 +64,10 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
-  // The call to action is the site's sapphire band; the rest sits one step
-  // deeper on primary-600, so the footer still closes the page without going
-  // to near-black. The utility row is set off by a hairline, not a third blue.
+  // The footer sits on primary-600, so it closes the page without going to
+  // near-black. The utility row is set off by a hairline, not a second blue.
   return (
     <footer className="on-dark mt-auto">
-      <div className="grad-dither bg-grad-sapphire">
-        <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div aria-hidden className="h-1 w-16 bg-grad-rule" />
-            <p className="mt-4 text-h3 text-ink-0">Begin here</p>
-            <p className="mt-1 max-w-[46ch] text-body-sm text-ink-200">
-              If you want to make peace with God, start with the prayer.
-            </p>
-          </div>
-          <ButtonLink href="/salvation-prayer" variant="gold" size="lg">
-            The Salvation Prayer
-          </ButtonLink>
-        </Container>
-      </div>
-
       <div className="bg-primary-600">
         <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
