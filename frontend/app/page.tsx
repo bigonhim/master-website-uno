@@ -232,7 +232,7 @@ export default async function HomePage() {
                   <span className="wipe-in mt-3 block text-cyan-400 [animation-delay:320ms]">
                     The Messiah
                   </span>
-                  <span className="wipe-in mt-3 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-700 [animation-delay:440ms] [text-shadow:none]">
+                  <span className="wipe-in mt-3 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950 [animation-delay:440ms] [text-shadow:none]">
                     is coming
                   </span>
                 </h1>
@@ -330,7 +330,7 @@ export default async function HomePage() {
                   </p>
                   <p className="mt-5 text-[clamp(2rem,1.2rem+2vw,2.75rem)] font-black uppercase leading-[1] tracking-[-0.03em]">
                     <span className="block text-cyan-400">The Messiah</span>
-                    <span className="mt-2 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-700">
+                    <span className="mt-2 inline-block bg-sun px-[0.18em] pb-[0.04em] pt-[0.1em] text-primary-950">
                       is coming
                     </span>
                   </p>
