@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /**
  * Primary navigation.
@@ -32,8 +33,14 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // A menu that survives navigation is a menu stuck open.
-  useEffect(() => setOpen(false), [pathname]);
+  // A menu that survives navigation is a menu stuck open. Closed during
+  // render, the React way to react to a prop change, not in an effect after
+  // the stale menu has already painted.
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    setOpen(false);
+  }
 
   // Home is exact-match only, or it would light up on every page.
   const isActive = (href: string) =>
@@ -87,19 +94,22 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <Link
-          href="/salvation-prayer"
-          className="ml-auto hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:ml-0 lg:inline-flex"
-        >
-          Prepare the Way
-        </Link>
+        <div className="ml-auto flex shrink-0 items-center gap-1 lg:ml-0">
+          <ThemeToggle />
+          <Link
+            href="/salvation-prayer"
+            className="hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:inline-flex"
+          >
+            Prepare the Way
+          </Link>
+        </div>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-sm text-primary-800 hover:bg-ink-50 lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-primary-800 hover:bg-ink-50 lg:hidden"
         >
           <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2">
