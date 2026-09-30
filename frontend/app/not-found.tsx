@@ -1,10 +1,15 @@
 import Link from "next/link";
 
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { Container } from "@/components/ui/Container";
 
+/**
+ * The 404 for the whole app. It renders at the root, outside the (site)
+ * layout, so it brings the site's chrome itself.
+ */
 export default function NotFound() {
   return (
-    <>
+    <SiteChrome>
       <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50 to-ink-0">
         <Container className="pb-12 pt-14">
           <p className="text-eyebrow uppercase text-cyan-700">404</p>
@@ -42,6 +47,6 @@ export default function NotFound() {
           ))}
         </ul>
       </Container>
-    </>
+    </SiteChrome>
   );
 }

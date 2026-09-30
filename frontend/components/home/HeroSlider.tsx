@@ -12,7 +12,7 @@ import {
 
 import { PlaceTag } from "@/components/ui/Broadcast";
 import { Container } from "@/components/ui/Container";
-import type { HeroSlide } from "@/lib/hero-slides";
+import type { HeroSlide } from "@/lib/site/types";
 
 /**
  * The home hero: photos of the ministry across the nations fill it, held back
@@ -24,7 +24,7 @@ import type { HeroSlide } from "@/lib/hero-slides";
  * own colours; the sapphire rises only behind the words on the left, and a
  * darker foot lies under the caption; the photo reads as
  * the scene the words are spoken into rather than as a second headline. Every
- * photo used has its subject right of centre (see lib/hero-slides), clear of
+ * photo used has its subject right of centre (see lib/site/builtin.ts), clear of
  * the words. The photo is sharp everywhere: blur under text reads as a smear.
  *
  * Each photo sits in a .hero-box (globals.css), placed by the slide's `frame`,
@@ -43,7 +43,7 @@ import type { HeroSlide } from "@/lib/hero-slides";
  * bar is not rendered, so nothing moves unless the visitor asks it to.
  */
 export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children: ReactNode }) {
-  const [index, setIndex] = useState(0);
+  const [chosen, setIndex] = useState(0);
   const [stopped, setStopped] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -52,6 +52,8 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
   const touchX = useRef<number | null>(null);
 
   const count = slides.length;
+  // In range even if the slides change under it (the Studio's live preview).
+  const index = Math.min(chosen, count - 1);
   const paused = stopped || hovered || focused || hidden;
   const autoplay = !reduced && count > 1;
 
@@ -99,7 +101,7 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
       <div className="absolute inset-x-0 top-0 -z-10 aspect-square overflow-hidden [container-type:size] [mask-image:linear-gradient(180deg,#000_35%,transparent)] sm:aspect-[16/10] lg:inset-0 lg:aspect-auto lg:[mask-image:none]">
         {slides.map((slide, i) => (
           <div
-            key={slide.src}
+            key={`${i}-${slide.src}`}
             aria-hidden={i !== index}
             className={`absolute inset-0 ${fade(i === index)}`}
           >
@@ -168,7 +170,7 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
             <div className="grid">
               {slides.map((slide, i) => (
                 <div
-                  key={slide.src}
+                  key={`${i}-${slide.src}`}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${count}`}
@@ -189,7 +191,7 @@ export function HeroSlider({ slides, children }: { slides: HeroSlide[]; children
                   const active = i === index;
                   return (
                     <button
-                      key={slide.src}
+                      key={`${i}-${slide.src}`}
                       type="button"
                       onClick={() => go(i)}
                       aria-label={`Show photo ${i + 1}: ${slide.place}, ${slide.event}`}

@@ -207,10 +207,22 @@
   top: calc((100cqh - max(100cqh, 66.6667cqw)) * var(--fy, 0.5));
 }
 
+/* The photo inside the 3:2 box follows the same point. For the prepared 3:2
+   photos this changes nothing; a photo of any other shape uploaded in the
+   Studio is then cropped around the frame rather than around its centre. */
+.hero-box img {
+  object-position: calc(var(--fx, 0.5) * 100%) calc(var(--fy, 0.5) * 100%);
+}
+
 @media (min-width: 1024px) {
   .hero-box {
     left: calc((100cqw - max(100cqw, 150cqh)) * var(--fx-lg, var(--fx, 0.5)));
     top: calc((100cqh - max(100cqh, 66.6667cqw)) * var(--fy-lg, var(--fy, 0.5)));
+  }
+
+  .hero-box img {
+    object-position: calc(var(--fx-lg, var(--fx, 0.5)) * 100%)
+      calc(var(--fy-lg, var(--fy, 0.5)) * 100%);
   }
 }
 

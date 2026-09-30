@@ -1,3 +1,5 @@
+from django.db.models import Q
+from django.utils import timezone
 from django.utils.cache import patch_cache_control
 from rest_framework import viewsets
 
@@ -35,9 +37,11 @@ class ContentItemViewSet(FacetMixin, viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         # Drafts never leave the admin. Imported rows land as drafts, and a
-        # quarter of them reference a deleted video.
+        # quarter of them reference a deleted video. An item published with a
+        # future date is scheduled: it appears once that moment has passed.
         return (
             ContentItem.objects.filter(status=Status.PUBLISHED)
+            .filter(Q(published_at__isnull=True) | Q(published_at__lte=timezone.now()))
             .select_related("category", "series")
             .prefetch_related("regions", "videos__video")
         )

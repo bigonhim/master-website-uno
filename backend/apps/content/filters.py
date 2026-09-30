@@ -57,16 +57,22 @@ class ContentItemFilter(filters.FilterSet):
         )
 
     def filter_q(self, queryset, name, value):
-        for term in value.split()[:8]:
-            queryset = queryset.filter(
-                Q(title__icontains=term)
-                | Q(title_source__icontains=term)
-                | Q(title_yt__icontains=term)
-                | Q(summary__icontains=term)
-                | Q(body__icontains=term)
-                | Q(speaker__icontains=term)
-                | Q(kicker__icontains=term)
-                | Q(category__name__icontains=term)
-                | Q(series__title__icontains=term)
-            )
-        return queryset
+        return search_items(queryset, value)
+
+
+def search_items(queryset, value: str):
+    """Every word must match somewhere, so adding a word narrows rather than
+    widens. Shared by the public archive and the Studio."""
+    for term in value.split()[:8]:
+        queryset = queryset.filter(
+            Q(title__icontains=term)
+            | Q(title_source__icontains=term)
+            | Q(title_yt__icontains=term)
+            | Q(summary__icontains=term)
+            | Q(body__icontains=term)
+            | Q(speaker__icontains=term)
+            | Q(kicker__icontains=term)
+            | Q(category__name__icontains=term)
+            | Q(series__title__icontains=term)
+        )
+    return queryset

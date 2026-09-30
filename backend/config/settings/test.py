@@ -9,3 +9,8 @@ ALLOWED_HOSTS = ["testserver", "localhost", "127.0.0.1"]
 # Keep the suite off the network: the radio service talks to radio.co, and a
 # test that depends on a third party is a test that fails for the wrong reason.
 RADIO_STATUS_URL = "http://localhost:0/status"
+
+# Uploaded test photos go to a throwaway folder, never the real media root.
+import tempfile  # noqa: E402
+
+MEDIA_ROOT = tempfile.mkdtemp(prefix="studio-test-media-")

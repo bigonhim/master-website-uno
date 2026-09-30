@@ -1,0 +1,76 @@
+{
+  "contact": {
+    "whatsapp": "+254 715 276091",
+    "phone_1": "+254 715 276091",
+    "phone_2": "+254 708 412344",
+    "email": "repentoffice@gmail.com",
+    "place": "Nakuru & Nairobi, Kenya"
+  },
+  "home_hero": {
+    "eyebrow": "Revelation 16:15",
+    "line_1": "Prepare",
+    "line_2": "the way",
+    "accent": "The Messiah",
+    "highlight": "is coming",
+    "quote": "Behold, I come as a thief. Blessed is he that watcheth.",
+    "button": "The Salvation Prayer",
+    "link": "Browse the archive"
+  },
+  "about_intro": {
+    "eyebrow": "About us",
+    "heading": "The Ministry of Repentance and Holiness",
+    "intro": "The Ministry of Repentance and Holiness was founded in 2005 and is led by Prophet Dr. David Edward Owuor. It is a global end-time ministry mandated by THE LORD GOD OF ISRAEL to prepare the nations for the imminent and glorious coming of THE LORD JESUS CHRIST.",
+    "vision_accent": "The Messiah",
+    "vision_highlight": "is coming",
+    "vision_text": "This vision stands as the divine alarm to the nations and the central message of the ministry.",
+    "mission_heading": "Preparing the Way for the glorious coming of the Messiah.",
+    "mission_text": "Through powerful preaching, revival meetings, healing services, conferences and global broadcasts, the ministry calls the world to repentance, holiness and readiness for the return of THE LORD JESUS CHRIST."
+  },
+  "about_pillars": {
+    "who_title": "Who we are",
+    "who_body": "The Ministry of Repentance and Holiness is a prophetic ministry raised to awaken the Church to the urgency of repentance and holy living. It proclaims that salvation is found only through the finished work of the Cross and that a holy life is the evidence of true redemption.\n\nThe ministry stands firmly on the authority of the Holy Scriptures and teaches uncompromising obedience to the Word of GOD as the only way to prepare for the Kingdom of Heaven.",
+    "leader_title": "The leadership",
+    "leader_name": "Prophet Dr. David Edward Owuor",
+    "leader_body": "The ministry is led by Prophet Dr. David Edward Owuor, the Servant of THE LORD, sent to restore repentance and holiness in the Church and to prepare the way for the coming of the Messiah.\n\nHis calling is centred on obedience to the voice of THE LORD GOD OF ISRAEL and the proclamation of righteousness, holiness and repentance, pointing all glory to GOD alone."
+  },
+  "home_message": {
+    "eyebrow": "The message",
+    "heading": "Repent. Be holy. Prepare.",
+    "intro": "Everything in this archive comes back to one call, given again and again across two decades of preaching.",
+    "pillars": [
+      {
+        "title": "Repent",
+        "quote": "Repent ye therefore, and be converted, that your sins may be blotted out.",
+        "reference": "Acts 3:19",
+        "body": "Turning from sin is where every walk with God begins. It is not a feeling but a decision, made before Him.",
+        "link": "Pray the Salvation Prayer"
+      },
+      {
+        "title": "Be holy",
+        "quote": "Because it is written, Be ye holy; for I am holy.",
+        "reference": "1 Peter 1:16",
+        "body": "Holiness is the life that follows repentance: set apart in word, in conduct and in what we allow into our hearts.",
+        "link": "Hear the teachings"
+      },
+      {
+        "title": "Prepare",
+        "quote": "Prepare to meet thy God.",
+        "reference": "Amos 4:12",
+        "body": "The ministry exists to call the nations to be ready for the coming of the Messiah, like wise virgins with oil in their lamps.",
+        "link": "Read the prophecies"
+      }
+    ]
+  },
+  "home_scripture": {
+    "reference": "Hebrews 12:14",
+    "verse": "*Follow* peace with all men, and **holiness**, without which no man shall **see the Lord**.",
+    "button_1": "Teachings on holiness",
+    "button_2": "Begin with prayer"
+  },
+  "home_radio": {
+    "eyebrow": "Jesus is LORD Radio",
+    "heading": "Preparing the way, around the clock",
+    "body": "The ministry broadcasts from Nakuru. When the station is on air you can listen from the bar at the top of any page, and it keeps playing while you read.",
+    "button": "Listen live"
+  }
+}

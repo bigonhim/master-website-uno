@@ -18,6 +18,7 @@ from apps.content.views import (
 from apps.contact.views import ContactMessageCreateView
 from apps.radio.views import RadioStatusView
 from apps.salvation.views import SalvationDecisionCreateView
+from apps.sitecontent.views import SiteContentView
 
 router = DefaultRouter()
 # One archive per content type, plus a combined feed for cross-type listings.
@@ -35,6 +36,10 @@ router.register("series", SeriesViewSet, basename="series")
 api_v1 = [
     path("", include(router.urls)),
     path("radio/status/", RadioStatusView.as_view(), name="radio-status"),
+    # Everything on the site that the Studio edits, for the site to read.
+    path("site/", SiteContentView.as_view(), name="site-content"),
+    # The Studio's own API. Every route in it requires a signed-in editor.
+    path("studio/", include("apps.studio.urls")),
     # The two public write routes on the site. Both only ever create.
     path(
         "salvation/decisions/",
@@ -61,3 +66,14 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+elif settings.SERVE_MEDIA:
+    # static() only works under DEBUG; this is its production equivalent,
+    # opted into explicitly (see SERVE_MEDIA in settings).
+    from django.urls import re_path
+    from django.views.static import serve
+
+    urlpatterns += [
+        re_path(
+            r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}
+        )
+    ]

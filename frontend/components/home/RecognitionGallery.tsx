@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
-import type { RecognitionPhoto } from "@/lib/recognition";
+import type { GalleryPhoto } from "@/lib/site/types";
 
 /**
  * The recognition photos as a viewer, sized to sit within one screen: one
@@ -22,13 +22,16 @@ export function RecognitionGallery({
   photos,
   children,
 }: {
-  photos: RecognitionPhoto[];
+  photos: GalleryPhoto[];
   children: ReactNode;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const [active, setActive] = useState(0);
+  const [chosen, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const count = photos.length;
+  // Kept in range if the photos change under it, as they do in the Studio's
+  // live preview when a photo is removed.
+  const active = Math.min(chosen, count - 1);
   const current = photos[active];
 
   const step = useCallback(
@@ -68,7 +71,7 @@ export function RecognitionGallery({
                 than a blank frame while the next one loads. */}
             {photos.map((photo, i) => (
               <Image
-                key={photo.src}
+                key={`${i}-${photo.src}`}
                 src={photo.src}
                 alt={i === active ? photo.alt : ""}
                 aria-hidden={i !== active}
@@ -91,7 +94,7 @@ export function RecognitionGallery({
 
           <ul className="mt-2.5 grid grid-cols-5 gap-2 sm:mt-3 sm:gap-3">
             {photos.map((photo, i) => (
-              <li key={photo.src}>
+              <li key={`${i}-${photo.src}`}>
                 <button
                   type="button"
                   onClick={() => setActive(i)}

@@ -30,6 +30,9 @@ INSTALLED_APPS = [
     "apps.salvation",
     "apps.contact",
     "apps.radio",
+    "apps.media",
+    "apps.sitecontent",
+    "apps.studio",
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,12 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
+# In-process by default. With several server processes in production, point
+# CACHE_URL at a shared cache (e.g. rediscache://… or dbcache://django_cache
+# after `manage.py createcachetable`) so the radio status and the Studio's
+# sign-in limits are shared between them.
+CACHES = {"default": env.cache("CACHE_URL", default="locmemcache://")}
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": f"django.contrib.auth.password_validation.{v}"}
@@ -124,6 +133,19 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 CORS_ALLOW_CREDENTIALS = False  # no cross-origin cookies; don't opt into the risk
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+
+# The Studio. A signed-in editor stays signed in for this long.
+STUDIO_SESSION_DAYS = env.int("STUDIO_SESSION_DAYS", default=7)
+# Photos uploaded in the Studio are files under MEDIA_ROOT. In development
+# Django serves them; in production something must (a web server, or a storage
+# bucket). SERVE_MEDIA=True makes Django serve them itself, which is fine for
+# a small site behind a caching proxy and the simplest thing that works.
+SERVE_MEDIA = env.bool("SERVE_MEDIA", default=False)
+# Uploads above this go to a temporary file rather than memory. The size of an
+# upload itself is capped by the Studio (25MB, apps/studio/views/media.py) and
+# by the site's relay in front of it; DATA_UPLOAD_MAX_MEMORY_SIZE stays at
+# Django's default, as it only ever counted the non-file fields.
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 
 RADIO_STATION_ID = env.str("RADIO_STATION_ID", default="s97f38db97")
 RADIO_STREAM_URL = env.str(

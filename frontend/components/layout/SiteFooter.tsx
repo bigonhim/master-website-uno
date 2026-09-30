@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/ui/Container";
+import { contactLinks } from "@/lib/site/contact";
+import type { SiteSections } from "@/lib/site/types";
 
 import { LocalTime } from "./LocalTime";
 
@@ -64,8 +66,10 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
   );
 }
 
-export function SiteFooter() {
+/** The contact details come from the Studio ("Contact details"). */
+export function SiteFooter({ contact }: { contact: SiteSections["contact"] }) {
   const year = new Date().getFullYear();
+  const { phones, place } = contactLinks(contact);
 
   // The footer sits on primary-600, so it closes the page without going to
   // near-black. The utility row is set off by a hairline, not a second blue.
@@ -79,25 +83,19 @@ export function SiteFooter() {
             <p className="mt-4 text-body-sm leading-relaxed text-ink-200">
               Ministry of Repentance and Holiness
               <br />
-              Nakuru &amp; Nairobi, Kenya
+              {place}
             </p>
             <ul className="mt-4 space-y-1.5 text-body-sm">
-              <li>
-                <a
-                  href="tel:+254715276091"
-                  className="tabular-nums text-ink-200 transition-colors hover:text-ink-0"
-                >
-                  +254 715 276091
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+254708412344"
-                  className="tabular-nums text-ink-200 transition-colors hover:text-ink-0"
-                >
-                  +254 708 412344
-                </a>
-              </li>
+              {phones.map((phone) => (
+                <li key={phone.href}>
+                  <a
+                    href={phone.href}
+                    className="tabular-nums text-ink-200 transition-colors hover:text-ink-0"
+                  >
+                    {phone.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

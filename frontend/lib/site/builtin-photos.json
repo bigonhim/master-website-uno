@@ -1,0 +1,146 @@
+{
+  "heroSlides": [
+    {
+      "src": "/hero/nakuru-crowd-flags.webp",
+      "alt": "Aerial view of a vast crowd in Nakuru carrying the flags of many nations.",
+      "place": "Nakuru",
+      "detail": "Kenya",
+      "event": "Merica Reception",
+      "frame": {
+        "x": 0.5,
+        "y": 0.3
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.25
+      }
+    },
+    {
+      "src": "/hero/western-scroll.webp",
+      "alt": "Leaders holding up a banner beside the preacher at the Western Region revival.",
+      "place": "Western Region",
+      "event": "Revival",
+      "frame": {
+        "x": 0.62,
+        "y": 0.1
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.04
+      }
+    },
+    {
+      "src": "/hero/drc-worship.webp",
+      "alt": "A conference hall in the DRC on its feet, hands raised in worship.",
+      "place": "DR Congo",
+      "event": "Conference Day",
+      "frame": {
+        "x": 0.5,
+        "y": 0.3
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.3
+      }
+    },
+    {
+      "src": "/hero/nakuru-preaching-flags.webp",
+      "alt": "Preaching on a red stage in Nakuru before a crowd holding national flags.",
+      "place": "Nakuru",
+      "detail": "Kenya",
+      "event": "Merica Reception",
+      "frame": {
+        "x": 0.62,
+        "y": 0.12
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.08
+      }
+    },
+    {
+      "src": "/hero/western-procession.webp",
+      "alt": "Arriving on foot and waving, ahead of a procession of children at the Western Region revival.",
+      "place": "Western Region",
+      "event": "Revival",
+      "frame": {
+        "x": 0.7,
+        "y": 0.1
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.05
+      }
+    },
+    {
+      "src": "/hero/nakuru-children.webp",
+      "alt": "Children with hand-written signs greeting the preacher on the red carpet in Nakuru.",
+      "place": "Nakuru",
+      "detail": "Kenya",
+      "event": "Merica Reception",
+      "frame": {
+        "x": 0.56,
+        "y": 0.15
+      },
+      "frameLg": {
+        "x": 0.5,
+        "y": 0.12
+      }
+    }
+  ],
+  "recognition": {
+    "eyebrow": "Recognition",
+    "heading": "The Prophet of THE LORD, **honoured**",
+    "place": {
+      "name": "Bogotá",
+      "detail": "Colombia"
+    },
+    "summary": "Received at the airport in Bogotá with a police escort, welcomed with the flag of the city, and presented with a ceremonial golden key.",
+    "photos": [
+      {
+        "src": "/recognition/bogota-key-to-the-city.webp",
+        "width": 2456,
+        "height": 1376,
+        "alt": "The Prophet receiving a ceremonial golden key in a presentation case, surrounded by people filming.",
+        "title": "A ceremonial key",
+        "caption": "Presented with a golden key inscribed “Bendito el que viene en el nombre de Jehová” (Psalm 118:26).",
+        "focus": "60% 50%"
+      },
+      {
+        "src": "/recognition/bogota-police-escort.webp",
+        "width": 2456,
+        "height": 1600,
+        "alt": "The Prophet walking through the airport arrivals hall, escorted by uniformed police officers.",
+        "title": "Escorted on arrival",
+        "caption": "Received at the airport with a police escort.",
+        "focus": "50% 35%"
+      },
+      {
+        "src": "/recognition/bogota-city-flag.webp",
+        "width": 2456,
+        "height": 1380,
+        "alt": "The Prophet and his hosts holding up the yellow and red flag of Bogotá in the airport.",
+        "title": "The flag of Bogotá",
+        "caption": "Welcomed with the flag of the city."
+      },
+      {
+        "src": "/recognition/bogota-welcome.webp",
+        "width": 2456,
+        "height": 1380,
+        "alt": "Hosts presenting the Prophet with gifts, beside a sign welcoming him to Bogotá.",
+        "title": "Gifts of welcome",
+        "caption": "Gifts presented by his hosts on arrival.",
+        "focus": "55% 40%"
+      },
+      {
+        "src": "/recognition/bogota-police-plaque.webp",
+        "width": 2456,
+        "height": 1380,
+        "alt": "The Prophet speaking and holding a plaque, standing between four police officers.",
+        "title": "A plaque, among the police",
+        "caption": "Holding a plaque, standing with officers of the police.",
+        "focus": "50% 30%"
+      }
+    ]
+  }
+}

@@ -12,6 +12,8 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/design-system", // internal reference, not content
           "/salvation-prayer/thank-you",
+          "/studio", // the editors' Studio; every page of it needs a sign-in
+          "/preview/",
         ],
       },
     ],
