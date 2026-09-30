@@ -24,7 +24,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { getArticles, getFeedImage, type ArticleSummary } from "@/lib/api/articles";
 import { getArchive } from "@/lib/api/content";
-import { getLatestVideos } from "@/lib/api/youtube";
+import { getLatestVideos, getLiveVideoId } from "@/lib/api/youtube";
 import { HERO_SLIDES } from "@/lib/hero-slides";
 import {
   RECOGNITION_PHOTOS,
@@ -198,10 +198,12 @@ const ABOUT_PILLARS: {
 ];
 
 export default async function HomePage() {
-  const [{ newest, reachable }, latestArticle, latestVideos] = await Promise.all([
+  const [{ newest, reachable }, latestArticle, latestVideos, liveVideoId] = await Promise.all([
     loadHome(),
     loadLatestArticle(),
     loadLatestVideos(),
+    // Never throws: any doubt reads as "not live".
+    getLiveVideoId(),
   ]);
   const featured = newest.prophecies;
 
@@ -547,7 +549,7 @@ export default async function HomePage() {
 
       {/* ---------------------------------------------------- latest videos
           The channel's newest uploads, straight from its feed. */}
-      <LatestVideos videos={latestVideos} />
+      <LatestVideos videos={latestVideos} liveId={liveVideoId} />
 
       {/* ------------------------------------------------------ the message */}
       <section className="relative overflow-hidden border-t border-ink-100 bg-grad-dawn">

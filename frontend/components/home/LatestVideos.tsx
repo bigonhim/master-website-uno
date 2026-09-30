@@ -1,5 +1,8 @@
-import { YouTubeEmbed } from "@/components/media/YouTubeEmbed";
+import Link from "next/link";
+
 import { ArrowIcon } from "@/components/home/icons";
+import { VideoPoster } from "@/components/media/VideoPoster";
+import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
 import { YOUTUBE_CHANNEL_URL, asAttachedVideo } from "@/lib/api/youtube";
 import type { ChannelVideo } from "@/lib/youtube/feed";
@@ -14,12 +17,21 @@ function formatDate(value: string) {
 }
 
 /**
- * The channel's newest uploads. Each is a poster until it is pressed, so the
- * home page loads no players; pressed, it plays where it is.
+ * The channel's newest uploads. Each card is a poster, as in the archive:
+ * pressing it opens the video's own watch page with the player already
+ * running, so the home page loads no players at all. The one being streamed
+ * right now carries a Live tag on its poster.
  *
  * Titles are the ministry's own, in its own capitals.
  */
-export function LatestVideos({ videos }: { videos: ChannelVideo[] }) {
+export function LatestVideos({
+  videos,
+  liveId = null,
+}: {
+  videos: ChannelVideo[];
+  /** The id of the broadcast streaming right now, if any. */
+  liveId?: string | null;
+}) {
   if (videos.length === 0) return null;
 
   return (
@@ -45,20 +57,45 @@ export function LatestVideos({ videos }: { videos: ChannelVideo[] }) {
         </div>
 
         <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {videos.map((video) => (
-            <li key={video.id}>
-              <YouTubeEmbed video={asAttachedVideo(video)} title={video.title} />
-              <h3
-                title={video.title}
-                className="mt-3 line-clamp-2 text-body font-semibold leading-snug text-primary-900"
-              >
-                {video.title}
-              </h3>
-              <p className="mt-1.5 text-meta text-ink-500">
-                <time dateTime={video.publishedAt}>{formatDate(video.publishedAt)}</time>
-              </p>
-            </li>
-          ))}
+          {videos.map((video) => {
+            const live = video.id === liveId;
+            return (
+              <li key={video.id}>
+                {/* Pressing play opens the watch page with the player already
+                    running; the title opens it without starting the video. */}
+                <Link
+                  href={`/videos/${video.id}?play=1`}
+                  aria-label={`Play video: ${video.title}`}
+                  className="group relative block aspect-video overflow-hidden rounded-md bg-primary-950"
+                >
+                  <VideoPoster video={asAttachedVideo(video)} />
+                  {live ? (
+                    <Badge tone="live" dot className="absolute left-3 top-3 shadow-md">
+                      Live
+                    </Badge>
+                  ) : null}
+                </Link>
+                <h3
+                  title={video.title}
+                  className="mt-3 line-clamp-2 text-body font-semibold leading-snug text-primary-900"
+                >
+                  <Link
+                    href={`/videos/${video.id}`}
+                    className="underline-offset-4 transition-colors hover:text-primary-600 focus-visible:underline"
+                  >
+                    {video.title}
+                  </Link>
+                </h3>
+                <p className="mt-1.5 text-meta text-ink-500">
+                  {live ? (
+                    "Streaming now"
+                  ) : (
+                    <time dateTime={video.publishedAt}>{formatDate(video.publishedAt)}</time>
+                  )}
+                </p>
+              </li>
+            );
+          })}
         </ul>
       </Container>
     </section>

@@ -17,6 +17,11 @@ export interface ChannelVideo {
 const ENTRY = /<entry>([\s\S]*?)<\/entry>/g;
 const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
 
+/** True when `value` has the exact shape of a YouTube video id. */
+export function isVideoId(value: string): boolean {
+  return VIDEO_ID.test(value);
+}
+
 const ENTITIES: Record<string, string> = {
   amp: "&",
   lt: "<",
