@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ComponentType, ReactNode, SVGProps } from "react";
+import type { ReactNode } from "react";
 
-import {
-  HeartIcon,
-  HolyIcon,
-  LampIcon,
-  RadioIcon,
-  RepentIcon,
-  ScrollIcon,
-} from "@/components/home/icons";
+import { PrepareDeck } from "@/components/contact/PrepareDeck";
 import { LeadIn } from "@/components/ui/Broadcast";
 import { Container } from "@/components/ui/Container";
 import { CONTACT } from "@/lib/contact";
@@ -86,54 +79,6 @@ function Channel({
     </a>
   );
 }
-
-// How to be ready, drawn from the ministry's own vision — "The Messiah is
-// coming" — and its mission of preparing the way through repentance and
-// holiness. Each card names a step, says it briefly, and cites where it
-// stands written.
-const PREPARE: {
-  title: string;
-  body: string;
-  reference: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-}[] = [
-  {
-    title: "Hear the divine alarm",
-    body: "The vision stands over everything the ministry does: THE LORD JESUS CHRIST is coming, and the hour is near.",
-    reference: "Revelation 16:15",
-    icon: ScrollIcon,
-  },
-  {
-    title: "Turn in repentance",
-    body: "The call to the nations begins with turning — away from sin, and back to the GOD who made us.",
-    reference: "Acts 3:19",
-    icon: RepentIcon,
-  },
-  {
-    title: "Receive the Messiah",
-    body: "Believe that He died in your place and rose again, and give Him your life. The prayer above is the place to begin.",
-    reference: "John 1:12",
-    icon: HeartIcon,
-  },
-  {
-    title: "Walk in holiness",
-    body: "Readiness is a walk, not a moment: a daily life of repentance and holiness before THE LORD.",
-    reference: "Hebrews 12:14",
-    icon: HolyIcon,
-  },
-  {
-    title: "Keep oil in your lamp",
-    body: "Watch like the wise virgins — prayer, the word and fellowship keep the lamp burning for His return.",
-    reference: "Matthew 25:4",
-    icon: LampIcon,
-  },
-  {
-    title: "Carry the message",
-    body: "Through preaching, revivals and broadcasts the ministry calls the world to readiness; carry that call with it.",
-    reference: "Matthew 24:14",
-    icon: RadioIcon,
-  },
-];
 
 export default function ContactPage() {
   const [firstPhone, secondPhone] = CONTACT.phones;
@@ -217,7 +162,27 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="space-y-10 lg:col-span-7">
+        <div className="space-y-9 lg:col-span-7">
+          {/* First, the steps in motion: one card's footprint, so the column
+              ends beside the contact details instead of running past them. */}
+          <section aria-labelledby="prepare-title">
+            <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-700">
+              <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+              Our vision &amp; mission
+            </p>
+            <h2 id="prepare-title" className="text-h2 mt-4 text-primary-900">
+              Prepare for the coming of the Messiah
+            </h2>
+            <p className="mt-2 max-w-[54ch] text-body text-ink-700">
+              The ministry exists to prepare the nations for the imminent and glorious
+              coming of THE LORD JESUS CHRIST — like wise virgins with oil in their
+              lamps. This is how you get ready.
+            </p>
+            <div className="mt-6">
+              <PrepareDeck />
+            </div>
+          </section>
+
           {/* The prayer itself, whole. The form this column used to hold asked
               visitors to write to the office; this asks for the one response
               that matters. */}
@@ -254,57 +219,6 @@ export default function ContactPage() {
             </p>
           </section>
 
-          {/* How to be ready, in the pillar-card language of the home page:
-              the cyan rule, the azure disc, the ghost glyph waking on hover,
-              and each card wiping in a beat after the one before it. */}
-          <section aria-labelledby="prepare-title">
-            <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-700">
-              <span aria-hidden className="h-1 w-10 bg-grad-rule" />
-              Our vision &amp; mission
-            </p>
-            <h2 id="prepare-title" className="text-h2 mt-4 text-primary-900">
-              Prepare for the coming of the Messiah
-            </h2>
-            <p className="mt-2 max-w-[54ch] text-body text-ink-700">
-              The ministry exists to prepare the nations for the imminent and glorious
-              coming of THE LORD JESUS CHRIST — like wise virgins with oil in their
-              lamps. This is how you get ready.
-            </p>
-            <ul className="mt-7 grid gap-5 sm:grid-cols-2">
-              {PREPARE.map((step, index) => (
-                <li
-                  key={step.title}
-                  style={{ animationDelay: `${120 + index * 90}ms` }}
-                  className="wipe-in group relative flex flex-col overflow-hidden rounded-lg bg-ink-0 p-6 shadow-lg ring-1 ring-ink-100 transition-all duration-300 ease-emphasis hover:-translate-y-1 hover:shadow-xl hover:ring-primary-200 sm:p-7"
-                >
-                  <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-cyan-400" />
-                  <step.icon
-                    aria-hidden
-                    className="pointer-events-none absolute -bottom-7 -right-7 h-36 w-36 text-primary-50 transition-transform duration-700 ease-emphasis group-hover:-rotate-3 group-hover:scale-110"
-                  />
-
-                  <div className="relative flex items-center justify-between gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-grad-azure text-ink-0 shadow-md shadow-primary-700/25">
-                      <step.icon className="h-5 w-5" />
-                    </span>
-                    <span className="font-display text-h2 tabular-nums text-primary-100">
-                      0{index + 1}
-                    </span>
-                  </div>
-
-                  <h3 className="relative mt-4 text-h4 text-primary-900">
-                    {step.title}
-                  </h3>
-                  <p className="relative mt-2 text-body-sm leading-relaxed text-ink-600">
-                    {step.body}
-                  </p>
-                  <p className="relative mt-auto pt-4 text-meta text-ink-500">
-                    {step.reference}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
         </div>
       </div>
     </Container>
