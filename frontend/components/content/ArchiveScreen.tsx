@@ -87,6 +87,8 @@ export async function ArchiveScreen({
   }
 
   const hasFilters = Object.keys(params).some((key) => key !== "offset");
+  const hasFacets =
+    !!data.facets && Object.values(data.facets).some((list) => (list ?? []).length > 0);
   const from = data.count === 0 ? 0 : offset + 1;
   const to = Math.min(offset + ARCHIVE_LIMIT, data.count);
 
@@ -103,13 +105,15 @@ export async function ArchiveScreen({
 
       <Container className="pb-section-sm pt-8">
         <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-3">
-            {data.facets ? (
-              <FacetRail facets={data.facets} basePath={basePath} params={params} />
-            ) : null}
-          </div>
+          {/* The rail renders nothing until entries are catalogued, so its
+              column only exists when there is something to filter by. */}
+          {hasFacets ? (
+            <div className="lg:col-span-3">
+              <FacetRail facets={data.facets!} basePath={basePath} params={params} />
+            </div>
+          ) : null}
 
-          <div className="lg:col-span-9">
+          <div className={hasFacets ? "lg:col-span-9" : "lg:col-span-12"}>
             {data.count > 0 ? (
               <p className="mb-5 text-body-sm tabular-nums text-ink-600">
                 Showing {from}–{to} of {data.count}
