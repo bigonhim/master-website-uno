@@ -35,8 +35,8 @@ function Step({
 }) {
   return (
     <section aria-labelledby={`step-${number}`}>
-      <p className="text-eyebrow uppercase text-primary-500">{number}</p>
-      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <p className="text-eyebrow uppercase text-cyan-700">{number}</p>
+      <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
       <h2 id={`step-${number}`} className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         {title}
       </h2>
@@ -100,8 +100,8 @@ export default function SalvationPrayerPage() {
       It is a decision, and it is yours to make.
     </Step>,
     <section key="5" aria-labelledby="step-prayer">
-      <p className="text-eyebrow uppercase text-primary-500">Step five</p>
-      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <p className="text-eyebrow uppercase text-cyan-700">Step five</p>
+      <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
       <h2 id="step-prayer" className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         Pray this, and mean it
       </h2>
@@ -120,8 +120,8 @@ export default function SalvationPrayerPage() {
       </blockquote>
     </section>,
     <section key="6" aria-labelledby="step-decision">
-      <p className="text-eyebrow uppercase text-primary-500">Step six</p>
-      <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+      <p className="text-eyebrow uppercase text-cyan-700">Step six</p>
+      <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
       <h2 id="step-decision" className="text-h2 mt-5 max-w-[20ch] text-primary-900">
         What happens now
       </h2>
@@ -145,8 +145,8 @@ export default function SalvationPrayerPage() {
     <>
       <div className="border-b border-ink-100 bg-gradient-to-b from-primary-50 to-ink-0">
         <Container className="pb-12 pt-14 lg:pt-16">
-          <p className="text-eyebrow uppercase text-primary-500">Begin here</p>
-          <div aria-hidden className="mt-3 h-0.5 w-12 bg-grad-rule" />
+          <p className="text-eyebrow uppercase text-cyan-700">Begin here</p>
+          <div aria-hidden className="mt-3 h-1 w-12 bg-grad-rule" />
           <h1 className="text-display-xl mt-6 max-w-[15ch] text-primary-900">
             Make your peace with God
           </h1>

@@ -93,7 +93,7 @@ export function PrayerFlow({
             </label>
             <button
               type="submit"
-              className="h-12 rounded-sm bg-gold-500 px-7 font-display text-body font-semibold text-primary-950"
+              className="h-12 rounded-sm bg-primary-700 px-7 font-display text-body font-extrabold uppercase tracking-wide text-ink-0 transition-colors hover:bg-primary-600"
             >
               Send
             </button>
@@ -359,7 +359,7 @@ function DecisionForm({ decision }: { decision: "prayed" | "not_yet" }) {
       <button
         type="submit"
         disabled={state === "sending"}
-        className="mt-6 h-12 rounded-sm bg-gold-500 px-7 font-display text-body font-semibold text-primary-950 transition-colors hover:bg-gold-400 disabled:opacity-60"
+        className="mt-6 h-12 rounded-sm bg-primary-700 px-7 font-display text-body font-extrabold uppercase tracking-wide text-ink-0 transition-colors hover:bg-primary-600 disabled:opacity-60"
       >
         {state === "sending" ? "Sending…" : "Send"}
       </button>

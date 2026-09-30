@@ -5,7 +5,7 @@ type Variant = "primary" | "secondary" | "ghost" | "gold";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-sm font-display font-semibold " +
+  "inline-flex items-center justify-center gap-2 rounded-sm font-display font-extrabold uppercase tracking-wide " +
   "transition-colors duration-200 ease-emphasis disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
@@ -16,14 +16,14 @@ const variants: Record<Variant, string> = {
     "[.on-dark_&]:hover:bg-ink-0/10",
   ghost:
     "text-primary-700 hover:bg-primary-50 [.on-dark_&]:text-ink-0 [.on-dark_&]:hover:bg-ink-0/10",
-  // Gold fill takes near-black text, never white: #E0A800 is a fill colour and
-  // fails contrast against light text.
-  gold: "bg-gold-500 text-primary-950 hover:bg-gold-400 active:bg-gold-700",
+  // The broadcast yellow. Navy text only, and on a navy or dark surface only:
+  // #FFFF00 disappears against white (1.07:1), so this variant lives on-dark.
+  gold: "bg-sun text-primary-950 hover:bg-gold-400 active:bg-gold-500",
 };
 
 const sizes: Record<Size, string> = {
   sm: "h-9 px-3.5 text-body-sm",
-  md: "h-11 px-5 text-body",
+  md: "h-11 px-5 text-body-sm",
   // h-13 is not in Tailwind's default scale, so it compiled to nothing and
   // large buttons collapsed to the height of their text.
   lg: "h-12 px-7 text-body",

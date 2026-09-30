@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.radio.co" },
     ],
     formats: ["image/avif", "image/webp"],
+    // 90 is for the hero photos, which are large enough on screen that the
+    // default 75 visibly softens them. Everything else stays at 75.
+    qualities: [75, 90],
   },
 };
 

@@ -1,37 +1,37 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
+import { VideoPoster } from "@/components/media/VideoPoster";
 import type { AttachedVideo } from "@/lib/api/types";
 
 /**
  * The only iframe in the codebase.
  *
- * On archive grids it is a facade: a poster image that turns into the player,
- * already playing, in place, on one press. The previous attempt rendered a live
- * iframe inside every card, so a 24-card archive page loaded 24 YouTube players
- * — tens of megabytes of JavaScript, and unusable on a Kenyan 3G connection.
+ * By default it is a facade: a poster image that turns into the player, already
+ * playing, in place, on one press. Archive cards do not use it at all — their
+ * poster links to the entry's own page — so a 24-card page loads no players.
  *
  * `eager` skips the facade and renders the player straight away. That is for
  * detail pages, where the video is the page and one player is affordable.
+ * `autoplay` starts that player, for visitors who arrived by pressing play on
+ * a card.
  */
 export function YouTubeEmbed({
   video,
   title,
   priority = false,
   eager = false,
-  flush = false,
+  autoplay = false,
 }: {
   video: AttachedVideo;
   title: string;
   priority?: boolean;
   eager?: boolean;
-  /** Square corners, for when the parent (a card) already clips them. */
-  flush?: boolean;
+  autoplay?: boolean;
 }) {
   const [active, setActive] = useState(eager);
-  const frame = `relative aspect-video overflow-hidden bg-primary-950 ${flush ? "" : "rounded-md"}`;
+  const frame = "relative aspect-video overflow-hidden rounded-md bg-primary-950";
 
   if (video.availability === "unavailable") {
     return (
@@ -51,13 +51,14 @@ export function YouTubeEmbed({
     return (
       <div className={frame}>
         <iframe
-          // Autoplay only when the visitor pressed play; an eager player waits.
-          src={`${video.embed_url}?rel=0&playsinline=1${eager ? "" : "&autoplay=1"}`}
+          // Autoplay only when the visitor pressed play, here or on a card; an
+          // eager player otherwise waits.
+          src={`${video.embed_url}?rel=0&playsinline=1${eager && !autoplay ? "" : "&autoplay=1"}`}
           title={title}
           // `fullscreen` in `allow` replaces the legacy allowFullScreen
           // attribute; setting both makes the browser warn about the overlap.
           allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
-          loading={eager ? "lazy" : undefined}
+          loading={eager && !autoplay ? "lazy" : undefined}
           className="absolute inset-0 h-full w-full"
         />
       </div>
@@ -73,7 +74,7 @@ export function YouTubeEmbed({
           aria-label={`Play video: ${title}`}
           className="group absolute inset-0 h-full w-full"
         >
-          <Poster video={video} priority={priority} />
+          <VideoPoster video={video} priority={priority} />
         </button>
       ) : (
         // The uploader has disabled embedding, so the only place it plays is
@@ -85,34 +86,9 @@ export function YouTubeEmbed({
           aria-label={`Watch on YouTube: ${title} (opens in a new tab)`}
           className="group absolute inset-0 h-full w-full"
         >
-          <Poster video={video} priority={priority} />
+          <VideoPoster video={video} priority={priority} />
         </a>
       )}
     </div>
-  );
-}
-
-function Poster({ video, priority }: { video: AttachedVideo; priority: boolean }) {
-  return (
-    <>
-      <Image
-        src={video.thumbnail_url}
-        alt=""
-        fill
-        sizes="(min-width: 1024px) 33vw, 100vw"
-        className="object-cover transition-transform duration-500 ease-emphasis group-hover:scale-[1.03]"
-        priority={priority}
-      />
-      {/* Guarantees contrast for the play glyph whatever the frame holds. */}
-      <span aria-hidden className="absolute inset-0 bg-grad-veil" />
-      <span
-        aria-hidden
-        className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-sun/95 shadow-md transition-transform duration-300 ease-emphasis group-hover:scale-110"
-      >
-        <svg viewBox="0 0 24 24" className="ml-0.5 h-6 w-6 fill-primary-950">
-          <path d="M8 5.5v13l11-6.5z" />
-        </svg>
-      </span>
-    </>
   );
 }

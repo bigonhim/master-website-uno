@@ -1,13 +1,12 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
-import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 import { LocalTime } from "./LocalTime";
 
 /**
- * Three tiers: one call to action, the substance, then utility.
+ * Two tiers: the substance, then utility.
  *
  * Every link here points at something that exists. The first version linked to
  * nine routes that were never built — books, search, radio, prayer requests,
@@ -41,7 +40,7 @@ const nextStepLinks: FooterLink[] = [
 function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <nav aria-label={title}>
-      <h2 className="text-eyebrow uppercase text-gold-400">{title}</h2>
+      <h2 className="text-eyebrow uppercase text-cyan-400">{title}</h2>
       <ul className="mt-4 space-y-2.5">
         {links.map((link) => (
           <li key={link.href}>
@@ -65,28 +64,15 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
+  // The footer sits on primary-600, so it closes the page without going to
+  // near-black. The utility row is set off by a hairline, not a second blue.
   return (
     <footer className="on-dark mt-auto">
-      <div className="grad-dither bg-grad-royal">
-        <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div aria-hidden className="h-0.5 w-16 bg-grad-rule" />
-            <p className="mt-4 text-h3 text-ink-0">Begin here</p>
-            <p className="mt-1 max-w-[46ch] text-body-sm text-ink-200">
-              If you want to make peace with God, start with the prayer.
-            </p>
-          </div>
-          <ButtonLink href="/salvation-prayer" variant="gold" size="lg">
-            The Salvation Prayer
-          </ButtonLink>
-        </Container>
-      </div>
-
-      <div className="bg-primary-900">
+      <div className="bg-primary-600">
         <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo size={64} onDark className="mb-5" />
-            <h2 className="text-eyebrow uppercase text-gold-400">The Ministry</h2>
+            <h2 className="text-eyebrow uppercase text-cyan-400">The Ministry</h2>
             <p className="mt-4 text-body-sm leading-relaxed text-ink-200">
               Ministry of Repentance and Holiness
               <br />
@@ -118,7 +104,7 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      <div className="bg-primary-950">
+      <div className="border-t border-ink-0/10 bg-primary-600">
         <Container className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="text-body-sm text-ink-300">
             © {year} Ministry of Repentance and Holiness
