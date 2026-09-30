@@ -39,7 +39,7 @@ export interface AttachedVideo {
 /* ---------------------------------------------------------------- content */
 
 export type ContentKind = "teaching" | "prophecy" | "healing" | "writing";
-export type DateSource = "title_parsed" | "manual" | "unknown";
+export type DateSource = "title_parsed" | "video" | "manual" | "unknown";
 
 export interface Category {
   name: string;

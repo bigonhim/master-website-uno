@@ -56,16 +56,18 @@ export function ContentCard({
           so it says so plainly rather than inventing a date. */}
       <LowerThird
         kind={item.kind}
-        // Teachings are timeless messages, so their cards carry no date bar.
+        // A teaching card shows its date when one is known — parsed from the
+        // title or read off the video's upload — and stays quiet otherwise,
+        // rather than confessing "Date not recorded" under every message.
         date={
-          item.kind === "teaching"
-            ? undefined
-            : item.is_dated && item.prophecy_date
-              ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })
+          item.is_dated && item.prophecy_date
+            ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : item.kind === "teaching"
+              ? undefined
               : "Date not recorded"
         }
       />

@@ -141,12 +141,13 @@ export function DetailScreen({
             <LowerThird
               className="mt-4"
               kind={item.kind}
-              // Teachings are timeless messages: no date bar, here or on cards.
+              // A teaching shows its date when one is known and stays quiet
+              // otherwise; the other kinds still own up to "Date not recorded".
               date={
-                item.kind === "teaching"
-                  ? undefined
-                  : item.is_dated && item.prophecy_date
-                    ? formatDate(item.prophecy_date)
+                item.is_dated && item.prophecy_date
+                  ? formatDate(item.prophecy_date)
+                  : item.kind === "teaching"
+                    ? undefined
                     : "Date not recorded"
               }
             />
@@ -178,13 +179,15 @@ export function DetailScreen({
                   <dd className="text-ink-800">{item.series.title}</dd>
                 </div>
               ) : null}
-              {item.kind !== "teaching" ? (
+              {item.kind !== "teaching" || item.is_dated ? (
                 <div>
                   <dt className="text-ink-500">Dating</dt>
                   <dd className="text-ink-800">
-                    {item.is_dated
-                      ? item.date_precision
-                      : "Not recorded in the source"}
+                    {!item.is_dated
+                      ? "Not recorded in the source"
+                      : item.date_source === "video"
+                        ? "From the video's upload date"
+                        : item.date_precision}
                   </dd>
                 </div>
               ) : null}
