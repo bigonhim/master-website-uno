@@ -29,6 +29,7 @@ export function ArticleCard({ article, image }: { article: ArticleSummary; image
       </div>
 
       <LowerThird
+        fill
         kind="writing"
         tag={article.category?.name ?? "Article"}
         date={formatArticleDate(article.publishedAt)}

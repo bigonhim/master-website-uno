@@ -46,23 +46,28 @@ export function KindTag({
 
 /**
  * The lower third: kind tag, then the date on a navy bar, butted together with
- * no gap, as the video lays them out.
+ * no gap, as the video lays them out. `fill` runs the navy bar out to the far
+ * edge, for a card, where it spans the picture above it.
  */
 export function LowerThird({
   kind,
   date,
   tag,
+  fill = false,
   className = "",
 }: {
   kind: ContentKind;
   date: string;
   tag?: ReactNode;
+  fill?: boolean;
   className?: string;
 }) {
   return (
     <p className={`flex flex-wrap items-stretch ${className}`}>
       <KindTag kind={kind}>{tag}</KindTag>
-      <span className={`${segment} bg-primary-700 tabular-nums text-ink-0`}>{date}</span>
+      <span className={`${segment} bg-primary-700 tabular-nums text-ink-0 ${fill ? "flex-1" : ""}`}>
+        {date}
+      </span>
     </p>
   );
 }

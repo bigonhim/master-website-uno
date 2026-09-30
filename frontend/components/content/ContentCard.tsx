@@ -55,6 +55,7 @@ export function ContentCard({
           ministry's broadcasts. Almost the entire imported archive is undated,
           so it says so plainly rather than inventing a date. */}
       <LowerThird
+        fill
         kind={item.kind}
         date={
           item.is_dated && item.prophecy_date
