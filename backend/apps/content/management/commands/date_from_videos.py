@@ -43,16 +43,22 @@ def upload_date(youtube_id: str) -> str | None:
 
 
 class Command(BaseCommand):
-    help = "Date undated teachings from their videos' upload dates. Idempotent."
+    help = "Date undated teachings and healings from their videos' upload dates. Idempotent."
 
     def add_arguments(self, parser):
         parser.add_argument(
             "--dry-run", action="store_true", help="Report changes without saving."
         )
+        parser.add_argument(
+            "--kind",
+            default="teaching",
+            choices=["teaching", "healing"],
+            help="Which kind of entry to date (default: teaching).",
+        )
 
-    def handle(self, *args, dry_run=False, **options):
+    def handle(self, *args, dry_run=False, kind="teaching", **options):
         undated = ContentItem.objects.filter(
-            kind="teaching", date_source=DateSource.UNKNOWN
+            kind=kind, date_source=DateSource.UNKNOWN
         ).prefetch_related("videos__video")
 
         dated = missed = 0
@@ -63,7 +69,14 @@ class Command(BaseCommand):
             if not attachments:
                 continue
 
-            date = upload_date(attachments[0].video.youtube_id)
+            # The importers store the upload date on the video; only a video
+            # that arrived without one costs a trip to YouTube.
+            known = attachments[0].video.published_at
+            date = (
+                known.date().isoformat()
+                if known
+                else upload_date(attachments[0].video.youtube_id)
+            )
             if date is None:
                 self.stdout.write(f"missed {item.title}")
                 missed += 1
@@ -86,5 +99,5 @@ class Command(BaseCommand):
 
         verb = "Would date" if dry_run else "Dated"
         self.stdout.write(
-            self.style.SUCCESS(f"{verb} {dated} teachings; {missed} unreachable.")
+            self.style.SUCCESS(f"{verb} {dated} {kind}s; {missed} unreachable.")
         )
