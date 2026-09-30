@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { ContactForm, Sent } from "@/components/contact/ContactForm";
 import { LeadIn } from "@/components/ui/Broadcast";
 import { Container } from "@/components/ui/Container";
 import { CONTACT } from "@/lib/contact";
@@ -9,7 +9,7 @@ import { CONTACT } from "@/lib/contact";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Send a message to the Ministry of Repentance and Holiness, or reach the office on WhatsApp, by phone or by email.",
+    "Reach the Ministry of Repentance and Holiness on WhatsApp, by phone or by email — and begin with the Salvation Prayer and the steps to prepare for the coming of the Messiah.",
   alternates: { canonical: "/contact" },
 };
 
@@ -79,16 +79,42 @@ function Channel({
   );
 }
 
-export default async function ContactPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  // Set by the no-JavaScript path, which answers a form POST with a redirect.
-  const params = await searchParams;
-  const sent = params.sent === "1";
-  const issue = params.issue === "1";
+// The six steps of the Salvation Prayer page, each folded to card size. The
+// full page walks them with scripture read in full; a card names the step and
+// where it stands written.
+const STEPS: { title: string; body: string; reference?: string }[] = [
+  {
+    title: "Receive God's offer",
+    body: "God offers peace with Himself and a life that does not end. That offer is where preparation begins.",
+    reference: "John 3:16",
+  },
+  {
+    title: "Turn from sin",
+    body: "Repentance means turning — away from sin, and back towards the One who made us.",
+    reference: "Romans 3:23",
+  },
+  {
+    title: "Believe in Jesus Christ",
+    body: "He died in our place and rose again: the one bridge across the separation.",
+    reference: "1 Timothy 2:5–6",
+  },
+  {
+    title: "Receive Him as Lord",
+    body: "Ask Christ to forgive you, to wash you clean, and to lead your life from today.",
+    reference: "John 1:12",
+  },
+  {
+    title: "Pray the Salvation Prayer",
+    body: "Say the words above aloud, slowly, and mean them. They are a decision, not a formula.",
+  },
+  {
+    title: "Walk in holiness, watching",
+    body: "Live a life of repentance and holiness, ready for the glorious coming of the Messiah.",
+    reference: "Revelation 16:15",
+  },
+];
 
+export default function ContactPage() {
   const [firstPhone, secondPhone] = CONTACT.phones;
 
   return (
@@ -98,8 +124,8 @@ export default async function ContactPage({
           <LeadIn>Contact</LeadIn>
           <h1 className="mt-3 text-display-lg text-primary-900">Get in touch</h1>
           <p className="mt-4 max-w-[42ch] text-prose-lg text-ink-700">
-            Send the ministry a message, or reach the office straight away on WhatsApp or
-            by phone.
+            Reach the office straight away on WhatsApp, by phone or by email — and begin
+            here with the Salvation Prayer.
           </p>
 
           <h2 className="mt-9 text-eyebrow uppercase text-ink-500">Reach us now</h2>
@@ -170,21 +196,73 @@ export default async function ContactPage({
           </div>
         </div>
 
-        <section
-          id="message"
-          aria-labelledby="message-title"
-          className="scroll-mt-40 rounded-md bg-ink-25 p-6 ring-1 ring-inset ring-ink-100 sm:p-9 lg:col-span-7"
-        >
-          <h2 id="message-title" className="text-h2 text-primary-900">
-            Send a message
-          </h2>
-          <p className="mt-2 text-body text-ink-700">
-            Choose what it is about and add your details, and the office will see that it
-            reaches the right person.
-          </p>
+        <div className="space-y-10 lg:col-span-7">
+          {/* The prayer itself, whole. The form this column used to hold asked
+              visitors to write to the office; this asks for the one response
+              that matters. */}
+          <section
+            aria-labelledby="prayer-title"
+            className="rounded-md bg-ink-25 p-6 ring-1 ring-inset ring-ink-100 sm:p-9"
+          >
+            <p className="text-eyebrow uppercase text-cyan-700">Begin here</p>
+            <h2 id="prayer-title" className="text-h2 mt-3 text-primary-900">
+              The Salvation Prayer
+            </h2>
+            <p className="mt-2 text-body text-ink-700">
+              The words are not a formula. Say them aloud, slowly, and mean them.
+            </p>
+            <blockquote className="mt-6 rounded-sm border border-primary-100 bg-primary-50 p-7">
+              <p className="max-w-prose font-prose text-prose-lg text-ink-800">
+                Lord Jesus, I come to You today. I confess that I have sinned against
+                You and gone my own way. I am sorry, and I turn from my sin now. I
+                believe that You died for me and that You rose again. I ask You to
+                forgive me, to wash me clean, and to come into my life. From today I
+                give You my life. Be my Lord and my Saviour, and lead me in Your way of
+                repentance and holiness, all the days of my life. Amen.
+              </p>
+            </blockquote>
+            <p className="mt-5 text-body-sm text-ink-600">
+              If you prayed this and meant it, God has heard you.{" "}
+              <Link
+                href="/salvation-prayer"
+                className="font-semibold text-primary-700 underline underline-offset-4"
+              >
+                Walk through the six steps in full
+              </Link>
+              .
+            </p>
+          </section>
 
-          <div className="mt-8">{sent ? <Sent /> : <ContactForm issue={issue} />}</div>
-        </section>
+          {/* The same six steps, card by card. */}
+          <section aria-labelledby="prepare-title">
+            <h2 id="prepare-title" className="text-h2 text-primary-900">
+              Prepare for the coming of the Messiah
+            </h2>
+            <p className="mt-2 max-w-[54ch] text-body text-ink-700">
+              Six steps: what God offers, why we are separated from Him, what He has
+              done about it, and how to respond.
+            </p>
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+              {STEPS.map((step, index) => (
+                <li
+                  key={step.title}
+                  className="flex flex-col rounded-md border border-ink-200 bg-ink-0 p-5 shadow-sm"
+                >
+                  <p className="text-eyebrow uppercase text-cyan-700">
+                    Step {index + 1}
+                  </p>
+                  <h3 className="mt-2 text-body font-semibold leading-snug text-primary-900">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1.5 text-body-sm text-ink-600">{step.body}</p>
+                  {step.reference ? (
+                    <p className="mt-auto pt-3 text-meta text-ink-500">{step.reference}</p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
       </div>
     </Container>
   );
