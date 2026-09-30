@@ -78,13 +78,14 @@ export interface ContentItem {
   /** False for almost the whole imported archive — the source carried no dates. */
   is_dated: boolean;
   is_fulfilled: boolean;
+  /** How it came to pass. Empty unless the fulfilment has been written up. */
+  fulfillment_summary: string;
   condition: string;
   videos: AttachedVideo[];
 }
 
 export interface ContentDetail extends ContentItem {
   body: string;
-  fulfillment_summary: string;
   regions: Region[];
   series: Series | null;
   position_in_series: number | null;

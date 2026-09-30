@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ComponentType, SVGProps } from "react";
 
+import { ArticleCard } from "@/components/articles/ArticleCard";
 import { ContentCard } from "@/components/content/ContentCard";
 import {
   ArrowIcon,
@@ -15,12 +16,15 @@ import {
   ScrollIcon,
 } from "@/components/home/icons";
 import { HeroSlider } from "@/components/home/HeroSlider";
+import { LatestVideos } from "@/components/home/LatestVideos";
 import { RecognitionGallery } from "@/components/home/RecognitionGallery";
 import { PlayRadioButton } from "@/components/radio/PlayRadioButton";
 import { KindTag, PlaceTag } from "@/components/ui/Broadcast";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { getArticles, getFeedImage, type ArticleSummary } from "@/lib/api/articles";
 import { getArchive } from "@/lib/api/content";
+import { getLatestVideos, getLiveVideoId } from "@/lib/api/youtube";
 import { HERO_SLIDES } from "@/lib/hero-slides";
 import {
   RECOGNITION_PHOTOS,
@@ -28,28 +32,28 @@ import {
   RECOGNITION_SUMMARY,
 } from "@/lib/recognition";
 import type { ContentItem, ContentKind } from "@/lib/api/types";
+import type { ChannelVideo } from "@/lib/youtube/feed";
 
 export const metadata: Metadata = {
   description:
     "Repent, and prepare the way for the LORD. Teachings, prophecies and healing testimonies from the Ministry of Repentance and Holiness, Nakuru, Kenya.",
 };
 
-type RecentKey = "prophecies" | "writings" | "teachings";
+type RecentKey = "prophecies" | "articles" | "teachings";
+type ArchiveKey = Exclude<RecentKey, "articles">;
 
 async function loadHome(): Promise<{
-  newest: Record<RecentKey, ContentItem | null>;
+  newest: Record<ArchiveKey, ContentItem | null>;
   reachable: boolean;
 }> {
   try {
-    const [prophecies, writings, teachings] = await Promise.all([
+    const [prophecies, teachings] = await Promise.all([
       getArchive("prophecies", { limit: 1 }),
-      getArchive("writings", { limit: 1 }),
       getArchive("teachings", { limit: 1 }),
     ]);
     return {
       newest: {
         prophecies: prophecies.results[0] ?? null,
-        writings: writings.results[0] ?? null,
         teachings: teachings.results[0] ?? null,
       },
       reachable: true,
@@ -58,19 +62,45 @@ async function loadHome(): Promise<{
     // The page still says what it has to say; it just does not claim to know
     // what is in the archive. No invented numbers, no placeholder cards.
     return {
-      newest: { prophecies: null, writings: null, teachings: null },
+      newest: { prophecies: null, teachings: null },
       reachable: false,
     };
   }
 }
 
+/** The newest article, from the publication. It and the channel each fail on
+ *  their own: neither is the archive, and neither may take the page down. */
+async function loadLatestArticle(): Promise<{
+  article: ArticleSummary;
+  image?: string;
+} | null> {
+  try {
+    const article = (await getArticles({ limit: 1 })).data[0];
+    if (!article) return null;
+    return {
+      article,
+      image: article.image ? await getFeedImage(article.image.url) : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function loadLatestVideos(): Promise<ChannelVideo[]> {
+  try {
+    return await getLatestVideos(6);
+  } catch {
+    return [];
+  }
+}
+
 type IconType = ComponentType<SVGProps<SVGSVGElement>>;
 
-// The newest of each kind, side by side. Articles have no archive page yet,
-// so they carry no href and show a placeholder until one exists.
+// The newest of each kind, side by side. Prophecies and teachings come from
+// the archive; the article comes from the publication.
 const RECENT: {
   key: RecentKey;
-  href: string | null;
+  href: string;
   title: string;
   kind: ContentKind;
   icon: IconType;
@@ -83,8 +113,8 @@ const RECENT: {
     icon: ScrollIcon,
   },
   {
-    key: "writings",
-    href: null,
+    key: "articles",
+    href: "/articles",
     title: "Articles",
     kind: "writing",
     icon: PenIcon,
@@ -168,7 +198,13 @@ const ABOUT_PILLARS: {
 ];
 
 export default async function HomePage() {
-  const { newest, reachable } = await loadHome();
+  const [{ newest, reachable }, latestArticle, latestVideos, liveVideoId] = await Promise.all([
+    loadHome(),
+    loadLatestArticle(),
+    loadLatestVideos(),
+    // Never throws: any doubt reads as "not live".
+    getLiveVideoId(),
+  ]);
   const featured = newest.prophecies;
 
   return (
@@ -443,7 +479,7 @@ export default async function HomePage() {
 
       {/* ----------------------------------------------- recently published
           The newest prophecy, article and teaching, one column each. */}
-      {reachable ? (
+      {reachable || latestArticle ? (
         <section
           aria-labelledby="recent-heading"
           className="relative border-t border-ink-100 bg-ink-25"
@@ -460,7 +496,7 @@ export default async function HomePage() {
 
             <div className="mt-8 grid gap-6 md:grid-cols-3">
               {RECENT.map((col, index) => {
-                const item = newest[col.key];
+                const item = col.key === "articles" ? null : newest[col.key];
                 return (
                   <div key={col.key} className="flex flex-col gap-4">
                     <div className="flex items-center justify-between gap-3">
@@ -472,18 +508,21 @@ export default async function HomePage() {
                         </KindTag>
                         {col.title}
                       </h3>
-                      {col.href ? (
-                        <Link
-                          href={col.href}
-                          className="group inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary-700 hover:text-primary-900"
-                        >
-                          View all
-                          <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      ) : null}
+                      <Link
+                        href={col.href}
+                        className="group inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary-700 hover:text-primary-900"
+                      >
+                        View all
+                        <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
                     </div>
 
-                    {item && col.href ? (
+                    {col.key === "articles" && latestArticle ? (
+                      <ArticleCard
+                        article={latestArticle.article}
+                        image={latestArticle.image}
+                      />
+                    ) : item ? (
                       <ContentCard
                         item={item}
                         href={`${col.href}/${item.slug}`}
@@ -507,6 +546,10 @@ export default async function HomePage() {
           </Container>
         </section>
       ) : null}
+
+      {/* ---------------------------------------------------- latest videos
+          The channel's newest uploads, straight from its feed. */}
+      <LatestVideos videos={latestVideos} liveId={liveVideoId} />
 
       {/* ------------------------------------------------------ the message */}
       <section className="relative overflow-hidden border-t border-ink-100 bg-grad-dawn">

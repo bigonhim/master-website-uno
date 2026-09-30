@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ArchiveScreen, readArchiveParams } from "@/components/content/ArchiveScreen";
+import { ProphecyTabs } from "@/components/content/ProphecyTabs";
 
 export const metadata: Metadata = {
   title: "Prophecies",
@@ -22,6 +23,7 @@ export default async function PropheciesPage({
       lede="Prophetic words given through the Ministry of Repentance and Holiness, gathered from two decades of recordings."
       emptyLabel="prophecies"
       params={readArchiveParams(await searchParams)}
+      tabs={<ProphecyTabs active="all" />}
     />
   );
 }

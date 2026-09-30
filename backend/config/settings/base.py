@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "apps.content",
     "apps.search",
     "apps.salvation",
+    "apps.contact",
     "apps.radio",
 ]
 
@@ -108,6 +109,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
     "DEFAULT_THROTTLE_RATES": {
         "salvation": "5/hour",
+        "contact": "5/hour",
         "radio": "60/min",
         "search": "30/min",
     },
@@ -136,4 +138,7 @@ RADIO_STATUS_CACHE_SECONDS = 20
 # via getattr, so it is visible to whoever configures a deployment. Empty means
 # no team alert is sent; the decision is still recorded either way.
 SALVATION_TEAM_EMAIL = env.str("SALVATION_TEAM_EMAIL", default="")
+# Where contact-page alerts go. Empty means no alert is sent; the message is
+# still recorded and waits in the admin either way.
+CONTACT_TEAM_EMAIL = env.str("CONTACT_TEAM_EMAIL", default="")
 DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="webmaster@localhost")

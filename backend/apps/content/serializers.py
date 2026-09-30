@@ -80,7 +80,8 @@ class ContentItemListSerializer(serializers.ModelSerializer):
 
     Deliberately excludes `body`. The previous attempt returned the entire
     transcript for every row, which would make a 400-item archive page weigh
-    megabytes.
+    megabytes. `fulfillment_summary` is the exception that earns its place: it is
+    a paragraph, and the fulfilment archive is unreadable without it.
     """
 
     category = CategorySerializer(read_only=True)
@@ -103,6 +104,7 @@ class ContentItemListSerializer(serializers.ModelSerializer):
             "date_precision",
             "is_dated",
             "is_fulfilled",
+            "fulfillment_summary",
             "condition",
             "videos",
         ]
@@ -115,7 +117,6 @@ class ContentItemDetailSerializer(ContentItemListSerializer):
     class Meta(ContentItemListSerializer.Meta):
         fields = ContentItemListSerializer.Meta.fields + [
             "body",
-            "fulfillment_summary",
             "regions",
             "series",
             "position_in_series",

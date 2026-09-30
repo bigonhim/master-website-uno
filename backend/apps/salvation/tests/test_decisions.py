@@ -1,7 +1,7 @@
 """
 Salvation endpoint tests.
 
-This is the only public write route on the site and it handles special-category
+This is one of two public write routes on the site and it handles special-category
 data, so the properties asserted here are the ones that matter most: no write
 surface beyond POST, no contact details captured without explicit consent, and
 a decision that survives even when notification fails.

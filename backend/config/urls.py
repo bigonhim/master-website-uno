@@ -15,6 +15,7 @@ from apps.content.views import (
     TeachingViewSet,
     WritingViewSet,
 )
+from apps.contact.views import ContactMessageCreateView
 from apps.radio.views import RadioStatusView
 from apps.salvation.views import SalvationDecisionCreateView
 
@@ -34,11 +35,16 @@ router.register("series", SeriesViewSet, basename="series")
 api_v1 = [
     path("", include(router.urls)),
     path("radio/status/", RadioStatusView.as_view(), name="radio-status"),
-    # The single public write route on the site.
+    # The two public write routes on the site. Both only ever create.
     path(
         "salvation/decisions/",
         SalvationDecisionCreateView.as_view(),
         name="salvation-decision",
+    ),
+    path(
+        "contact/messages/",
+        ContactMessageCreateView.as_view(),
+        name="contact-message",
     ),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

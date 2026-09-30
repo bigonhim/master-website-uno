@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
 
@@ -24,14 +24,22 @@ const LINKS = [
   { href: "/prophecies", label: "Prophecies" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
+  { href: "/articles", label: "Articles" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // A menu that survives navigation is a menu stuck open.
-  useEffect(() => setOpen(false), [pathname]);
+  // A menu that survives navigation is a menu stuck open. Closed during
+  // render, the React way to react to a prop change, not in an effect after
+  // the stale menu has already painted.
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    setOpen(false);
+  }
 
   // Home is exact-match only, or it would light up on every page.
   const isActive = (href: string) =>
@@ -58,13 +66,15 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center xl:gap-1">
             {LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  className={`relative rounded-xs px-3 py-2 font-display text-body-sm font-semibold transition-colors ${
+                  // Six links and the prayer: tighter below xl, where they
+                  // would otherwise run out of room and wrap.
+                  className={`relative whitespace-nowrap rounded-xs px-2.5 py-2 font-display text-body-sm font-semibold transition-colors xl:px-3 ${
                     isActive(link.href)
                       ? "text-primary-700"
                       : "text-ink-600 hover:text-primary-700"
@@ -74,7 +84,7 @@ export function SiteHeader() {
                   {isActive(link.href) ? (
                     <span
                       aria-hidden
-                      className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary-700"
+                      className="absolute inset-x-2.5 -bottom-px h-0.5 rounded-full bg-primary-700 xl:inset-x-3"
                     />
                   ) : null}
                 </Link>
@@ -87,7 +97,7 @@ export function SiteHeader() {
           href="/salvation-prayer"
           className="ml-auto hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:ml-0 lg:inline-flex"
         >
-          Salvation Prayer
+          Prepare the Way
         </Link>
 
         <button
@@ -133,7 +143,7 @@ export function SiteHeader() {
                 href="/salvation-prayer"
                 className="flex h-12 items-center justify-center rounded-sm bg-primary-700 font-display text-body font-semibold text-ink-0"
               >
-                Salvation Prayer
+                Prepare the Way
               </Link>
             </li>
           </ul>

@@ -91,3 +91,22 @@ def test_list_payload_excludes_body(client, published):
     row = client.get("/api/v1/prophecies/").json()["results"][0]
     assert "body" not in row
     assert "body" in client.get(f"/api/v1/prophecies/{published.slug}/").json()
+
+
+def test_the_fulfilment_archive_lists_only_fulfilled_prophecies(client):
+    Prophecy.objects.create(
+        title="Came to pass",
+        slug="came-to-pass",
+        status=Status.PUBLISHED,
+        is_fulfilled=True,
+        fulfillment_summary="It happened as it was said.",
+    )
+    Prophecy.objects.create(
+        title="Still awaited", slug="awaited", status=Status.PUBLISHED
+    )
+
+    results = client.get("/api/v1/prophecies/?fulfilled=true").json()["results"]
+
+    assert [item["slug"] for item in results] == ["came-to-pass"]
+    # The card needs the account of the fulfilment, so the list carries it.
+    assert results[0]["fulfillment_summary"] == "It happened as it was said."

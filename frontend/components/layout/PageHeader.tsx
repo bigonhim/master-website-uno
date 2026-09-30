@@ -38,7 +38,7 @@ export function PageHeader({
 
           {aside ? <div className="w-full lg:w-[30rem]">{aside}</div> : null}
         </div>
-        {children ? <div className="mt-6 max-w-xl">{children}</div> : null}
+        {children ? <div className="mt-6">{children}</div> : null}
       </Container>
     </div>
   );
