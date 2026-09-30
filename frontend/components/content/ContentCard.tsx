@@ -29,7 +29,7 @@ export function ContentCard({
   const dead = primary?.availability === "unavailable";
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm transition-shadow duration-300 ease-emphasis hover:shadow-md">
+    <article className="group flex flex-1 flex-col overflow-hidden rounded-md border border-ink-200 bg-ink-0 shadow-sm transition-shadow duration-300 ease-emphasis hover:shadow-md">
       {/* Pressing play opens the entry's own page with the player already
           running; nothing plays inside the grid. The title links to the same
           page without starting the recording. */}
