@@ -18,7 +18,6 @@ export default async function PropheciesPage({
     <ArchiveScreen
       kind="prophecies"
       basePath="/prophecies"
-      eyebrow="The Archive"
       title="Prophecies"
       lede="Prophetic words given through the Ministry of Repentance and Holiness, gathered from two decades of recordings."
       emptyLabel="prophecies"

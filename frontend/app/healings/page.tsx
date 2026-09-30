@@ -17,7 +17,6 @@ export default async function HealingsPage({
     <ArchiveScreen
       kind="healings"
       basePath="/healings"
-      eyebrow="The Archive"
       title="Healings"
       lede="Testimonies of healing recorded at services and crusades across the nations."
       emptyLabel="healing testimonies"

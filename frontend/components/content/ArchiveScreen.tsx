@@ -53,7 +53,7 @@ export async function ArchiveScreen({
 }: {
   kind: ArchiveKind;
   basePath: string;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lede: string;
   emptyLabel: string;

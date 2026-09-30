@@ -23,7 +23,6 @@ export default async function FulfilledPropheciesPage({
     <ArchiveScreen
       kind="prophecies"
       basePath="/prophecies/fulfilled"
-      eyebrow="The Archive"
       title="Prophecies & their fulfilment"
       lede="Prophecies whose fulfilment has been recorded. Open one to see what was prophesied, and how it came to pass."
       emptyLabel="fulfilled prophecies"
