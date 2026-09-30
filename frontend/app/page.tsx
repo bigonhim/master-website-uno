@@ -167,36 +167,6 @@ const PILLARS: {
   },
 ];
 
-// The ministry's own words, as supplied; keep them verbatim.
-const ABOUT_PILLARS: {
-  n: string;
-  title: string;
-  icon: IconType;
-  /** A name, shown as a plate under the heading. */
-  plate?: string;
-  body: string[];
-}[] = [
-  {
-    n: "01",
-    title: "Who we are",
-    icon: HolyIcon,
-    body: [
-      "The Ministry of Repentance and Holiness is a prophetic ministry raised to awaken the Church to the urgency of repentance and holy living. It proclaims that salvation is found only through the finished work of the Cross and that a holy life is the evidence of true redemption.",
-      "The ministry stands firmly on the authority of the Holy Scriptures and teaches uncompromising obedience to the Word of GOD as the only way to prepare for the Kingdom of Heaven.",
-    ],
-  },
-  {
-    n: "02",
-    title: "The leadership",
-    icon: ScrollIcon,
-    plate: "Prophet Dr. David Edward Owuor",
-    body: [
-      "The ministry is led by Prophet Dr. David Edward Owuor, the Servant of THE LORD, sent to restore repentance and holiness in the Church and to prepare the way for the coming of the Messiah.",
-      "His calling is centred on obedience to the voice of THE LORD GOD OF ISRAEL and the proclamation of righteousness, holiness and repentance, pointing all glory to GOD alone.",
-    ],
-  },
-];
-
 export default async function HomePage() {
   const [{ newest, reachable }, latestArticle, latestVideos, liveVideoId] = await Promise.all([
     loadHome(),
@@ -288,10 +258,10 @@ export default async function HomePage() {
       ) : null}
 
       {/* ------------------------------------------------------------ about
-          Who the ministry is, in its own words. The introduction beside the
-          vision and mission, then who we are and the leadership as a pair. The
-          vision card repeats the hero's blue-and-sun treatment on purpose: it is
-          the same message. */}
+          Who the ministry is, in its own words: the introduction beside the
+          vision and mission. The rest (who we are, the leadership) is on the
+          About us page. The vision card repeats the hero's blue-and-sun
+          treatment on purpose: it is the same message. */}
       <section
         aria-labelledby="about-heading"
         className="relative border-t border-ink-100 bg-ink-0"
@@ -314,6 +284,13 @@ export default async function HomePage() {
                 the nations for the imminent and glorious coming of THE LORD
                 JESUS CHRIST.
               </p>
+              <Link
+                href="/about"
+                className="group mt-7 inline-flex items-center gap-2 font-display text-body-sm font-extrabold uppercase tracking-wide text-primary-700 underline-offset-8 hover:text-primary-900 hover:underline"
+              >
+                More about the ministry
+                <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
 
             <div className="grid content-start gap-5">
@@ -372,58 +349,6 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:mt-16">
-            {ABOUT_PILLARS.map((p) => (
-              <article
-                key={p.title}
-                className="group relative flex flex-col overflow-hidden rounded-lg bg-ink-0 p-7 shadow-lg ring-1 ring-ink-100 transition-all duration-300 ease-emphasis hover:-translate-y-1 hover:shadow-xl hover:ring-primary-200 sm:p-9"
-              >
-                <span
-                  aria-hidden
-                  className="absolute inset-x-0 top-0 h-1 bg-cyan-400"
-                />
-                <p.icon
-                  aria-hidden
-                  className="pointer-events-none absolute -bottom-8 -right-8 h-48 w-48 text-primary-50 transition-transform duration-700 ease-emphasis group-hover:scale-105"
-                />
-
-                <div className="relative flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-grad-azure text-ink-0 shadow-md shadow-primary-700/25">
-                      <p.icon className="h-5 w-5" />
-                    </span>
-                    <h3 className="text-h3 text-primary-900">{p.title}</h3>
-                  </div>
-                  <span className="font-display text-h2 tabular-nums text-primary-100 sm:text-display-lg">
-                    {p.n}
-                  </span>
-                </div>
-
-                {p.plate ? (
-                  <p className="relative mt-6 rounded-md border-l-4 border-cyan-400 bg-primary-50 px-4 py-3 text-body font-extrabold text-primary-900">
-                    {p.plate}
-                  </p>
-                ) : (
-                  <div
-                    aria-hidden
-                    className="relative mt-6 h-px w-full bg-ink-100"
-                  />
-                )}
-
-                <div className="relative mt-5 space-y-3 text-body text-ink-600">
-                  {p.body.map((para, i) => (
-                    <p
-                      key={para.slice(0, 24)}
-                      className={i === 0 ? "text-ink-800" : undefined}
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              </article>
-            ))}
           </div>
         </Container>
       </section>

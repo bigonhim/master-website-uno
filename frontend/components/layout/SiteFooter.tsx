@@ -37,6 +37,7 @@ const listenLinks: FooterLink[] = [
 
 const nextStepLinks: FooterLink[] = [
   { href: "/salvation-prayer", label: "The Salvation Prayer" },
+  { href: "/about", label: "About the ministry" },
   { href: "/contact", label: "Contact the ministry" },
 ];
 

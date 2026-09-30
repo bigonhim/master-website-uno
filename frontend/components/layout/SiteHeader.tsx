@@ -18,9 +18,11 @@ import { Logo } from "@/components/brand/Logo";
  */
 
 // Only routes that exist. /radio and /about were in here first and both 404 —
-// a nav that lies about where it goes is worse than a shorter nav.
+// a nav that lies about where it goes is worse than a shorter nav. /about
+// came back once its page was built.
 const LINKS = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About us" },
   { href: "/prophecies", label: "Prophecies" },
   { href: "/teachings", label: "Teachings" },
   { href: "/healings", label: "Healings" },
@@ -55,9 +57,13 @@ export function SiteHeader() {
       <div className="mx-auto flex h-nav w-full max-w-container items-center gap-6 px-5 sm:px-8 lg:px-12">
         <Link href="/" className="group flex shrink-0 items-center gap-3">
           <Logo size={44} priority />
-          {/* On phones the name is hidden, so the link still needs one. */}
-          <span className="sr-only sm:hidden">Repentance &amp; Holiness — home</span>
-          <span className="hidden leading-tight sm:block">
+          {/* On phones the name is hidden, so the link still needs one. It
+              steps aside again from lg to xl, where the seven links need its
+              room. */}
+          <span className="sr-only sm:hidden lg:inline xl:hidden">
+            Repentance &amp; Holiness — home
+          </span>
+          <span className="hidden leading-tight sm:block lg:hidden xl:block">
             <span className="block font-display text-body-sm font-bold text-primary-800">
               Repentance &amp; Holiness
             </span>
@@ -72,7 +78,7 @@ export function SiteHeader() {
                 <Link
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  // Six links and the prayer: tighter below xl, where they
+                  // Seven links and the prayer: tighter below xl, where they
                   // would otherwise run out of room and wrap.
                   className={`relative whitespace-nowrap rounded-xs px-2.5 py-2 font-display text-body-sm font-semibold transition-colors xl:px-3 ${
                     isActive(link.href)

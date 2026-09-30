@@ -50,6 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/healings`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/prophecies/fulfilled`, lastModified: now, priority: 0.8 },
     { url: `${SITE}/articles`, lastModified: now, priority: 0.8 },
+    { url: `${SITE}/about`, lastModified: now, priority: 0.6 },
     { url: `${SITE}/contact`, lastModified: now, priority: 0.5 },
   ];
 
