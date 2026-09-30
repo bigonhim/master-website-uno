@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { Logo } from "@/components/brand/Logo";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /**
  * Primary navigation.
@@ -94,22 +93,19 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-1 lg:ml-0">
-          <ThemeToggle />
-          <Link
-            href="/salvation-prayer"
-            className="hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:inline-flex"
-          >
-            Prepare the Way
-          </Link>
-        </div>
+        <Link
+          href="/salvation-prayer"
+          className="ml-auto hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:ml-0 lg:inline-flex"
+        >
+          Prepare the Way
+        </Link>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-primary-800 hover:bg-ink-50 lg:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-sm text-primary-800 hover:bg-ink-50 lg:hidden"
         >
           <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2">

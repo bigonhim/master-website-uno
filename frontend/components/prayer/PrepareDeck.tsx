@@ -12,14 +12,14 @@ import {
 } from "@/components/home/icons";
 
 /**
- * The readiness steps as one card in motion.
+ * The readiness steps as one card in motion, on the Prepare the Way page.
  *
- * Six cards in a grid ran far past the end of the contact column; the deck
- * holds the same six in a single card's footprint, at the top of the column,
- * each fading into the next. The timer is the hero slider's: a fill animation
- * whose end advances the deck, so pausing the animation pauses the deck and
- * the bars always show how far along it is. Hover, focus and a hidden tab all
- * pause it; under reduced motion nothing moves unless the visitor asks.
+ * Six cards in a grid would double the page; the deck holds them in a single
+ * card's footprint, each fading into the next. The timer is the hero
+ * slider's: a fill animation whose end advances the deck, so pausing the
+ * animation pauses the deck and the bars always show how far along it is.
+ * Hover, focus and a hidden tab all pause it; under reduced motion nothing
+ * moves unless the visitor asks.
  *
  * The briefs are drawn from the ministry's vision — "The Messiah is coming" —
  * and its mission of preparing the way through repentance and holiness.

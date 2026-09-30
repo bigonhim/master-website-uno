@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PrayerFlow } from "@/components/prayer/PrayerFlow";
+import { PrepareDeck } from "@/components/prayer/PrepareDeck";
 import { Container } from "@/components/ui/Container";
 import { Prose } from "@/components/ui/Prose";
 
@@ -156,6 +157,57 @@ export default function SalvationPrayerPage() {
           </p>
         </Container>
       </div>
+
+      {/* The vision and mission, as the deck in motion, then the prayer
+          itself in the open — both moved here from the contact page, since
+          this is the page that button promises. The prayer stands whole
+          before the stepper, which only shows it at step five. */}
+      <Container width="prose" className="pt-section-sm">
+        <section aria-labelledby="prepare-title">
+          <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-700">
+            <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+            Our vision &amp; mission
+          </p>
+          <h2 id="prepare-title" className="text-h2 mt-4 text-primary-900">
+            Prepare for the coming of the Messiah
+          </h2>
+          <p className="mt-2 max-w-[54ch] text-body text-ink-700">
+            The ministry exists to prepare the nations for the imminent and glorious
+            coming of THE LORD JESUS CHRIST — like wise virgins with oil in their
+            lamps. This is how you get ready.
+          </p>
+          <div className="mt-6">
+            <PrepareDeck />
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="prayer-card-title"
+          className="mt-10 rounded-md bg-ink-25 p-6 ring-1 ring-inset ring-ink-100 sm:p-9"
+        >
+          <p className="text-eyebrow uppercase text-cyan-700">Begin here</p>
+          <h2 id="prayer-card-title" className="text-h2 mt-3 text-primary-900">
+            The Salvation Prayer
+          </h2>
+          <p className="mt-2 text-body text-ink-700">
+            The words are not a formula. Say them aloud, slowly, and mean them.
+          </p>
+          <blockquote className="mt-6 rounded-sm border border-primary-100 bg-primary-50 p-7">
+            <p className="max-w-prose font-prose text-prose-lg text-ink-800">
+              Lord Jesus, I come to You today. I confess that I have sinned against
+              You and gone my own way. I am sorry, and I turn from my sin now. I
+              believe that You died for me and that You rose again. I ask You to
+              forgive me, to wash me clean, and to come into my life. From today I
+              give You my life. Be my Lord and my Saviour, and lead me in Your way of
+              repentance and holiness, all the days of my life. Amen.
+            </p>
+          </blockquote>
+          <p className="mt-5 text-body-sm text-ink-600">
+            If you prayed this and meant it, God has heard you. The six steps below
+            walk it in full.
+          </p>
+        </section>
+      </Container>
 
       <Container width="prose" className="py-section-sm">
         <PrayerFlow steps={steps} totalSteps={steps.length} />
