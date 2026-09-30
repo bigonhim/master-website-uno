@@ -52,7 +52,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--kind",
             default="teaching",
-            choices=["teaching", "healing"],
+            choices=["teaching", "healing", "prophecy"],
             help="Which kind of entry to date (default: teaching).",
         )
 
@@ -99,5 +99,5 @@ class Command(BaseCommand):
 
         verb = "Would date" if dry_run else "Dated"
         self.stdout.write(
-            self.style.SUCCESS(f"{verb} {dated} {kind}s; {missed} unreachable.")
+            self.style.SUCCESS(f"{verb} {dated} {kind} entries; {missed} unreachable.")
         )
