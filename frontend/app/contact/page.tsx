@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode, SVGProps } from "react";
 
+import {
+  HeartIcon,
+  HolyIcon,
+  LampIcon,
+  RadioIcon,
+  RepentIcon,
+  ScrollIcon,
+} from "@/components/home/icons";
 import { LeadIn } from "@/components/ui/Broadcast";
 import { Container } from "@/components/ui/Container";
 import { CONTACT } from "@/lib/contact";
@@ -79,38 +87,51 @@ function Channel({
   );
 }
 
-// The six steps of the Salvation Prayer page, each folded to card size. The
-// full page walks them with scripture read in full; a card names the step and
-// where it stands written.
-const STEPS: { title: string; body: string; reference?: string }[] = [
+// How to be ready, drawn from the ministry's own vision — "The Messiah is
+// coming" — and its mission of preparing the way through repentance and
+// holiness. Each card names a step, says it briefly, and cites where it
+// stands written.
+const PREPARE: {
+  title: string;
+  body: string;
+  reference: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+}[] = [
   {
-    title: "Receive God's offer",
-    body: "God offers peace with Himself and a life that does not end. That offer is where preparation begins.",
-    reference: "John 3:16",
-  },
-  {
-    title: "Turn from sin",
-    body: "Repentance means turning — away from sin, and back towards the One who made us.",
-    reference: "Romans 3:23",
-  },
-  {
-    title: "Believe in Jesus Christ",
-    body: "He died in our place and rose again: the one bridge across the separation.",
-    reference: "1 Timothy 2:5–6",
-  },
-  {
-    title: "Receive Him as Lord",
-    body: "Ask Christ to forgive you, to wash you clean, and to lead your life from today.",
-    reference: "John 1:12",
-  },
-  {
-    title: "Pray the Salvation Prayer",
-    body: "Say the words above aloud, slowly, and mean them. They are a decision, not a formula.",
-  },
-  {
-    title: "Walk in holiness, watching",
-    body: "Live a life of repentance and holiness, ready for the glorious coming of the Messiah.",
+    title: "Hear the divine alarm",
+    body: "The vision stands over everything the ministry does: THE LORD JESUS CHRIST is coming, and the hour is near.",
     reference: "Revelation 16:15",
+    icon: ScrollIcon,
+  },
+  {
+    title: "Turn in repentance",
+    body: "The call to the nations begins with turning — away from sin, and back to the GOD who made us.",
+    reference: "Acts 3:19",
+    icon: RepentIcon,
+  },
+  {
+    title: "Receive the Messiah",
+    body: "Believe that He died in your place and rose again, and give Him your life. The prayer above is the place to begin.",
+    reference: "John 1:12",
+    icon: HeartIcon,
+  },
+  {
+    title: "Walk in holiness",
+    body: "Readiness is a walk, not a moment: a daily life of repentance and holiness before THE LORD.",
+    reference: "Hebrews 12:14",
+    icon: HolyIcon,
+  },
+  {
+    title: "Keep oil in your lamp",
+    body: "Watch like the wise virgins — prayer, the word and fellowship keep the lamp burning for His return.",
+    reference: "Matthew 25:4",
+    icon: LampIcon,
+  },
+  {
+    title: "Carry the message",
+    body: "Through preaching, revivals and broadcasts the ministry calls the world to readiness; carry that call with it.",
+    reference: "Matthew 24:14",
+    icon: RadioIcon,
   },
 ];
 
@@ -233,31 +254,53 @@ export default function ContactPage() {
             </p>
           </section>
 
-          {/* The same six steps, card by card. */}
+          {/* How to be ready, in the pillar-card language of the home page:
+              the cyan rule, the azure disc, the ghost glyph waking on hover,
+              and each card wiping in a beat after the one before it. */}
           <section aria-labelledby="prepare-title">
-            <h2 id="prepare-title" className="text-h2 text-primary-900">
+            <p className="flex items-center gap-3 text-eyebrow uppercase text-cyan-700">
+              <span aria-hidden className="h-1 w-10 bg-grad-rule" />
+              Our vision &amp; mission
+            </p>
+            <h2 id="prepare-title" className="text-h2 mt-4 text-primary-900">
               Prepare for the coming of the Messiah
             </h2>
             <p className="mt-2 max-w-[54ch] text-body text-ink-700">
-              Six steps: what God offers, why we are separated from Him, what He has
-              done about it, and how to respond.
+              The ministry exists to prepare the nations for the imminent and glorious
+              coming of THE LORD JESUS CHRIST — like wise virgins with oil in their
+              lamps. This is how you get ready.
             </p>
-            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-              {STEPS.map((step, index) => (
+            <ul className="mt-7 grid gap-5 sm:grid-cols-2">
+              {PREPARE.map((step, index) => (
                 <li
                   key={step.title}
-                  className="flex flex-col rounded-md border border-ink-200 bg-ink-0 p-5 shadow-sm"
+                  style={{ animationDelay: `${120 + index * 90}ms` }}
+                  className="wipe-in group relative flex flex-col overflow-hidden rounded-lg bg-ink-0 p-6 shadow-lg ring-1 ring-ink-100 transition-all duration-300 ease-emphasis hover:-translate-y-1 hover:shadow-xl hover:ring-primary-200 sm:p-7"
                 >
-                  <p className="text-eyebrow uppercase text-cyan-700">
-                    Step {index + 1}
-                  </p>
-                  <h3 className="mt-2 text-body font-semibold leading-snug text-primary-900">
+                  <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-cyan-400" />
+                  <step.icon
+                    aria-hidden
+                    className="pointer-events-none absolute -bottom-7 -right-7 h-36 w-36 text-primary-50 transition-transform duration-700 ease-emphasis group-hover:-rotate-3 group-hover:scale-110"
+                  />
+
+                  <div className="relative flex items-center justify-between gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-grad-azure text-ink-0 shadow-md shadow-primary-700/25">
+                      <step.icon className="h-5 w-5" />
+                    </span>
+                    <span className="font-display text-h2 tabular-nums text-primary-100">
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="relative mt-4 text-h4 text-primary-900">
                     {step.title}
                   </h3>
-                  <p className="mt-1.5 text-body-sm text-ink-600">{step.body}</p>
-                  {step.reference ? (
-                    <p className="mt-auto pt-3 text-meta text-ink-500">{step.reference}</p>
-                  ) : null}
+                  <p className="relative mt-2 text-body-sm leading-relaxed text-ink-600">
+                    {step.body}
+                  </p>
+                  <p className="relative mt-auto pt-4 text-meta text-ink-500">
+                    {step.reference}
+                  </p>
                 </li>
               ))}
             </ul>
