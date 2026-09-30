@@ -34,5 +34,10 @@ def test_repentance_and_holiness_titles_get_the_repentance_theme():
     assert theme_for("The Highway of Holiness: Warning to the Church") == "repentance"
 
 
+def test_rapture_and_revival_titles_get_their_themes():
+    assert theme_for("Mighty Prophecy of the Imminent Rapture") == "rapture"
+    assert theme_for("Mighty Kericho Revival Meeting") == "revival"
+
+
 def test_no_theme_when_the_title_does_not_name_one():
-    assert theme_for("Mighty Prophecy of the Imminent Rapture") is None
+    assert theme_for("Identifying the True Church of CHRIST") is None
