@@ -42,6 +42,7 @@ class DateSource(models.TextChoices):
     """Where a date came from, so 'undated' is never confused with 'guessed'."""
 
     TITLE_PARSED = "title_parsed", "Parsed from title"
+    VIDEO = "video", "From the video's upload date"
     MANUAL = "manual", "Entered by staff"
     UNKNOWN = "unknown", "Undated"
 

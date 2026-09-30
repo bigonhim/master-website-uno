@@ -17,7 +17,6 @@ export default async function TeachingsPage({
     <ArchiveScreen
       kind="teachings"
       basePath="/teachings"
-      eyebrow="The Archive"
       title="Teachings"
       lede="Messages on repentance, holiness and preparing the way for the coming of the Messiah."
       emptyLabel="teachings"

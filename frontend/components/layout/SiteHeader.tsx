@@ -97,7 +97,7 @@ export function SiteHeader() {
           href="/salvation-prayer"
           className="ml-auto hidden h-10 shrink-0 items-center rounded-sm bg-primary-700 px-4 font-display text-body-sm font-semibold text-ink-0 transition-colors hover:bg-primary-600 lg:ml-0 lg:inline-flex"
         >
-          Prepare the Way
+          Salvation Prayer
         </Link>
 
         <button
@@ -143,7 +143,7 @@ export function SiteHeader() {
                 href="/salvation-prayer"
                 className="flex h-12 items-center justify-center rounded-sm bg-primary-700 font-display text-body font-semibold text-ink-0"
               >
-                Prepare the Way
+                Salvation Prayer
               </Link>
             </li>
           </ul>

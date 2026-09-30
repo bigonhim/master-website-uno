@@ -11,7 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           "/api/",
           "/design-system", // internal reference, not content
-          "/salvation-prayer/thank-you",
         ],
       },
     ],

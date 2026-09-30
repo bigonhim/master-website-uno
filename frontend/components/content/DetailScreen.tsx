@@ -141,10 +141,14 @@ export function DetailScreen({
             <LowerThird
               className="mt-4"
               kind={item.kind}
+              // A teaching shows its date when one is known and stays quiet
+              // otherwise; the other kinds still own up to "Date not recorded".
               date={
                 item.is_dated && item.prophecy_date
                   ? formatDate(item.prophecy_date)
-                  : "Date not recorded"
+                  : item.kind === "teaching"
+                    ? undefined
+                    : "Date not recorded"
               }
             />
 
@@ -175,14 +179,18 @@ export function DetailScreen({
                   <dd className="text-ink-800">{item.series.title}</dd>
                 </div>
               ) : null}
-              <div>
-                <dt className="text-ink-500">Dating</dt>
-                <dd className="text-ink-800">
-                  {item.is_dated
-                    ? item.date_precision
-                    : "Not recorded in the source"}
-                </dd>
-              </div>
+              {item.kind !== "teaching" || item.is_dated ? (
+                <div>
+                  <dt className="text-ink-500">Dating</dt>
+                  <dd className="text-ink-800">
+                    {!item.is_dated
+                      ? "Not recorded in the source"
+                      : item.date_source === "video"
+                        ? "From the video's upload date"
+                        : item.date_precision}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
             <Link
               href={backHref}

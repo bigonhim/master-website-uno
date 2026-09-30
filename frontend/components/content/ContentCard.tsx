@@ -56,6 +56,9 @@ export function ContentCard({
           so it says so plainly rather than inventing a date. */}
       <LowerThird
         kind={item.kind}
+        // A teaching card shows its date when one is known — parsed from the
+        // title or read off the video's upload — and stays quiet otherwise,
+        // rather than confessing "Date not recorded" under every message.
         date={
           item.is_dated && item.prophecy_date
             ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
@@ -63,7 +66,9 @@ export function ContentCard({
                 month: "short",
                 year: "numeric",
               })
-            : "Date not recorded"
+            : item.kind === "teaching"
+              ? undefined
+              : "Date not recorded"
         }
       />
 

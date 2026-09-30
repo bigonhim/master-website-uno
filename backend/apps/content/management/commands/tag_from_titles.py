@@ -21,7 +21,29 @@ from apps.content.models import Category, ContentItem, Region
 # Theme slug -> title pattern. Checked in order; the first match wins.
 THEME_RULES: list[tuple[str, re.Pattern[str]]] = [
     ("repentance", re.compile(r"\brepent|\bholiness\b|\bholy living\b", re.I)),
+    ("rapture", re.compile(r"\brapture\b", re.I)),
+    ("revival", re.compile(r"\brevival\b", re.I)),
+    ("glory", re.compile(r"\bglorification\b|\bglory\b", re.I)),
 ]
+
+# Place name -> nation. Teachings are titled after the meeting that carried
+# them ("Kisii Sat Sept 17 2011", "Menengai-8", "Conference at the
+# Headquarters"), so the nation is in the title as a town, not a country.
+PLACE_RULES: list[tuple[str, re.Pattern[str]]] = [
+    (
+        "Kenya",
+        re.compile(
+            r"\bkisii\b|\bkericho\b|\bmenengai\b|\bnakuru\b|\bnairobi\b"
+            r"|\bkisumu\b|\bthe headquarters\b",
+            re.I,
+        ),
+    ),
+]
+
+
+def nations_hinted(title: str) -> list[str]:
+    """Nations whose towns or venues the title names."""
+    return [nation for nation, pattern in PLACE_RULES if pattern.search(title)]
 
 
 def nations_in(title: str, names: list[str]) -> list[str]:
@@ -74,7 +96,10 @@ class Command(BaseCommand):
                     themed += 1
 
             have = {r.name for r in item.regions.all()}
-            new = [n for n in nations_in(item.title, names) if n not in have]
+            found = nations_in(item.title, names) + [
+                n for n in nations_hinted(item.title) if n in regions
+            ]
+            new = [n for n in dict.fromkeys(found) if n not in have]
             if new:
                 self.stdout.write(f"nation {item.kind:9} {', '.join(new):12} {item.title}")
                 if not dry_run:

@@ -55,14 +55,17 @@ export function LowerThird({
   className = "",
 }: {
   kind: ContentKind;
-  date: string;
+  /** Omitted, the bar is the kind alone — teachings carry no date. */
+  date?: string;
   tag?: ReactNode;
   className?: string;
 }) {
   return (
     <p className={`flex flex-wrap items-stretch ${className}`}>
       <KindTag kind={kind}>{tag}</KindTag>
-      <span className={`${segment} bg-primary-700 tabular-nums text-ink-0`}>{date}</span>
+      {date ? (
+        <span className={`${segment} bg-primary-700 tabular-nums text-ink-0`}>{date}</span>
+      ) : null}
     </p>
   );
 }
