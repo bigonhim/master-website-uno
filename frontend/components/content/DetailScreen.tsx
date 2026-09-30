@@ -141,10 +141,13 @@ export function DetailScreen({
             <LowerThird
               className="mt-4"
               kind={item.kind}
+              // Teachings are timeless messages: no date bar, here or on cards.
               date={
-                item.is_dated && item.prophecy_date
-                  ? formatDate(item.prophecy_date)
-                  : "Date not recorded"
+                item.kind === "teaching"
+                  ? undefined
+                  : item.is_dated && item.prophecy_date
+                    ? formatDate(item.prophecy_date)
+                    : "Date not recorded"
               }
             />
 
@@ -175,14 +178,16 @@ export function DetailScreen({
                   <dd className="text-ink-800">{item.series.title}</dd>
                 </div>
               ) : null}
-              <div>
-                <dt className="text-ink-500">Dating</dt>
-                <dd className="text-ink-800">
-                  {item.is_dated
-                    ? item.date_precision
-                    : "Not recorded in the source"}
-                </dd>
-              </div>
+              {item.kind !== "teaching" ? (
+                <div>
+                  <dt className="text-ink-500">Dating</dt>
+                  <dd className="text-ink-800">
+                    {item.is_dated
+                      ? item.date_precision
+                      : "Not recorded in the source"}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
             <Link
               href={backHref}

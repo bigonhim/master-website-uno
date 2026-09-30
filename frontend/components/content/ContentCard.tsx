@@ -56,14 +56,17 @@ export function ContentCard({
           so it says so plainly rather than inventing a date. */}
       <LowerThird
         kind={item.kind}
+        // Teachings are timeless messages, so their cards carry no date bar.
         date={
-          item.is_dated && item.prophecy_date
-            ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })
-            : "Date not recorded"
+          item.kind === "teaching"
+            ? undefined
+            : item.is_dated && item.prophecy_date
+              ? new Date(item.prophecy_date).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+              : "Date not recorded"
         }
       />
 
